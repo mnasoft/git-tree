@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 USAGE="
 Usage: $(basename $0) COMMAND REPO [BRANCH]
 
