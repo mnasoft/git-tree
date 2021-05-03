@@ -20,31 +20,42 @@ func_usage_show ()
 
 func_git_push ()
 {
+    echo "--------------------"
+    echo ">>> git push ${REPO} ${DO_BRANCH} <<<"
     git push ${REPO} ${DO_BRANCH}
-    echo `pwd` ${DO_BRANCH}
+    echo "--------------------"
 }
 
 func_git_pull ()
 {
+    echo "--------------------"
+    echo ">>> git pull ${REPO} ${DO_BRANCH} <<<"
     git pull ${REPO} ${DO_BRANCH}
-    echo `pwd` ${DO_BRANCH}
+    echo "--------------------"
 }
 
 func_git_add ()
 {
+    echo "--------------------"
+    echo '>>> git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.scr" -o -name "*.asd"` <<<'
     git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.scr" -o -name "*.asd"`
+    echo "--------------------"    
 }
 
 func_git_commit ()
 {
+    echo '--------------------'
+    echo '>>> git commit -a -m "`date -u`" <<<'
     git commit -a -m "`date -u`"
+    echo '--------------------'
 }
 
 func_git_push_or_pull ()
 {
-    echo "git ${COMMAND} ${REPO} ${DO_BRANCH}"
+    echo '--------------------'
+    echo ">>> git ${COMMAND} ${rpo} ${DO_BRANCH} <<<"
     git ${COMMAND} ${REPO} ${DO_BRANCH}
-    echo `pwd` ${DO_BRANCH}
+    echo '--------------------'
 }
 
 func_git_command_branch ()
