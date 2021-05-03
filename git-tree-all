@@ -28,8 +28,10 @@ func_git_push ()
 {
     for rpo in `git remote`
     do
+        echo "--------------------"
+        echo ">>> git push ${rpo} ${DO_BRANCH} <<<"
         git push ${rpo} ${DO_BRANCH}
-        echo "git push ${rpo} ${DO_BRANCH}"
+        echo "--------------------"
     done
 }
 
@@ -37,29 +39,39 @@ func_git_pull ()
 {
     for rpo in `git remote`
     do
+        echo "--------------------"
+        echo ">>> git pull ${rpo} ${DO_BRANCH} <<<"
         git pull ${rpo} ${DO_BRANCH}
-        echo "git pull ${rpo} ${DO_BRANCH}"
+        echo "--------------------"
     done
 }
 
 func_git_add ()
 {
+
+    echo '--------------------'
+    echo '>>> git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.scr" -o -name "*.asd"` <<<'
     git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.scr" -o -name "*.asd"`
+    echo '--------------------'
 }
 
 func_git_commit ()
 {
+    echo '--------------------'
+    echo '>>> git commit -a -m "`date -u`" <<<'
     git commit -a -m "`date -u`"
+    echo '--------------------'
 }
 
 func_git_push_or_pull ()
 {
     for rpo in `git remote`
     do
-        git ${COMMAND} ${rpo} ${DO_BRANCH}
-        echo "git ${COMMAND} ${rpo} ${DO_BRANCH}"
+    echo '--------------------'
+    echo ">>> git ${COMMAND} ${rpo} ${DO_BRANCH} <<<"
+    git ${COMMAND} ${rpo} ${DO_BRANCH}
+    echo '--------------------'
     done
-
 }
 
 func_git_command_branch ()
