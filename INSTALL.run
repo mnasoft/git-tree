@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "" > INSTALL.log
+echo "" > UNINSTALL.run
+
 for i in `find . -name "git-*"`
 do
     cp -f ${i} /usr/local/bin/
