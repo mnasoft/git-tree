@@ -11,3 +11,11 @@ do
     echo "rm -f /usr/local/bin/${i}" >> UNINSTALL.run
     chmod +x UNINSTALL.run
 done
+
+for i in `find . -name "pi-*"`
+do
+    cp -f ${i} /usr/local/bin/
+    echo "/usr/local/bin/${i}" >> INSTALL.log
+    echo "rm -f /usr/local/bin/${i}" >> UNINSTALL.run
+    chmod +x UNINSTALL.run
+done
