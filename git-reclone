@@ -4,10 +4,20 @@ REPO="pi"
 REMOTE_GIT_SERVER="git@pi:/opt/git"
 
 CDIR=`pwd`
-B_NAME=`basename $CDIR`
-echo $B_NAME
-cd ../
-rm -rf $B_NAME
-git clone $REMOTE_GIT_SERVER/$B_NAME.git
-cd $B_NAME
-git remote rename origin ${REPO}
+
+REPO_PI=`git remote | grep pi`
+
+if [[ ${REPO_PI} ==  ${REPO} ]]
+then
+    B_NAME=`basename $CDIR`
+    echo $B_NAME
+    cd ../
+    rm -rf $B_NAME
+    git clone $REMOTE_GIT_SERVER/$B_NAME.git
+    cd $B_NAME
+    git remote rename origin ${REPO}
+fi
+
+
+
+
