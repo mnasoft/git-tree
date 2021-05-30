@@ -18,6 +18,9 @@ then
     git remote rename origin ${REPO}
 fi
 
-
-
-
+# CDIR_00==`pwd`
+# for i in `find . -name ".git"`
+# do
+#     cd ${CDIR_00}/${i}/..
+#     git-reclone
+# done
