@@ -1,0 +1,31 @@
+#!/bin/bash
+# Выполняет перенос на сайт pi пакетов и файлов синхронизации,
+# необходимях для обновления msys2.
+#
+
+mkdir -p ~/public_html/Common-Lisp-Programs/Archive
+
+VAR_CACHE_PACMAN="/var/cache/pacman"
+VAR_LIB_PACMAN="/var/lib/pacman"
+
+if [[ -d "$VAR_CACHE_PACMAN" && -d "$VAR_CACHE_PACMAN" ]]
+then
+    cd ${VAR_CACHE_PACMAN}
+    tar -cvvJf pkg.tar.xz pkg/
+    mv pkg.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+
+    cd ${VAR_LIB_PACMAN}
+    tar -cvvJf sync.tar.xz sync/
+    mv sync.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+
+    cd ~
+    tar -cvvJf dot.emacs.d.tar.xz .emacs.d/
+    mv dot.emacs.d.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+
+    cd ~/quicklisp/dists
+    tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
+    mv quicklisp.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+    
+    clp-local-pi
+fi
+
