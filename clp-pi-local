@@ -1,0 +1,2 @@
+#!/bin/bash
+rsync -Pavzhe ssh --delete namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/ ~/public_html/Common-Lisp-Programs/
