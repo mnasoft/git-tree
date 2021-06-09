@@ -12,7 +12,7 @@ do
     chmod +x UNINSTALL.run
 done
 
-for i in `find . -name "pi-*"`
+for i in `find . -name "clp-*"`
 do
     cp -f ${i} /usr/local/bin/
     echo "/usr/local/bin/${i}" >> INSTALL.log
