@@ -26,6 +26,11 @@ then
     tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
     mv quicklisp.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
     
+    cd ~/public_html/Common-Lisp-Programs/Archive/
+    git clone --bare git@pi:/opt/git/git-tree.git
+    tar -cvvJf git-tree.git.tar.xz git-tree.git/
+    rm -r git-tree.git
+    mv git-tree.git.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+    
     clp-local-pi
 fi
-
