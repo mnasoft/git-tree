@@ -29,8 +29,10 @@
 #+creator: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.2 (<a href="https://orgmode.org">Org</a> mode 9.4.4)
 #+latex_header:
 
-* [4/4] Задачи
-  - [X] Добавить эхо-вывод для каждой, выполняемой команды из git-tree-all.
-  - [X] Переименовать git-tree-all -> git-tree.
-  - [X] Переименовать git-tree -> git-tree-repo.
-  - [X] Добавить эхо-вывод для каждой, выполняемой команды из git-tree-repo.
+* [6/6] Задачи
+  - [X] Добавить эхо-вывод для каждой, выполняемой команды из git-tree-all;
+  - [X] Переименовать git-tree-all -> git-tree;
+  - [X] Переименовать git-tree -> git-tree-repo;
+  - [X] Добавить эхо-вывод для каждой, выполняемой команды из git-tree-repo;
+  - [X] pi-html -> clp-local-pi;
+  - [X] Added      clp-pi-local.   
