@@ -1,0 +1,31 @@
+##### !/bin/bash
+
+CDIR=`pwd`
+for i in `find . -name ".git"`
+do
+    echo "================================="
+    cd ${CDIR}/${i}/../
+    echo "`pwd`"
+    echo "---------------------------------"
+    DIR=`pwd`
+    BNAME=`basename $DIR`
+    echo "git remote add origin //n000325/home/_namatv/_git/$BNAME.git"
+    git remote add origin //n000325/home/_namatv/_git/$BNAME.git
+    git remote -v
+    echo "+++++++++++++++++++++++++++++++++"
+done
+cd ${CDIR}
+
+####################################################################################################
+
+CDIR=`pwd`
+for i in `find . -name ".git"`
+do
+    echo "================================="
+    cd ${CDIR}/${i}/../
+    echo "`pwd`"
+    echo "---------------------------------"
+    git remote -v
+    echo "+++++++++++++++++++++++++++++++++"
+done
+cd ${CDIR}

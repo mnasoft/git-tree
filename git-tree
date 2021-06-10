@@ -53,10 +53,21 @@ func_git_pull ()
 
 func_git_add ()
 {
-
     echo '--------------------'
     echo '>>> git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.scr" -o -name "*.asd"` <<<'
     git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.scr" -o -name "*.asd"`
+    echo '--------------------'
+}
+
+func_git_remote_pp ()
+{
+    echo '--------------------'
+    echo '>>> git remote remove pp <<<'
+    git remote remove pp
+    DIR_REPO=`pwd`
+    REPO=`basename ${DIR_REPO}`
+    echo ">>> git remote add pp git@mnasoft.ddns.mksat.net:/opt/git/${REPO}.git <<<"
+    git remote add pp git@mnasoft.ddns.mksat.net:/opt/git/${REPO}.git
     echo '--------------------'
 }
 
@@ -117,6 +128,11 @@ func_git_command_branch ()
         func_git_commit
         func_git_push
     fi
+
+    if [[ ${COMMAND} == "remote_pp" ]]
+    then
+        func_git_remote_pp
+    fi
 }
 
 func_git_command ()
@@ -145,7 +161,7 @@ then
     func_usage_show
 else
     COMMAND=$1
-    if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" || ${COMMAND} == "pull_push" || ${COMMAND} == "add" || ${COMMAND} == "commit" || ${COMMAND} == "all" ]]
+    if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" || ${COMMAND} == "pull_push" || ${COMMAND} == "add" || ${COMMAND} == "commit" || ${COMMAND} == "all" || ${COMMAND} == "remote_pp" ]]
     then
         func_git_command
     else
