@@ -8,6 +8,7 @@ for i in `find . -name "git-*" -o -name "clp-*" -o -name "pi-*"`
 do
     echo "${i}"
     cp -f ${i} /usr/local/bin/
+    chmod +x /usr/local/bin/${i}
     echo "/usr/local/bin/${i}" >> INSTALL.log
     echo "rm -f /usr/local/bin/${i}" >> UNINSTALL.run
     chmod +x UNINSTALL.run
