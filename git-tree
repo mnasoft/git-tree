@@ -6,7 +6,7 @@ Usage: $(basename $0) COMMAND [BRANCH]
 Command: 
         pull      - получение изменений с сервера;
         push      - отправка изменений на сервер;
-        pull_push - получение и отправка изменений;
+        pullsh    - получение и отправка изменений;
         add       - добавление изменений;
         commit    - фиксация изменений;
         all       - получение изменений с сервера, добавление изменений,
@@ -105,7 +105,7 @@ func_git_command_branch ()
         func_git_push_or_pull
     fi
     
-    if [[ ${COMMAND} == "pull_push" ]]
+    if [[ ${COMMAND} == "pullsh" ]]
     then
         func_git_pull
         func_git_push
@@ -161,7 +161,7 @@ then
     func_usage_show
 else
     COMMAND=$1
-    if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" || ${COMMAND} == "pull_push" || ${COMMAND} == "add" || ${COMMAND} == "commit" || ${COMMAND} == "all" || ${COMMAND} == "remote_pp" ]]
+    if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" || ${COMMAND} == "pullsh" || ${COMMAND} == "add" || ${COMMAND} == "commit" || ${COMMAND} == "all" || ${COMMAND} == "remote_pp" ]]
     then
         func_git_command
     else
