@@ -1,5 +1,5 @@
 #!/bin/bash
-LOCATION="~/git"
+LOCATION="/home/namatv/git"
 
 func_remove_git ()
 {
