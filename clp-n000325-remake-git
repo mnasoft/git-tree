@@ -1,0 +1,34 @@
+#!/bin/bash
+LOCATION="//n000325/home/_namatv/_git"
+
+func_remove_git ()
+{
+    rm -rf $LOCATION/*.git
+}
+
+func_remake_git ()
+{
+    CDIR=`pwd`
+    for i in `find . -name "*.git"`
+    do
+        cd $i/..
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo $i
+        echo $NAME
+        echo $BNAME
+        git clone --bare . $LOCATION/$BNAME.git
+        cd $CDIR
+    done
+}
+
+func_remove_git
+
+cd ~/quicklisp/local-projects/
+func_remake_git
+
+cd ~/develop/
+func_remake_git
+
+cd ~/elisp/
+func_remake_git
