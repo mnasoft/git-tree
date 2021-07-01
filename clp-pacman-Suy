@@ -37,6 +37,17 @@ then
     tar -cvvJf git-tree.git.tar.xz git-tree.git/
     rm -rf git-tree.git
     mv git-tree.git.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+
+    ####################
+    # xz.tar
+    ####################
+    clp-local-remake-git
+    clp-local-remake-xz
+    cd ~/xz
+    tar -cvvf xz.tar *.git.tar.xz
+    mv xz.tar ~/public_html/Common-Lisp-Programs/Archive/
     
+    ####################
+
     clp-local-pi
 fi
