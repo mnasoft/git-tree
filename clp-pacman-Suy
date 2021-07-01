@@ -17,15 +17,21 @@ then
     cd ${VAR_LIB_PACMAN}
     tar -cvvJf sync.tar.xz sync/
     mv sync.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
-
+    ####################
+    # dot.emacs.d.tar.xz
+    ####################    
     cd ~
     tar -cvvJf dot.emacs.d.tar.xz .emacs.d/
     mv dot.emacs.d.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
-
+    ####################
+    # ~/quicklisp/dists
+    ####################    
     cd ~/quicklisp/dists
     tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
     mv quicklisp.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
-    
+    ####################
+    # git-tree.git
+    ####################
     cd ~/public_html/Common-Lisp-Programs/Archive/
     git clone --bare git@pi:/opt/git/git-tree.git
     tar -cvvJf git-tree.git.tar.xz git-tree.git/
