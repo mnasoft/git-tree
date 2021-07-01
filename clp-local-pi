@@ -1,2 +1,5 @@
 #!/bin/bash
-rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html
+#
+# Выполняет синхронизацию папки ~/public_html/ с удаленным компьютером pi.
+
+rsync -Pavzhe ssh --delete ~/public_html/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html
