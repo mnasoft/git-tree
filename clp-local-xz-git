@@ -1,0 +1,6 @@
+#!/bin/bash
+mkdir -p /home/namatv/git
+cd /home/namatv/git
+for i in `ls ../xz/*.git.tar.xz`
+do tar -xvf $i
+done
