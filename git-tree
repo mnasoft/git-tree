@@ -4,15 +4,19 @@ USAGE="
 Usage: $(basename $0) COMMAND [BRANCH]
 
 Command: 
-        pull      - получение изменений с сервера;
-        push      - отправка изменений на сервер;
-        pullsh    - получение и отправка изменений;
-        add       - добавление изменений;
-        commit    - фиксация изменений;
-        all       - получение изменений с сервера, добавление изменений,
-                    фиксация изменений, отправка изменений на сервер;
-        remote_pp - удаление и повторное добавление удаленного
-                    репозитория pp.
+        pull          - получение изменений с сервера;
+        push          - отправка изменений на сервер;
+        pullsh        - получение и отправка изменений;
+        add           - добавление изменений;
+        commit        - фиксация изменений;
+        all           - получение изменений с сервера, добавление изменений,
+                        фиксация изменений, отправка изменений на сервер;
+        remote_pp     - удаление и повторное добавление удаленного
+                        репозитория pp;
+        remote_pi     - удаление и повторное добавление удаленного
+                        репозитория pi;
+        remote_origin - удаление и повторное добавление удаленного
+                        репозитория origin.
 
 Описание:
 
@@ -63,8 +67,10 @@ func_git_add ()
 
 REPO_NAME_PP="pp"
 REPO_NAME_PI="pi"
+REPO_NAME_ORIGIN="origin"
 REPO_URL_PP="/home/namatv/git"
 REPO_URL_PI="git@mnasoft.ddns.mksat.net:/opt/git"
+REPO_URL_ORIGIN="//n000325/home/_namatv/_git"
 
 func_git_remote_pp ()
 {
@@ -79,6 +85,18 @@ func_git_remote_pp ()
 }
 
 func_git_remote_pi ()
+{
+    echo '--------------------'
+    echo '>>> git remote remove ${REPO_NAME_PI} <<<'
+    git remote remove ${REPO_NAME_PI}
+    DIR_REPO=`pwd`
+    REPO=`basename ${DIR_REPO}`
+    echo ">>> git remote add ${REPO_NAME_PI} ${REPO_URL_PI}/${REPO}.git <<<"
+    git remote add ${REPO_NAME_PI} ${REPO_URL_PI}/${REPO}.git
+    echo '--------------------'
+}
+
+func_git_remote_origin ()
 {
     echo '--------------------'
     echo '>>> git remote remove ${REPO_NAME_PI} <<<'
@@ -157,6 +175,11 @@ func_git_command_branch ()
     then
         func_git_remote_pi
     fi
+
+    if [[ ${COMMAND} == "remote_origin" ]]
+    then
+        func_git_remote_origin
+    fi
 }
 
 func_git_command ()
@@ -185,7 +208,7 @@ then
     func_usage_show
 else
     COMMAND=$1
-    if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" || ${COMMAND} == "pullsh" || ${COMMAND} == "add" || ${COMMAND} == "commit" || ${COMMAND} == "all" || ${COMMAND} == "remote_pp" || ${COMMAND} == "remote_pi" ]]
+    if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" || ${COMMAND} == "pullsh" || ${COMMAND} == "add" || ${COMMAND} == "commit" || ${COMMAND} == "all" || ${COMMAND} == "remote_pp" || ${COMMAND} == "remote_pi" || ${COMMAND} == "remote_origin" ]]
     then
         func_git_command
     else
