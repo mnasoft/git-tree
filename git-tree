@@ -99,12 +99,12 @@ func_git_remote_pi ()
 func_git_remote_origin ()
 {
     echo '--------------------'
-    echo '>>> git remote remove ${REPO_NAME_PI} <<<'
-    git remote remove ${REPO_NAME_PI}
+    echo '>>> git remote remove ${REPO_NAME_ORIGIN} <<<'
+    git remote remove ${REPO_NAME_ORIGIN}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
-    echo ">>> git remote add ${REPO_NAME_PI} ${REPO_URL_PI}/${REPO}.git <<<"
-    git remote add ${REPO_NAME_PI} ${REPO_URL_PI}/${REPO}.git
+    echo ">>> git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git <<<"
+    git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git
     echo '--------------------'
 }
 
