@@ -75,7 +75,7 @@ REPO_URL_ORIGIN="//n000325/home/_namatv/_git"
 func_git_remote_pp ()
 {
     echo '--------------------'
-    echo '>>> git remote remove ${REPO_NAME_PP} <<<'
+    echo ">>> git remote remove ${REPO_NAME_PP} <<<"
     git remote remove ${REPO_NAME_PP}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
@@ -87,7 +87,7 @@ func_git_remote_pp ()
 func_git_remote_pi ()
 {
     echo '--------------------'
-    echo '>>> git remote remove ${REPO_NAME_PI} <<<'
+    echo ">>> git remote remove ${REPO_NAME_PI} <<<"
     git remote remove ${REPO_NAME_PI}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
@@ -99,7 +99,7 @@ func_git_remote_pi ()
 func_git_remote_origin ()
 {
     echo '--------------------'
-    echo '>>> git remote remove ${REPO_NAME_ORIGIN} <<<'
+    echo ">>> git remote remove ${REPO_NAME_ORIGIN} <<<"
     git remote remove ${REPO_NAME_ORIGIN}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
