@@ -1,6 +1,10 @@
 #!/bin/bash
 mkdir -p /home/namatv/git
 cd /home/namatv/git
+if [[ `pwd` == "/home/namatv/git" ]]
+then
+    rm -rf *.git
+fi
 for i in `ls ../xz/*.git.tar.xz`
 do tar -xvf $i
 done
