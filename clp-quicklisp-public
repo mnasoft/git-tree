@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Выполняет перенос на сайт pi пакетов и файлов синхронизации,
+# необходимях для обновления msys2.
+
+clp-check-public
+####################
+# ~/quicklisp/dists
+####################    
+cd ~/quicklisp/dists
+tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
+mv quicklisp.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+
+
+####################
+clp-local-pi
+
