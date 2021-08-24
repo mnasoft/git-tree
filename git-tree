@@ -11,12 +11,13 @@ Command:
         commit        - фиксация изменений;
         all           - получение изменений с сервера, добавление изменений,
                         фиксация изменений, отправка изменений на сервер;
-        remote_pp     - удаление и повторное добавление удаленного
+        readd_pp      - удаление и повторное добавление удаленного
                         репозитория pp;
-        remote_pi     - удаление и повторное добавление удаленного
+        readd_pi      - удаление и повторное добавление удаленного
                         репозитория pi;
-        remote_origin - удаление и повторное добавление удаленного
-                        репозитория origin.
+        readd_origin  - удаление и повторное добавление удаленного
+                        репозитория origin;
+        rm_origin     - удаление удаленного репозитория origin.
 
 Описание:
 
@@ -72,7 +73,7 @@ REPO_URL_PP="/home/namatv/git"
 REPO_URL_PI="git@mnasoft.ddns.mksat.net:/opt/git"
 REPO_URL_ORIGIN="//n000325/home/_namatv/_git"
 
-func_git_remote_pp ()
+func_git_readd_pp ()
 {
     echo '--------------------'
     echo ">>> git remote remove ${REPO_NAME_PP} <<<"
@@ -84,7 +85,7 @@ func_git_remote_pp ()
     echo '--------------------'
 }
 
-func_git_remote_pi ()
+func_git_readd_pi ()
 {
     echo '--------------------'
     echo ">>> git remote remove ${REPO_NAME_PI} <<<"
@@ -96,7 +97,7 @@ func_git_remote_pi ()
     echo '--------------------'
 }
 
-func_git_remote_origin ()
+func_git_readd_origin ()
 {
     echo '--------------------'
     echo ">>> git remote remove ${REPO_NAME_ORIGIN} <<<"
@@ -105,6 +106,14 @@ func_git_remote_origin ()
     REPO=`basename ${DIR_REPO}`
     echo ">>> git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git <<<"
     git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git
+    echo '--------------------'
+}
+
+func_git_rm_origin ()
+{
+    echo '--------------------'
+    echo ">>> git remote remove ${REPO_NAME_ORIGIN} <<<"
+    git remote remove ${REPO_NAME_ORIGIN}
     echo '--------------------'
 }
 
@@ -166,19 +175,23 @@ func_git_command_branch ()
         func_git_push
     fi
 
-    if [[ ${COMMAND} == "remote_pp" ]]
+    if [[ ${COMMAND} == "readd_pp" ]]
     then
-        func_git_remote_pp
+        func_git_readd_pp
     fi
 
-    if [[ ${COMMAND} == "remote_pi" ]]
+    if [[ ${COMMAND} == "readd_pi" ]]
     then
-        func_git_remote_pi
+        func_git_readd_pi
     fi
 
-    if [[ ${COMMAND} == "remote_origin" ]]
+    if [[ ${COMMAND} == "readd_origin" ]]
     then
-        func_git_remote_origin
+        func_git_readd_origin
+    fi
+    if [[ ${COMMAND} == "rm_origin" ]]
+    then
+        func_git_rm_origin
     fi
 }
 
@@ -208,7 +221,16 @@ then
     func_usage_show
 else
     COMMAND=$1
-    if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" || ${COMMAND} == "pullsh" || ${COMMAND} == "add" || ${COMMAND} == "commit" || ${COMMAND} == "all" || ${COMMAND} == "remote_pp" || ${COMMAND} == "remote_pi" || ${COMMAND} == "remote_origin" ]]
+    if [[ ${COMMAND} == "push" ||
+              ${COMMAND} == "pull" || \
+              ${COMMAND} == "pullsh" || \
+              ${COMMAND} == "add" || \
+              ${COMMAND} == "commit" || \
+              ${COMMAND} == "all" || \
+              ${COMMAND} == "readd_pp" || \
+              ${COMMAND} == "readd_pi" || \
+              ${COMMAND} == "readd_origin" || \
+              ${COMMAND} == "rm_origin" ]]
     then
         func_git_command
     else
