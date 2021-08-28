@@ -3,6 +3,7 @@ LOCATION_XZ="/home/namatv/xz"
 LOCATION_GIT="/home/namatv/git"
 
 rm -f $LOCATION_XZ/*.git.tar.xz
+mkdir -p $LOCATION_XZ
 cd $LOCATION_GIT
 for i in `find . -name "*.git"`
 do

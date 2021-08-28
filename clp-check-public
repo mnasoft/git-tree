@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# Выполняет перенос на сайт pi пакетов и файлов синхронизации,
-# необходимях для обновления msys2.
+# Создает на каталог ~/public_html/Common-Lisp-Programs/Archive
 
 mkdir -p ~/public_html/Common-Lisp-Programs/Archive
 
