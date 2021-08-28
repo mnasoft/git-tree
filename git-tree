@@ -13,10 +13,15 @@ Command:
                         фиксация изменений, отправка изменений на сервер;
         readd_pp      - удаление и повторное добавление удаленного
                         репозитория pp;
+        readd_pz      - удаление и повторное добавление удаленного
+                        репозитория pz;
         readd_pi      - удаление и повторное добавление удаленного
                         репозитория pi;
         readd_origin  - удаление и повторное добавление удаленного
                         репозитория origin;
+        rm_pp         - удаление удаленного репозитория pp.
+        rm_pz         - удаление удаленного репозитория pz.
+        rm_pi         - удаление удаленного репозитория pi.
         rm_origin     - удаление удаленного репозитория origin.
 
 Описание:
@@ -122,6 +127,30 @@ func_git_readd_origin ()
     REPO=`basename ${DIR_REPO}`
     echo ">>> git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git <<<"
     git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git
+    echo '--------------------'
+}
+
+func_git_rm_pp ()
+{
+    echo '--------------------'
+    echo ">>> git remote remove ${REPO_NAME_PP} <<<"
+    git remote remove ${REPO_NAME_PP}
+    echo '--------------------'
+}
+
+func_git_rm_pz ()
+{
+    echo '--------------------'
+    echo ">>> git remote remove ${REPO_NAME_PZ} <<<"
+    git remote remove ${REPO_NAME_PZ}
+    echo '--------------------'
+}
+
+func_git_rm_pi ()
+{
+    echo '--------------------'
+    echo ">>> git remote remove ${REPO_NAME_PI} <<<"
+    git remote remove ${REPO_NAME_PI}
     echo '--------------------'
 }
 
@@ -252,6 +281,9 @@ else
           ${COMMAND} == "readd_pz"     || \
           ${COMMAND} == "readd_pi"     || \
           ${COMMAND} == "readd_origin" || \
+          ${COMMAND} == "rm_pp"        || \
+          ${COMMAND} == "rm_pz"        || \
+          ${COMMAND} == "rm_pi"        || \
           ${COMMAND} == "rm_origin" ]]
     then
         func_git_command
