@@ -1,6 +1,6 @@
 #!/bin/bash
-LOCATION_XZ="~/xz"
-LOCATION_GIT="~/git"
+LOCATION_XZ="$HOME/xz"
+LOCATION_GIT="$HOME/git"
 
 rm -f $LOCATION_XZ/*.git.tar.xz
 cd $LOCATION_GIT
