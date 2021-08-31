@@ -1,6 +1,6 @@
 #!/bin/bash
-LOCATION_XZ="/home/namatv/xz"
-LOCATION_GIT="/home/namatv/git"
+LOCATION_XZ="~/xz"
+LOCATION_GIT="~/git"
 
 rm -f $LOCATION_XZ/*.git.tar.xz
 cd $LOCATION_GIT
