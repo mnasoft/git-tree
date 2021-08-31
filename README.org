@@ -42,6 +42,28 @@
    sudo ./UNINSTALL.run 
 #+end_src
 
+
+clp-dot-emacs-d-pi
+clp-dot-emacs-d-public
+
+clp-local-remake-git
+clp-local-remake-xz
+clp-local-xz-git
+
+
+clp-pacman-Suy
+
+clp-quicklisp-pi
+clp-quicklisp-public
+clp-xz-pi
+clp-xz-public
+
+git-tree-temp
+pi-html
+README.org
+ToDo.org
+
+
 * Команды
   1. Установка / Удаление
      + INSTALL.run - содержит команды установки комплекса скриптов в
@@ -64,12 +86,17 @@
        - в случае успеха переходит вышележащий каталог, удаляет
          git-репозиторий и затем осуществляет попытку его повторного
          клонирования.
-
-  4. clp-local-pi выполняет синхронизацию папки
-     ~/public_html/Common-Lisp-Programs с удаленным компьютером pi.
+  4. PI
+     + clp-local-pi - выполняет синхронизацию папки
+       ~/public_html/Common-Lisp-Programs с удаленным компьютером pi.
+     + clp-pi-local - выполняет синхронизацию удаленного компьютера pi
+       с папкой ~/public_html/Common-Lisp-Programs
   5. n000325
      + clp-n000325-remake-git
      + clp-n000325-remake-xz
+  6. clp-check-public - создает на каталог
+     ~/public_html/Common-Lisp-Programs/Archive
+
 * Примеры использования
 1. Перейдите в каталог, в котором содержатся репозитории git.
 2. Выполните команду
