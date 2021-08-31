@@ -4,7 +4,7 @@
 # репозиториями. Поиск репозиротиев ведется в каталогах:
 # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 
-LOCATION="/home/namatv/git"
+LOCATION="$HOME/git"
 
 func_remove_git ()
 {

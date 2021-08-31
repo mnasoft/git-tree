@@ -1,7 +1,8 @@
 #!/bin/bash
-mkdir -p /home/namatv/git
-cd /home/namatv/git
-if [[ `pwd` == "/home/namatv/git" ]]
+
+mkdir -p "$HOME/git"
+cd "$HOME/git"
+if [[ `pwd` == "$HOME/git" ]]
 then
     rm -rf *.git
 fi
