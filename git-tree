@@ -255,7 +255,7 @@ func_git_command_branch ()
     fi
     if [[ ${COMMAND} == "clone_bare_pp" ]]
     then
-        func_clone_bare_pp
+        func_git_clone_bare_pp
     fi
 }
 
