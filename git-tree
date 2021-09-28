@@ -165,7 +165,8 @@ func_git_rm_origin ()
 
 func_git_clone_bare_pp ()
 {
-    DIR_NAME=basename `pwd`
+    BASENAME=`pwd`
+    DIR_NAME=`basename ${BASENAME}`
     echo '--------------------'
     echo ">>> git clone --bare . ${REPO_URL_PP}/${DIR_NAME}.git <<<"
     git clone --bare . ${REPO_URL_PP}/${DIR_NAME}.git
