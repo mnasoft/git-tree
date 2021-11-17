@@ -9,3 +9,13 @@ fi
 for i in `ls ../xz/*.git.tar.xz`
 do tar -xvf $i
 done
+
+mkdir -p "$HOME/git-big"
+cd "$HOME/git-big"
+if [[ `pwd` == "$HOME/git-big" ]]
+then
+    rm -rf *.git
+fi
+for i in `ls ../xz-big/*.git.tar.xz`
+do tar -xvf $i
+done
