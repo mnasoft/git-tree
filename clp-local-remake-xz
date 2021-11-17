@@ -2,6 +2,9 @@
 LOCATION_XZ="$HOME/xz"
 LOCATION_GIT="$HOME/git"
 
+LOCATION_XZ_BIG="$HOME/xz-big"
+LOCATION_GIT_BIG="$HOME/git-big"
+
 rm -f $LOCATION_XZ/*.git.tar.xz
 mkdir -p $LOCATION_XZ
 cd $LOCATION_GIT
@@ -12,4 +15,16 @@ do
     echo $BNAME
     tar -cvvJf $BNAME.tar.xz $BNAME/
     mv $BNAME.tar.xz $LOCATION_XZ/
+done
+
+rm -f $LOCATION_XZ_BIG/*.git.tar.xz
+mkdir -p $LOCATION_XZ_BIG
+cd $LOCATION_GIT_BIG
+for i in `find . -name "*.git"`
+do
+    BNAME=`basename $i`
+    echo $i
+    echo $BNAME
+    tar -cvvJf $BNAME.tar.xz $BNAME/
+    mv $BNAME.tar.xz $LOCATION_XZ_BIG/
 done
