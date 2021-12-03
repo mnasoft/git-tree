@@ -13,5 +13,5 @@ mv quicklisp.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
 
 
 ####################
-clp-local-pi
+rs-local-pi
 

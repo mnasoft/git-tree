@@ -59,7 +59,7 @@ clp-xz-pi
 clp-xz-public
 
 git-tree-temp
-pi-html
+rs-pi-html
 README.org
 ToDo.org
 
@@ -87,9 +87,9 @@ ToDo.org
          git-репозиторий и затем осуществляет попытку его повторного
          клонирования.
   4. PI
-     + clp-local-pi - выполняет синхронизацию папки
+     + rs-local-pi - выполняет синхронизацию папки
        ~/public_html/Common-Lisp-Programs с удаленным компьютером pi.
-     + clp-pi-local - выполняет синхронизацию удаленного компьютера pi
+     + rs-pi-local - выполняет синхронизацию удаленного компьютера pi
        с папкой ~/public_html/Common-Lisp-Programs
   5. n000325
      + clp-n000325-remake-git

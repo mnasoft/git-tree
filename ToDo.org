@@ -35,4 +35,4 @@
   2. [X] Переименовать git-tree-all -> git-tree;
   3. [X] Переименовать git-tree -> git-tree-repo;
   4. [X] Добавить эхо-вывод для каждой, выполняемой команды из git-tree-repo;
-  5. [X] Добавлены  clp-local-pi clp-pi-local.   
+  5. [X] Добавлены  rs-local-pi rs-pi-local.   

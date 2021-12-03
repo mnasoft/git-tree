@@ -4,4 +4,4 @@
 # необходимях для обновления msys2.
 
 clp-quicklisp-public
-clp-local-pi
+rs-local-pi
