@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sbcl --load /usr/local/slynk-start-server.lisp
