@@ -1,5 +1,5 @@
 #!/bin/bash
 #
-# Выполняет синхронизацию папки ~/public_html/ с удаленным компьютером pi.
+# Выполняет синхронизацию папки ~/public_html/ с mnasoft.ddns.mksat.net.
 
 rsync -Pavzhe ssh --delete ~/public_html/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html

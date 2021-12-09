@@ -1,2 +1,3 @@
 #!/bin/bash
+# Синхронизация папки ~/public_html/Common-Lisp-Programs/ с сервером mnasoft.ddns.mksat.net
 rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/ 

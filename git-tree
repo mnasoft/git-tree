@@ -1,6 +1,6 @@
 #!/bin/bash
 
-clp-config
+. clp-config
 
 USAGE="
 Usage: $(basename $0) COMMAND [BRANCH]

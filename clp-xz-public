@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# Выполняет перенос на сайт pi пакетов и файлов синхронизации,
-# необходимях для обновления msys2.
+# Выполняет перенос в каталог ~/public_html/Common-Lisp-Programs/Archive/ архивов git.tar.xz 
 
 clp-check-public
 ####################

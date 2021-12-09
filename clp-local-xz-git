@@ -1,6 +1,6 @@
 #!/bin/bash
-
-clp-config
+# Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
+. clp-config
 
 mkdir -p "$REPO_URL_PP"
 cd "$REPO_URL_PP"

@@ -4,11 +4,11 @@
 # репозиториями. Поиск репозиротиев ведется в каталогах:
 # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 
-LOCATION="$HOME/git"
+. clp-config 
 
 func_remove_git ()
 {
-    rm -rf $LOCATION/*.git
+    rm -rf $REPO_URL_PP/*.git
 }
 
 func_remake_git ()
@@ -23,7 +23,7 @@ func_remake_git ()
         echo $NAME
         echo $BNAME
         cd ..
-        git clone --bare $BNAME $LOCATION/$BNAME.git
+        git clone --bare $BNAME $REPO_URL_PP/$BNAME.git
         cd $CDIR
     done
 }

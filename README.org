@@ -42,26 +42,35 @@
    sudo ./UNINSTALL.run 
 #+end_src
 
+clp-config            - системные переменные
+git-tree              - работа с деревом репозиториев
+git-reclone           - удаление каталога, содержащего репозиторий pi и повторное его клонирование из удаленного репозитория
+clp-check-public      - создает на каталог ~/public_html/Common-Lisp-Programs/Archive
 
 clp-dot-emacs-d-pi
 clp-dot-emacs-d-public
+clp-local-remake-git - Выполняет пересоздание каталога ~/git, наполняя его чистыми репозиториями. Поиск репозиротиев ведется в каталогах: ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
+clp-local-remake-xz  - Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
+clp-local-xz-git     - Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
+clp-pacman-Suy       - Выполняет перенос на сайт pi пакетов и файлов синхронизации, необходимях для обновления msys2.
+clp-quicklisp-pi     - Выполняет перенос на сайт pi файлов, необходимях для обновления quicklisp.
+clp-quicklisp-public - Выполняет перенос в каталог public файлов, необходимях для обновления quicklisp.
+clp-xz-pi            - Выполняет перенос на сайт pi ~/public_html/Common-Lisp-Programs/Archive/ архивов git.tar.xz.
+clp-xz-public        - Выполняет перенос в каталог ~/public_html/Common-Lisp-Programs/Archive/ архивов git.tar.xz.
 
-clp-local-remake-git
-clp-local-remake-xz
-clp-local-xz-git
+git-tree-repo
+git-tree-temp - Содержит фрагменты кода
 
+rs-local-pi - Синхронизация папки ~/public_html/ с с сервером mnasoft.ddns.mksat.net.
+rs-pi-html  - Синхронизация папки ~/public_html/Common-Lisp-Programs/ с сервером mnasoft.ddns.mksat.net
+rs-pi-local - Синхронизация mnasoft.ddns.mksat.net с папкой ~/public_html.
 
-clp-pacman-Suy
+README.org - настоящий документ
+ToDo.org 
+INSTALL.log - лог установки
+INSTALL.run - сценарий установки
+UNINSTALL.run - сценарий удаления
 
-clp-quicklisp-pi
-clp-quicklisp-public
-clp-xz-pi
-clp-xz-public
-
-git-tree-temp
-rs-pi-html
-README.org
-ToDo.org
 
 
 * Команды

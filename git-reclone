@@ -9,27 +9,23 @@
 # git-репозиторий и затем осуществляет попытку его повторного
 # клонирования.
 
-REPO="pi"
-REMOTE_GIT_SERVER="git@pi:/opt/git"
+### ToDo
+### Добавить второй параметр - имя репозитория (вместо pi).
+### Добавить проверку, на то что удаленный репозиторий существует.
+
+. clp-config
 
 CDIR=`pwd`
 
 REPO_PI=`git remote | grep pi`
 
-if [[ ${REPO_PI} ==  ${REPO} ]]
+if [[ ${REPO_PI} ==  ${REPO_NAME_PI} ]]
 then
     B_NAME=`basename $CDIR`
     echo $B_NAME
     cd ../
     rm -rf $B_NAME
-    git clone $REMOTE_GIT_SERVER/$B_NAME.git
+    git clone $REPO_URL_PI/$B_NAME.git
     cd $B_NAME
-    git remote rename origin ${REPO}
+    git remote rename origin ${REPO_NAME_PI}
 fi
-
-# CDIR_00==`pwd`
-# for i in `find . -name ".git"`
-# do
-#     cd ${CDIR_00}/${i}/..
-#     git-reclone
-# done

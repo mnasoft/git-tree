@@ -1,30 +1,28 @@
 #!/bin/bash
-LOCATION_XZ="$HOME/xz"
-LOCATION_GIT="$HOME/git"
+# Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
 
-LOCATION_XZ_BIG="$HOME/xz-big"
-LOCATION_GIT_BIG="$HOME/git-big"
+. clp-config 
 
-rm -f $LOCATION_XZ/*.git.tar.xz
-mkdir -p $LOCATION_XZ
-cd $LOCATION_GIT
+rm -f $REPO_XZ_PP/*.git.tar.xz
+mkdir -p $REPO_XZ_PP
+cd $REPO_URL_PP
 for i in `find . -name "*.git"`
 do
     BNAME=`basename $i`
     echo $i
     echo $BNAME
     tar -cvvJf $BNAME.tar.xz $BNAME/
-    mv $BNAME.tar.xz $LOCATION_XZ/
+    mv $BNAME.tar.xz $REPO_XZ_PP/
 done
 
-rm -f $LOCATION_XZ_BIG/*.git.tar.xz
-mkdir -p $LOCATION_XZ_BIG
-cd $LOCATION_GIT_BIG
+rm -f $REPO_XZ_PZ/*.git.tar.xz
+mkdir -p $REPO_XZ_PZ
+cd $REPO_URL_PZ
 for i in `find . -name "*.git"`
 do
     BNAME=`basename $i`
     echo $i
     echo $BNAME
     tar -cvvJf $BNAME.tar.xz $BNAME/
-    mv $BNAME.tar.xz $LOCATION_XZ_BIG/
+    mv $BNAME.tar.xz $REPO_XZ_PZ/
 done
