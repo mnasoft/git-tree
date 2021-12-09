@@ -1,8 +1,10 @@
 #!/bin/bash
 
-mkdir -p "$HOME/git"
-cd "$HOME/git"
-if [[ `pwd` == "$HOME/git" ]]
+clp-config
+
+mkdir -p "$REPO_URL_PP"
+cd "$REPO_URL_PP"
+if [[ `pwd` == "$REPO_URL_PP" ]]
 then
     rm -rf *.git
 fi
@@ -10,9 +12,9 @@ for i in `ls ../xz/*.git.tar.xz`
 do tar -xvf $i
 done
 
-mkdir -p "$HOME/git-big"
-cd "$HOME/git-big"
-if [[ `pwd` == "$HOME/git-big" ]]
+mkdir -p "$REPO_URL_PZ"
+cd "$REPO_URL_PZ"
+if [[ `pwd` == "$REPO_URL_PZ" ]]
 then
     rm -rf *.git
 fi

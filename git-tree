@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clp-config
+
 USAGE="
 Usage: $(basename $0) COMMAND [BRANCH]
 
@@ -80,16 +82,6 @@ func_git_add ()
     
     echo '--------------------'
 }
-
-REPO_NAME_PP="pp"
-REPO_NAME_PZ="pz"
-REPO_NAME_PI="pi"
-REPO_NAME_ORIGIN="origin"
-
-REPO_URL_PP="$HOME/git"
-REPO_URL_PZ="$HOME/git-big"
-REPO_URL_PI="git@mnasoft.ddns.mksat.net:/opt/git"
-REPO_URL_ORIGIN="//n000325/home/_namatv/_git"
 
 func_git_readd_pp ()
 {
