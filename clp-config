@@ -9,3 +9,6 @@ REPO_URL_PP="$HOME/git"
 REPO_URL_PZ="$HOME/git-big"
 REPO_URL_PI="git@mnasoft.ddns.mksat.net:/opt/git"
 REPO_URL_ORIGIN="//n000325/home/_namatv/_git"
+
+REPO_XZ_PP="$HOME/xz"
+REPO_XZ_PZ="$HOME/xz-big"

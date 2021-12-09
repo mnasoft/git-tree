@@ -8,7 +8,7 @@ if [[ `pwd` == "$REPO_URL_PP" ]]
 then
     rm -rf *.git
 fi
-for i in `ls ../xz/*.git.tar.xz`
+for i in `ls ${REPO_XZ_PP}/*.git.tar.xz`
 do tar -xvf $i
 done
 
@@ -18,6 +18,6 @@ if [[ `pwd` == "$REPO_URL_PZ" ]]
 then
     rm -rf *.git
 fi
-for i in `ls ../xz-big/*.git.tar.xz`
+for i in `ls ${REPO_XZ_PZ}/*.git.tar.xz`
 do tar -xvf $i
 done
