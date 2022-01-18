@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# Создает на каталог ~/public_html/Common-Lisp-Programs/Archive
+# Создает на каталог ${PUB_HTML_CLP_ARH}
 
-mkdir -p ~/public_html/Common-Lisp-Programs/Archive
+. clp-config
+
+mkdir -p "${PUB_HTML_CLP_ARH}"
 

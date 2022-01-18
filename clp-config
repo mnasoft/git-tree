@@ -12,3 +12,8 @@ REPO_URL_ORIGIN="//n000325/home/_namatv/_git"
 #
 REPO_XZ_PP="$HOME/xz"
 REPO_XZ_PZ="$HOME/xz-big"
+#
+PUB_HTML_CLP_ARH="~/public_html/Common-Lisp-Programs/Archive/"
+#
+VAR_CACHE_PACMAN="/var/cache/pacman"
+VAR_LIB_PACMAN="/var/lib/pacman"
