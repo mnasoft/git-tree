@@ -6,13 +6,4 @@
 
 . clp-config 
 
-func_remove_git_pp
-
-cd ~/quicklisp/local-projects/
-func_remake_git_pp
-
-cd ~/develop/
-func_remake_git_pp
-
-cd ~/elisp/
-func_remake_git_pp
+func_remake_git_pp_all
