@@ -7,7 +7,7 @@ clp-check-public
 # xz.tar
 ####################
 clp-local-remake-git
-clp-local-remake-xz
+remake-xz
 cd ~/xz
 tar -cvvf xz.tar *.git.tar.xz
 mv xz.tar ~/public_html/Common-Lisp-Programs/Archive/
