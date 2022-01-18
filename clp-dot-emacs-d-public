@@ -5,7 +5,7 @@
 
 . clp-config
 
-clp-check-public
+func_clp_check_public
 ####################
 # dot.emacs.d.tar.xz
 ####################    

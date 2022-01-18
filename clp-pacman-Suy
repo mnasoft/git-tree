@@ -5,7 +5,7 @@
 
 . clp-config
 
-clp-check-public
+func_clp_check_public
 
 if [[ -d "${VAR_CACHE_PACMAN}" && -d "${VAR_CACHE_PACMAN}" ]]
 then
