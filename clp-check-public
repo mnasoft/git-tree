@@ -1,8 +1,0 @@
-#!/bin/bash
-#
-# Создает на каталог ${PUB_HTML_CLP_ARH}
-
-. clp-config
-
-func_clp_check_public
-
