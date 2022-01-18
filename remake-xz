@@ -1,9 +1,8 @@
 #!/bin/bash
-# Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
+# Создает архивы git.tar.xz для мест расположения чистых репозиториев pp
 
-. clp-config 
 ### ToDo Рассмотреть возможность объединения func_remake_xz_pp func_remove_repo_xz_pz в функцию с тремя параметрами
-func_remove_repo_xz_pp
-func_remake_xz_pp
-func_remove_repo_xz_pz
-func_remake_xz_pz
+. clp-config 
+func_remake_xz_pp_all
+
+
