@@ -18,6 +18,6 @@ if [[ `pwd` == "$REPO_URL_GIT_PZ" ]]
 then
     rm -rf *.git
 fi
-for i in `ls ${REPO_XZ_PZ}/*.git.tar.xz`
+for i in `ls ${REPO_URL_XZ_PZ}/*.git.tar.xz`
 do tar -xvf $i
 done
