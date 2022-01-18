@@ -1,6 +1,4 @@
 #!/bin/bash
 
 . clp-config
-
-
-func_git_tree
+func_git_tree ${1} ${2} 
