@@ -4,5 +4,5 @@
 
 . clp-config
 
-mkdir -p "${PUB_HTML_CLP_ARH}"
+func_clp_check_public
 

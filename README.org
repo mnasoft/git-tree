@@ -45,7 +45,6 @@
 clp-config            - системные переменные
 git-tree              - работа с деревом репозиториев
 git-reclone           - удаление каталога, содержащего репозиторий pi и повторное его клонирование из удаленного репозитория
-clp-check-public      - создает на каталог ~/public_html/Common-Lisp-Programs/Archive
 
 clp-dot-emacs-d-pi
 clp-dot-emacs-d-public
@@ -103,8 +102,6 @@ UNINSTALL.run - сценарий удаления
   5. n000325
      + clp-n000325-remake-git
      + clp-n000325-remake-xz
-  6. clp-check-public - создает на каталог
-     ~/public_html/Common-Lisp-Programs/Archive
 
 * Примеры использования
 1. Перейдите в каталог, в котором содержатся репозитории git.
