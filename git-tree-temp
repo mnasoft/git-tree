@@ -2,51 +2,10 @@
 
 # Содержит фрагменты кода
 
-CDIR=`pwd`
-for i in `find . -name ".git"`
-do
-    echo "================================="
-    cd ${CDIR}/${i}/../
-    echo "`pwd`"
-    echo "---------------------------------"
-    DIR=`pwd`
-    BNAME=`basename $DIR`
-    echo "git remote add origin //n000325/home/_namatv/_git/$BNAME.git"
-    git remote add origin //n000325/home/_namatv/_git/$BNAME.git
-    git remote -v
-    echo "+++++++++++++++++++++++++++++++++"
-done
-cd ${CDIR}
+. clp-config
 
-##################################################
+func_remove_git_pz
 
-CDIR=`pwd`
-for i in `find . -name ".git"`
-do
-    echo "================================="
-    cd ${CDIR}/${i}/../
-    echo "`pwd`"
-    echo "---------------------------------"
-    DIR=`pwd`
-    BNAME=`basename $DIR`
-    git remote remove pp
-    echo "git remote add pp namatv@pi:/home/namatv/git/$BNAME.git"
-    git remote add pp namatv@pi:/home/namatv/git/$BNAME.git
-    git remote -v
-    echo "+++++++++++++++++++++++++++++++++"
-done
-cd ${CDIR}
+cd ~/quicklisp/local-projects/
+func_remake_git_pz
 
-####################################################################################################
-
-CDIR=`pwd`
-for i in `find . -name ".git"`
-do
-    echo "================================="
-    cd ${CDIR}/${i}/../
-    echo "`pwd`"
-    echo "---------------------------------"
-    git remote -v
-    echo "+++++++++++++++++++++++++++++++++"
-done
-cd ${CDIR}

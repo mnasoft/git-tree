@@ -3,14 +3,5 @@
 # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов git.tar.xz 
 
 . clp-config
-
 func_clp_check_public
-
-####################
-# xz.tar
-####################
-remake-git
-remake-xz
-cd ~/xz
-tar -cvvf xz.tar *.git.tar.xz
-mv xz.tar "${PUB_HTML_CLP_ARH}/"
+func_clp_xz_public

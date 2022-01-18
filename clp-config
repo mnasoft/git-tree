@@ -5,13 +5,15 @@ REPO_NAME_PZ="pz"
 REPO_NAME_PI="pi"
 REPO_NAME_ORIGIN="origin"
 #
-REPO_URL_PP="$HOME/git"
-REPO_URL_PZ="$HOME/git-big"
-REPO_URL_PI="git@mnasoft.ddns.mksat.net:/opt/git"
-REPO_URL_ORIGIN="//n000325/home/_namatv/_git"
+REPO_URL_GIT_PP="$HOME/git"
+REPO_URL_GIT_PZ="$HOME/git-big"
+REPO_URL_GIT_PI="git@mnasoft.ddns.mksat.net:/opt/git"
+REPO_URL_GIT_ORIGIN="//n000325/home/_namatv/_git"
 #
-REPO_XZ_PP="$HOME/xz"
-REPO_XZ_PZ="$HOME/xz-big"
+REPO_URL_XZ_PP="$HOME/xz"
+REPO_URL_XZ_PZ="$HOME/xz-big"
+#
+REPO_XZ_TAR_PP="xz.tar"
 #
 PUB_HTML_CLP_ARH="~/public_html/Common-Lisp-Programs/Archive"
 #
@@ -28,15 +30,34 @@ func_clp_check_public ()
 }
 
 ####################################################################################################
+# clp-xz-public func_clp_xz_public
+####################################################################################################
+
+func_clp_xz_public ()
+{
+    remake-git
+    remake-xz
+    cd ${REPO_URL_XZ_PP}
+    tar -cvvf ${REPO_XZ_TAR_PP} *.git.tar.xz
+    mv ${REPO_XZ_TAR_PP} "${PUB_HTML_CLP_ARH}/"
+}
+
+
+####################################################################################################
 #### For remake-git
 ####################################################################################################
 
-func_remove_git ()
+func_remove_git_pp ()
 {
-    rm -rf $REPO_URL_PP/*.git
+    rm -rf $REPO_URL_GIT_PP/*.git
 }
 
-func_remake_git ()
+func_remove_git_pz ()
+{
+    rm -rf $REPO_URL_GIT_PZ/*.git
+}
+
+func_remake_git_pp ()
 {
     CDIR=`pwd`
     for i in `find . -name "*.git"`
@@ -48,10 +69,28 @@ func_remake_git ()
         echo $NAME
         echo $BNAME
         cd ..
-        git clone --bare $BNAME $REPO_URL_PP/$BNAME.git
+        git clone --bare $BNAME $REPO_URL_GIT_PP/$BNAME.git
         cd $CDIR
     done
 }
+
+func_remake_git_pz ()
+{
+    CDIR=`pwd`
+    for i in `find . -name "*.git"`
+    do
+        cd $i/..
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo $i
+        echo $NAME
+        echo $BNAME
+        cd ..
+        git clone --bare $BNAME $REPO_URL_GIT_PZ/$BNAME.git
+        cd $CDIR
+    done
+}
+
 
 ####################################################################################################
 #### remake-xz
@@ -59,39 +98,39 @@ func_remake_git ()
 
 func_remove_repo_xz_pp ()
 {
-    rm -f $REPO_XZ_PP/*.git.tar.xz
+    rm -f $REPO_URL_XZ_PP/*.git.tar.xz
 }
 
 func_remake_xz_pp ()
 {
-    mkdir -p $REPO_XZ_PP
-    cd $REPO_URL_PP
+    mkdir -p $REPO_URL_XZ_PP
+    cd $REPO_URL_GIT_PP
     for i in `find . -name "*.git"`
     do
         BNAME=`basename $i`
         echo $i
         echo $BNAME
         tar -cvvJf $BNAME.tar.xz $BNAME/
-        mv $BNAME.tar.xz $REPO_XZ_PP/
+        mv $BNAME.tar.xz $REPO_URL_XZ_PP/
     done
 }
 
 func_remove_repo_xz_pz ()
 {
-    rm -f $REPO_XZ_PZ/*.git.tar.xz
+    rm -f $REPO_URL_XZ_PZ/*.git.tar.xz
 }
 
 func_remake_xz_pz ()
 {
-    mkdir -p $REPO_XZ_PZ
-    cd $REPO_URL_PZ
+    mkdir -p $REPO_URL_XZ_PZ
+    cd $REPO_URL_GIT_PZ
     for i in `find . -name "*.git"`
     do
         BNAME=`basename $i`
         echo $i
         echo $BNAME
         tar -cvvJf $BNAME.tar.xz $BNAME/
-        mv $BNAME.tar.xz $REPO_XZ_PZ/
+        mv $BNAME.tar.xz $REPO_URL_XZ_PZ/
     done
 }
 
@@ -187,8 +226,8 @@ func_git_tree_readd_pp ()
     git remote remove ${REPO_NAME_PP}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
-    echo ">>> git remote add ${REPO_NAME_PP} ${REPO_URL_PP}/${REPO}.git <<<"
-    git remote add ${REPO_NAME_PP} ${REPO_URL_PP}/${REPO}.git
+    echo ">>> git remote add ${REPO_NAME_PP} ${REPO_URL_GIT_PP}/${REPO}.git <<<"
+    git remote add ${REPO_NAME_PP} ${REPO_URL_GIT_PP}/${REPO}.git
     echo '--------------------'
 }
 
@@ -199,8 +238,8 @@ func_git_tree_readd_pz ()
     git remote remove ${REPO_NAME_PZ}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
-    echo ">>> git remote add ${REPO_NAME_PZ} ${REPO_URL_PZ}/${REPO}.git <<<"
-    git remote add ${REPO_NAME_PZ} ${REPO_URL_PZ}/${REPO}.git
+    echo ">>> git remote add ${REPO_NAME_PZ} ${REPO_URL_GIT_PZ}/${REPO}.git <<<"
+    git remote add ${REPO_NAME_PZ} ${REPO_URL_GIT_PZ}/${REPO}.git
     echo '--------------------'
 }
 
@@ -211,8 +250,8 @@ func_git_tree_readd_pi ()
     git remote remove ${REPO_NAME_PI}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
-    echo ">>> git remote add ${REPO_NAME_PI} ${REPO_URL_PI}/${REPO}.git <<<"
-    git remote add ${REPO_NAME_PI} ${REPO_URL_PI}/${REPO}.git
+    echo ">>> git remote add ${REPO_NAME_PI} ${REPO_URL_GIT_PI}/${REPO}.git <<<"
+    git remote add ${REPO_NAME_PI} ${REPO_URL_GIT_PI}/${REPO}.git
     echo '--------------------'
 }
 
@@ -223,8 +262,8 @@ func_git_tree_readd_origin ()
     git remote remove ${REPO_NAME_ORIGIN}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
-    echo ">>> git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git <<<"
-    git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_ORIGIN}/${REPO}.git
+    echo ">>> git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_GIT_ORIGIN}/${REPO}.git <<<"
+    git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_GIT_ORIGIN}/${REPO}.git
     echo '--------------------'
 }
 
@@ -265,8 +304,8 @@ func_git_clone_bare_pp ()
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
     echo '--------------------'
-    echo ">>> git clone --bare . ${REPO_URL_PP}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_PP}/${DIR_NAME}.git
+    echo ">>> git clone --bare . ${REPO_URL_GIT_PP}/${DIR_NAME}.git <<<"
+    git clone --bare . ${REPO_URL_GIT_PP}/${DIR_NAME}.git
     echo '--------------------'
 }
 
@@ -275,8 +314,8 @@ func_git_clone_bare_pz ()
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
     echo '--------------------'
-    echo ">>> git clone --bare . ${REPO_URL_PZ}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_PZ}/${DIR_NAME}.git
+    echo ">>> git clone --bare . ${REPO_URL_GIT_PZ}/${DIR_NAME}.git <<<"
+    git clone --bare . ${REPO_URL_GIT_PZ}/${DIR_NAME}.git
     echo '--------------------'
 }
 
@@ -285,8 +324,8 @@ func_git_clone_bare_pi ()
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
     echo '--------------------'
-    echo ">>> git clone --bare . ${REPO_URL_PI}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_PI}/${DIR_NAME}.git
+    echo ">>> git clone --bare . ${REPO_URL_GIT_PI}/${DIR_NAME}.git <<<"
+    git clone --bare . ${REPO_URL_GIT_PI}/${DIR_NAME}.git
     echo '--------------------'
 }
 
@@ -295,8 +334,8 @@ func_git_clone_bare_origin ()
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
     echo '--------------------'
-    echo ">>> git clone --bare . ${REPO_URL_ORIGIN}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_ORIGIN}/${DIR_NAME}.git
+    echo ">>> git clone --bare . ${REPO_URL_GIT_ORIGIN}/${DIR_NAME}.git <<<"
+    git clone --bare . ${REPO_URL_GIT_ORIGIN}/${DIR_NAME}.git
     echo '--------------------'
 }
 

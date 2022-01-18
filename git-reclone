@@ -25,7 +25,7 @@ then
     echo $B_NAME
     cd ../
     rm -rf $B_NAME
-    git clone $REPO_URL_PI/$B_NAME.git
+    git clone $REPO_URL_GIT_PI/$B_NAME.git
     cd $B_NAME
     git remote rename origin ${REPO_NAME_PI}
 fi
