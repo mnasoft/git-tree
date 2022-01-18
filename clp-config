@@ -63,13 +63,18 @@ func_remake_git_pp ()
     for i in `find . -name "*.git"`
     do
         cd $i/..
-        NAME=`pwd`
-        BNAME=`basename $NAME`
-        echo $i
-        echo $NAME
-        echo $BNAME
-        cd ..
-        git clone --bare $BNAME $REPO_URL_GIT_PP/$BNAME.git
+        if [[ `git remote | grep pp` ]]
+        then
+            NAME=`pwd`
+            BNAME=`basename $NAME`
+            echo $i
+            echo $NAME
+            echo $BNAME
+            cd ..
+            git clone --bare $BNAME $REPO_URL_GIT_PP/$BNAME.git
+        else
+            cd ..
+        fi
         cd $CDIR
     done
 }
@@ -89,6 +94,8 @@ func_remake_git_pz ()
             echo $BNAME
             cd ..
             git clone --bare $BNAME $REPO_URL_GIT_PZ/$BNAME.git
+        else
+            cd ..
         fi
         cd $CDIR
     done
