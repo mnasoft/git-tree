@@ -6,7 +6,7 @@ clp-check-public
 ####################
 # xz.tar
 ####################
-clp-local-remake-git
+remake-git
 remake-xz
 cd ~/xz
 tar -cvvf xz.tar *.git.tar.xz

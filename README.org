@@ -49,7 +49,7 @@ clp-check-public      - создает на каталог ~/public_html/Common-
 
 clp-dot-emacs-d-pi
 clp-dot-emacs-d-public
-clp-local-remake-git - Выполняет пересоздание каталога ~/git, наполняя его чистыми репозиториями. Поиск репозиротиев ведется в каталогах: ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
+remake-git           - Выполняет пересоздание каталога ~/git, наполняя его чистыми репозиториями. Поиск репозиротиев ведется в каталогах: ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 remake-xz            - Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
 clp-local-xz-git     - Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
 clp-pacman-Suy       - Выполняет перенос на сайт pi пакетов и файлов синхронизации, необходимях для обновления msys2.
