@@ -230,13 +230,13 @@ Command:
         rm_pi         - удаление удаленного репозитория pi;
         rm_or         - удаление удаленного репозитория origin;
 
-        clone_bare_pp - клонирование дерева репозиториев в
+        clone_pp - клонирование дерева репозиториев в
                         расположение pp;
-        clone_bare_pz - клонирование дерева репозиториев в
+        clone_pz - клонирование дерева репозиториев в
                         расположение pz;
-        clone_bare_pi - клонирование дерева репозиториев в
+        clone_pi - клонирование дерева репозиториев в
                         расположение pi;
-        clone_bare_or - клонирование дерева репозиториев в
+        clone_or - клонирование дерева репозиториев в
                         расположение origin;
 
 Описание:
@@ -367,7 +367,7 @@ func_git_rm_or ()
     func_git_tree_echo_short
 }
 
-func_git_clone_bare_pp ()
+func_git_clone_pp ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
@@ -377,7 +377,7 @@ func_git_clone_bare_pp ()
     func_git_tree_echo_short
 }
 
-func_git_clone_bare_pz ()
+func_git_clone_pz ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
@@ -387,7 +387,7 @@ func_git_clone_bare_pz ()
     func_git_tree_echo_short
 }
 
-func_git_clone_bare_pi ()
+func_git_clone_pi ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
@@ -397,7 +397,7 @@ func_git_clone_bare_pi ()
     func_git_tree_echo_short
 }
 
-func_git_clone_bare_origin ()
+func_git_clone_origin ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
@@ -510,25 +510,25 @@ if [[ ${COMMAND} == "rm_pi" ]]
     then
         func_git_rm_or
     fi
-# clone_bare_pp - клонирование дерева репозиториев в расположение pp;    
-    if [[ ${COMMAND} == "clone_bare_pp" ]]
+# clone_pp - клонирование дерева репозиториев в расположение pp;    
+    if [[ ${COMMAND} == "clone_pp" ]]
     then
-        func_git_clone_bare_pp
+        func_git_clone_pp
     fi
-# clone_bare_pz - клонирование дерева репозиториев в расположение pz;    
-    if [[ ${COMMAND} == "clone_bare_pz" ]]
+# clone_pz - клонирование дерева репозиториев в расположение pz;    
+    if [[ ${COMMAND} == "clone_pz" ]]
     then
-        func_git_clone_bare_pz
+        func_git_clone_pz
     fi
-# clone_bare_pi - клонирование дерева репозиториев в расположение pi;     
-    if [[ ${COMMAND} == "clone_bare_pi" ]]
+# clone_pi - клонирование дерева репозиториев в расположение pi;     
+    if [[ ${COMMAND} == "clone_pi" ]]
     then
-        func_git_clone_bare_pp
+        func_git_clone_pp
     fi
-# clone_bare_or - клонирование дерева репозиториев в расположение origin;    
-    if [[ ${COMMAND} == "clone_bare_or" ]]
+# clone_or - клонирование дерева репозиториев в расположение origin;    
+    if [[ ${COMMAND} == "clone_or" ]]
     then
-        func_git_clone_bare_origin
+        func_git_clone_origin
     fi
 }
 
@@ -574,10 +574,10 @@ func_git_tree ()
                   ${COMMAND} == "rm_pz"         || \
                   ${COMMAND} == "rm_pi"         || \
                   ${COMMAND} == "rm_or"         || \
-                  ${COMMAND} == "clone_bare_pp" || \
-                  ${COMMAND} == "clone_bare_pz" || \
-                  ${COMMAND} == "clone_bare_pi" || \
-                  ${COMMAND} == "clone_bare_or" ]]
+                  ${COMMAND} == "clone_pp"      || \
+                  ${COMMAND} == "clone_pz"      || \
+                  ${COMMAND} == "clone_pi"      || \
+                  ${COMMAND} == "clone_or" ]]
         then
             func_git_tree_command
         else
