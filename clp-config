@@ -20,6 +20,25 @@ PUB_HTML_CLP_ARH="~/public_html/Common-Lisp-Programs/Archive"
 VAR_CACHE_PACMAN="/var/cache/pacman"
 VAR_LIB_PACMAN="/var/lib/pacman"
 
+func_git_tree_echo_short ()
+{
+#    echo '--------------------' 
+}
+
+func_git_tree_echo_long ()
+{
+    echo '---------------------------------' 
+}
+
+func_git_tree_echo_long_plus ()
+{
+    echo '+++++++++++++++++++++++++++++++++' 
+}
+
+func_git_tree_echo_long_equal ()
+{
+    echo '================================='
+}
 ####################################################################################################
 #### func_clp_check_public
 ####################################################################################################
@@ -237,10 +256,10 @@ func_git_tree_push ()
 {
     for rpo in `git remote`
     do
-        echo "--------------------"
+        func_git_tree_echo_short
         echo ">>> git push ${rpo} ${DO_BRANCH} <<<"
         git push ${rpo} ${DO_BRANCH}
-        echo "--------------------"
+        func_git_tree_echo_short
     done
 }
 
@@ -248,160 +267,159 @@ func_git_tree_pull ()
 {
     for rpo in `git remote`
     do
-        echo "--------------------"
+        func_git_tree_echo_short
         echo ">>> git pull ${rpo} ${DO_BRANCH} <<<"
         git pull ${rpo} ${DO_BRANCH}
-        echo "--------------------"
+        func_git_tree_echo_short
     done
 }
 
 func_git_tree_add ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo '>>> git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.asd"` <<<'
     git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.asd"`
 # -o -name "*.scr" 
     
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_tree_readd_pp ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_PP} <<<"
     git remote remove ${REPO_NAME_PP}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
     echo ">>> git remote add ${REPO_NAME_PP} ${REPO_URL_GIT_PP}/${REPO}.git <<<"
     git remote add ${REPO_NAME_PP} ${REPO_URL_GIT_PP}/${REPO}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_tree_readd_pz ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_PZ} <<<"
     git remote remove ${REPO_NAME_PZ}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
     echo ">>> git remote add ${REPO_NAME_PZ} ${REPO_URL_GIT_PZ}/${REPO}.git <<<"
     git remote add ${REPO_NAME_PZ} ${REPO_URL_GIT_PZ}/${REPO}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_tree_readd_pi ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_PI} <<<"
     git remote remove ${REPO_NAME_PI}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
     echo ">>> git remote add ${REPO_NAME_PI} ${REPO_URL_GIT_PI}/${REPO}.git <<<"
     git remote add ${REPO_NAME_PI} ${REPO_URL_GIT_PI}/${REPO}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_tree_readd_origin ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_ORIGIN} <<<"
     git remote remove ${REPO_NAME_ORIGIN}
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
     echo ">>> git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_GIT_ORIGIN}/${REPO}.git <<<"
     git remote add ${REPO_NAME_ORIGIN} ${REPO_URL_GIT_ORIGIN}/${REPO}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_rm_pp ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_PP} <<<"
     git remote remove ${REPO_NAME_PP}
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_rm_pz ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_PZ} <<<"
     git remote remove ${REPO_NAME_PZ}
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_rm_pi ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_PI} <<<"
     git remote remove ${REPO_NAME_PI}
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_rm_origin ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_ORIGIN} <<<"
     git remote remove ${REPO_NAME_ORIGIN}
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_clone_bare_pp ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git clone --bare . ${REPO_URL_GIT_PP}/${DIR_NAME}.git <<<"
     git clone --bare . ${REPO_URL_GIT_PP}/${DIR_NAME}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_clone_bare_pz ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git clone --bare . ${REPO_URL_GIT_PZ}/${DIR_NAME}.git <<<"
     git clone --bare . ${REPO_URL_GIT_PZ}/${DIR_NAME}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_clone_bare_pi ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git clone --bare . ${REPO_URL_GIT_PI}/${DIR_NAME}.git <<<"
     git clone --bare . ${REPO_URL_GIT_PI}/${DIR_NAME}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_clone_bare_origin ()
 {
     BASENAME=`pwd`
     DIR_NAME=`basename ${BASENAME}`
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git clone --bare . ${REPO_URL_GIT_ORIGIN}/${DIR_NAME}.git <<<"
     git clone --bare . ${REPO_URL_GIT_ORIGIN}/${DIR_NAME}.git
-    echo '--------------------'
+    func_git_tree_echo_short
 }
-
 
 func_git_tree_commit ()
 {
-    echo '--------------------'
+    func_git_tree_echo_short
     echo '>>> git commit -a -m "`date -u`" <<<'
     git commit -a -m "`date -u`"
-    echo '--------------------'
+    func_git_tree_echo_short
 }
 
 func_git_tree_push_or_pull ()
 {
     for rpo in `git remote`
     do
-    echo '--------------------'
+    func_git_tree_echo_short
     echo ">>> git ${COMMAND} ${rpo} ${DO_BRANCH} <<<"
     git ${COMMAND} ${rpo} ${DO_BRANCH}
-    echo '--------------------'
+    func_git_tree_echo_short
     done
 }
 
@@ -414,28 +432,30 @@ func_git_tree_command_branch ()
     else
         DO_BRANCH="${CURRENT_BRANCH}"
     fi
-    
+# pull          - получение изменений с сервера;
+# push          - отправка изменений на сервер;
     if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" ]]
     then
         func_git_tree_push_or_pull
     fi
-    
+# pullsh        - получение и отправка изменений;    
     if [[ ${COMMAND} == "pullsh" ]]
     then
         func_git_tree_pull
         func_git_tree_push
     fi
-    
+# add - добавление изменений;    
     if [[ ${COMMAND} == "add" ]]
     then
         func_git_tree_add
     fi
-    
+# commit        - фиксация изменений;    
     if [[ ${COMMAND} == "commit" ]]
     then
         func_git_tree_commit
     fi
-    
+# all           - получение изменений с сервера, добавление изменений,
+#                 фиксация изменений, отправка изменений на сервер;
     if [[ ${COMMAND} == "all" ]]
     then
         func_git_tree_pull
@@ -443,42 +463,66 @@ func_git_tree_command_branch ()
         func_git_tree_commit
         func_git_tree_push
     fi
-
+# readd_pp      - удаление и повторное добавление удаленного
+#                 репозитория pp;
     if [[ ${COMMAND} == "readd_pp" ]]
     then
         func_git_tree_readd_pp
     fi
-
+# readd_pz      - удаление и повторное добавление удаленного
+#                 репозитория pz;
     if [[ ${COMMAND} == "readd_pz" ]]
     then
         func_git_tree_readd_pz
     fi
-
+# readd_pi      - удаление и повторное добавление удаленного
+#                 репозитория pi;
     if [[ ${COMMAND} == "readd_pi" ]]
     then
         func_git_tree_readd_pi
     fi
-
+# readd_origin  - удаление и повторное добавление удаленного
+#                 репозитория origin;
     if [[ ${COMMAND} == "readd_origin" ]]
     then
         func_git_tree_readd_origin
     fi
+# rm_pp         - удаление удаленного репозитория pp;
+    if [[ ${COMMAND} == "rm_pp" ]]
+    then
+        func_git_rm_pp
+    fi
+# rm_pz         - удаление удаленного репозитория pz;
+    if [[ ${COMMAND} == "rm_pz" ]]
+    then
+        func_git_rm_pp
+    fi
+# rm_pi         - удаление удаленного репозитория pi;    
+if [[ ${COMMAND} == "rm_pi" ]]
+    then
+        func_git_rm_pp
+    fi    
+# rm_origin     - удаление удаленного репозитория origin;
     if [[ ${COMMAND} == "rm_origin" ]]
     then
         func_git_rm_origin
     fi
+# clone_bare_pp - клонирование дерева репозиториев в расположение pp;    
     if [[ ${COMMAND} == "clone_bare_pp" ]]
     then
         func_git_clone_bare_pp
     fi
+# clone_bare_pz - клонирование дерева репозиториев в расположение pz;    
     if [[ ${COMMAND} == "clone_bare_pz" ]]
     then
         func_git_clone_bare_pz
     fi
+# clone_bare_pi - клонирование дерева репозиториев в расположение pi;     
     if [[ ${COMMAND} == "clone_bare_pi" ]]
     then
         func_git_clone_bare_pp
     fi
+# clone_bare_or - клонирование дерева репозиториев в расположение origin;    
     if [[ ${COMMAND} == "clone_bare_or" ]]
     then
         func_git_clone_bare_origin
@@ -490,12 +534,12 @@ func_git_tree_command ()
     CDIR=`pwd`
     for i in `find . -name ".git"`
     do
-        echo "================================="
+        func_git_tree_echo_long_equal
         cd ${CDIR}/${i}/../
         echo "`pwd`"
-        echo "---------------------------------"
+        func_git_tree_echo_long
         func_git_tree_command_branch
-        echo "+++++++++++++++++++++++++++++++++"
+        func_git_tree_echo_long_plus
     done
     cd ${CDIR}
 }
