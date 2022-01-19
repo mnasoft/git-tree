@@ -22,17 +22,20 @@ VAR_LIB_PACMAN="/var/lib/pacman"
 
 func_git_tree_echo_short ()
 {
-#    echo '--------------------' 
+    # echo '--------------------'
+    cd .
 }
 
 func_git_tree_echo_long ()
 {
-    echo '---------------------------------' 
+    # echo '---------------------------------'
+    cd .
 }
 
 func_git_tree_echo_long_plus ()
 {
-    echo '+++++++++++++++++++++++++++++++++' 
+    # echo '+++++++++++++++++++++++++++++++++'
+    cd .
 }
 
 func_git_tree_echo_long_equal ()
