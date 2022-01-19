@@ -492,12 +492,12 @@ func_git_tree_command_branch ()
 # rm_pz         - удаление удаленного репозитория pz;
     if [[ ${COMMAND} == "rm_pz" ]]
     then
-        func_git_rm_pp
+        func_git_rm_pz
     fi
 # rm_pi         - удаление удаленного репозитория pi;    
 if [[ ${COMMAND} == "rm_pi" ]]
     then
-        func_git_rm_pp
+        func_git_rm_pi
     fi    
 # rm_or         - удаление удаленного репозитория origin;
     if [[ ${COMMAND} == "rm_or" ]]
