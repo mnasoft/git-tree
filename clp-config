@@ -228,7 +228,7 @@ Command:
         rm_pp         - удаление удаленного репозитория pp;
         rm_pz         - удаление удаленного репозитория pz;
         rm_pi         - удаление удаленного репозитория pi;
-        rm_origin     - удаление удаленного репозитория origin;
+        rm_or         - удаление удаленного репозитория origin;
 
         clone_bare_pp - клонирование дерева репозиториев в
                         расположение pp;
@@ -359,7 +359,7 @@ func_git_rm_pi ()
     func_git_tree_echo_short
 }
 
-func_git_rm_origin ()
+func_git_rm_or ()
 {
     func_git_tree_echo_short
     echo ">>> git remote remove ${REPO_NAME_ORIGIN} <<<"
@@ -505,10 +505,10 @@ if [[ ${COMMAND} == "rm_pi" ]]
     then
         func_git_rm_pp
     fi    
-# rm_origin     - удаление удаленного репозитория origin;
-    if [[ ${COMMAND} == "rm_origin" ]]
+# rm_or         - удаление удаленного репозитория origin;
+    if [[ ${COMMAND} == "rm_or" ]]
     then
-        func_git_rm_origin
+        func_git_rm_or
     fi
 # clone_bare_pp - клонирование дерева репозиториев в расположение pp;    
     if [[ ${COMMAND} == "clone_bare_pp" ]]
@@ -573,7 +573,7 @@ func_git_tree ()
                   ${COMMAND} == "rm_pp"         || \
                   ${COMMAND} == "rm_pz"         || \
                   ${COMMAND} == "rm_pi"         || \
-                  ${COMMAND} == "rm_origin"     || \
+                  ${COMMAND} == "rm_or"         || \
                   ${COMMAND} == "clone_bare_pp" || \
                   ${COMMAND} == "clone_bare_pz" || \
                   ${COMMAND} == "clone_bare_pi" || \
