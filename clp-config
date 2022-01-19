@@ -363,41 +363,49 @@ func_git_rm_or ()
 
 func_git_clone_pp ()
 {
-    BASENAME=`pwd`
-    DIR_NAME=`basename ${BASENAME}`
-    func_git_tree_echo_short
-    echo ">>> git clone --bare . ${REPO_URL_GIT_PP}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_GIT_PP}/${DIR_NAME}.git
+    if [[ `git remote | grep pp` ]]
+    then
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo ">>> git clone --bare . ${REPO_URL_GIT_PP}/${BNAME}.git <<<"
+        git           clone --bare . ${REPO_URL_GIT_PP}/${BNAME}.git
+    fi
     func_git_tree_echo_short
 }
 
 func_git_clone_pz ()
 {
-    BASENAME=`pwd`
-    DIR_NAME=`basename ${BASENAME}`
-    func_git_tree_echo_short
-    echo ">>> git clone --bare . ${REPO_URL_GIT_PZ}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_GIT_PZ}/${DIR_NAME}.git
+    if [[ `git remote | grep pz` ]]
+    then
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo ">>> git clone --bare . ${REPO_URL_GIT_PZ}/${BNAME}.git <<<"
+        git           clone --bare . ${REPO_URL_GIT_PZ}/${BNAME}.git
+    fi
     func_git_tree_echo_short
 }
 
 func_git_clone_pi ()
 {
-    BASENAME=`pwd`
-    DIR_NAME=`basename ${BASENAME}`
-    func_git_tree_echo_short
-    echo ">>> git clone --bare . ${REPO_URL_GIT_PI}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_GIT_PI}/${DIR_NAME}.git
+    if [[ `git remote | grep pi` ]]
+    then
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo ">>> git clone --bare . ${REPO_URL_GIT_PI}/${BNAME}.git <<<"
+        git           clone --bare . ${REPO_URL_GIT_PI}/${BNAME}.git
+    fi
     func_git_tree_echo_short
 }
 
 func_git_clone_origin ()
 {
-    BASENAME=`pwd`
-    DIR_NAME=`basename ${BASENAME}`
-    func_git_tree_echo_short
-    echo ">>> git clone --bare . ${REPO_URL_GIT_OR}/${DIR_NAME}.git <<<"
-    git clone --bare . ${REPO_URL_GIT_OR}/${DIR_NAME}.git
+    if [[ `git remote | grep origin` ]]
+    then
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo ">>> git clone --bare . ${REPO_URL_GIT_OR}/${BNAME}.git <<<"
+        git           clone --bare . ${REPO_URL_GIT_OR}/${BNAME}.git
+    fi
     func_git_tree_echo_short
 }
 
