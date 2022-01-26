@@ -2,12 +2,15 @@
 #
 #  Выполняет перенос в каталог public файлов, необходимях для обновления quicklisp.
 
-clp-check-public
+. clp-config
+
+func_clp_check_public
+
 ####################
 # ~/quicklisp/dists
 ####################    
 cd ~/quicklisp/dists
 tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
-mv quicklisp.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+mv quicklisp.tar.xz "${PUB_HTML_CLP_ARH}/"
 
 

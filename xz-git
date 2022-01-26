@@ -2,22 +2,22 @@
 # Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
 . clp-config
 
-mkdir -p "$REPO_URL_PP"
-cd "$REPO_URL_PP"
-if [[ `pwd` == "$REPO_URL_PP" ]]
+mkdir -p "$REPO_URL_GIT_PP"
+cd "$REPO_URL_GIT_PP"
+if [[ `pwd` == "$REPO_URL_GIT_PP" ]]
 then
     rm -rf *.git
 fi
-for i in `ls ${REPO_XZ_PP}/*.git.tar.xz`
+for i in `ls ${REPO_URL_XZ_PP}/*.git.tar.xz`
 do tar -xvf $i
 done
 
-mkdir -p "$REPO_URL_PZ"
-cd "$REPO_URL_PZ"
-if [[ `pwd` == "$REPO_URL_PZ" ]]
+mkdir -p "$REPO_URL_GIT_PZ"
+cd "$REPO_URL_GIT_PZ"
+if [[ `pwd` == "$REPO_URL_GIT_PZ" ]]
 then
     rm -rf *.git
 fi
-for i in `ls ${REPO_XZ_PZ}/*.git.tar.xz`
+for i in `ls ${REPO_URL_XZ_PZ}/*.git.tar.xz`
 do tar -xvf $i
 done

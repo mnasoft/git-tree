@@ -1,6 +1,0 @@
-#!/bin/bash
-#
-# Создает на каталог ~/public_html/Common-Lisp-Programs/Archive
-
-mkdir -p ~/public_html/Common-Lisp-Programs/Archive
-

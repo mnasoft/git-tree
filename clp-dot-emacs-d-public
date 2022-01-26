@@ -3,11 +3,13 @@
 # Выполняет перенос на сайт pi пакетов и файлов синхронизации,
 # необходимях для обновления msys2.
 
-clp-check-public
+. clp-config
+
+func_clp_check_public
 ####################
 # dot.emacs.d.tar.xz
 ####################    
 cd ~
 tar -cvvJf dot.emacs.d.tar.xz .emacs.d/
-mv dot.emacs.d.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+mv dot.emacs.d.tar.xz ${PUB_HTML_CLP_ARH}/
 

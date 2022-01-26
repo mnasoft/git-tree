@@ -3,20 +3,19 @@
 # Выполняет перенос на сайт pi пакетов и файлов синхронизации,
 # необходимях для обновления msys2.
 
-clp-check-public
+. clp-config
 
-VAR_CACHE_PACMAN="/var/cache/pacman"
-VAR_LIB_PACMAN="/var/lib/pacman"
+func_clp_check_public
 
-if [[ -d "$VAR_CACHE_PACMAN" && -d "$VAR_CACHE_PACMAN" ]]
+if [[ -d "${VAR_CACHE_PACMAN}" && -d "${VAR_CACHE_PACMAN}" ]]
 then
     cd ${VAR_CACHE_PACMAN}
     tar -cvvJf pkg.tar.xz pkg/
-    mv pkg.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+    mv pkg.tar.xz "${PUB_HTML_CLP_ARH}/"
 
     cd ${VAR_LIB_PACMAN}
     tar -cvvJf sync.tar.xz sync/
-    mv sync.tar.xz ~/public_html/Common-Lisp-Programs/Archive/
+    mv sync.tar.xz "${PUB_HTML_CLP_ARH}/"
 
     clp-dot-emacs-d-public
     

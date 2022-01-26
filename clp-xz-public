@@ -1,13 +1,7 @@
 #!/bin/bash
 #
-# Выполняет перенос в каталог ~/public_html/Common-Lisp-Programs/Archive/ архивов git.tar.xz 
+# Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов git.tar.xz 
 
-clp-check-public
-####################
-# xz.tar
-####################
-clp-local-remake-git
-clp-local-remake-xz
-cd ~/xz
-tar -cvvf xz.tar *.git.tar.xz
-mv xz.tar ~/public_html/Common-Lisp-Programs/Archive/
+. clp-config
+func_clp_check_public
+func_clp_xz_public

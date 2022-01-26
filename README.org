@@ -45,18 +45,17 @@
 clp-config            - системные переменные
 git-tree              - работа с деревом репозиториев
 git-reclone           - удаление каталога, содержащего репозиторий pi и повторное его клонирование из удаленного репозитория
-clp-check-public      - создает на каталог ~/public_html/Common-Lisp-Programs/Archive
 
 clp-dot-emacs-d-pi
 clp-dot-emacs-d-public
-clp-local-remake-git - Выполняет пересоздание каталога ~/git, наполняя его чистыми репозиториями. Поиск репозиротиев ведется в каталогах: ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
-clp-local-remake-xz  - Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
-clp-local-xz-git     - Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
+remake-git-pp        - Выполняет пересоздание каталога ~/git, наполняя его чистыми репозиториями. Поиск репозиротиев ведется в каталогах: ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
+func_remake_xz_pp_all            - Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
+xz-git               - Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
 clp-pacman-Suy       - Выполняет перенос на сайт pi пакетов и файлов синхронизации, необходимях для обновления msys2.
 clp-quicklisp-pi     - Выполняет перенос на сайт pi файлов, необходимях для обновления quicklisp.
 clp-quicklisp-public - Выполняет перенос в каталог public файлов, необходимях для обновления quicklisp.
-clp-xz-pi            - Выполняет перенос на сайт pi ~/public_html/Common-Lisp-Programs/Archive/ архивов git.tar.xz.
-clp-xz-public        - Выполняет перенос в каталог ~/public_html/Common-Lisp-Programs/Archive/ архивов git.tar.xz.
+clp-xz-pi            - Выполняет перенос на сайт pi ${PUB_HTML_CLP_ARH}/ архивов git.tar.xz.
+clp-xz-public        - Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов git.tar.xz.
 
 git-tree-repo
 git-tree-temp - Содержит фрагменты кода
@@ -103,8 +102,6 @@ UNINSTALL.run - сценарий удаления
   5. n000325
      + clp-n000325-remake-git
      + clp-n000325-remake-xz
-  6. clp-check-public - создает на каталог
-     ~/public_html/Common-Lisp-Programs/Archive
 
 * Примеры использования
 1. Перейдите в каталог, в котором содержатся репозитории git.
