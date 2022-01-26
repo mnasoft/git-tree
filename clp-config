@@ -397,7 +397,7 @@ func_git_clone_pi ()
     func_git_tree_echo_short
 }
 
-func_git_clone_origin ()
+func_git_clone_or ()
 {
     if [[ `git remote | grep origin` ]]
     then
@@ -530,7 +530,7 @@ if [[ ${COMMAND} == "rm_pi" ]]
 # clone_or - клонирование дерева репозиториев в расположение origin;    
     if [[ ${COMMAND} == "clone_or" ]]
     then
-        func_git_clone_origin
+        func_git_clone_or
     fi
 }
 
