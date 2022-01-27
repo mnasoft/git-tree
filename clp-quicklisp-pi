@@ -1,6 +1,0 @@
-#!/bin/bash
-#
-# Выполняет перенос на сайт pi файлов, необходимях для обновления quicklisp.
-
-clp-quicklisp-public
-rs-local-pi

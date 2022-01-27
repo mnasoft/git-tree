@@ -7,10 +7,6 @@
 
 func_rs_pacman
 
-#    clp-dot-emacs-d-public
-    
-#    clp-quicklisp-public
-
 #    clp-xz-public
 
 #    rs-local-pi
