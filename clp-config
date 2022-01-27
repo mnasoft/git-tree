@@ -15,7 +15,7 @@ REPO_URL_XZ_PZ="$HOME/xz-big"
 #
 REPO_XZ_TAR_PP="xz.tar"
 #
-PUB_HTML_CLP_ARH="~/public_html/Common-Lisp-Programs/Archive"
+PUB_HTML_CLP_ARH="$HOME/public_html/Common-Lisp-Programs/Archive"
 #
 VAR_CACHE_PACMAN="/var/cache/pacman"
 VAR_LIB_PACMAN="/var/lib/pacman"
@@ -48,7 +48,10 @@ func_git_tree_echo_long_equal ()
 
 func_clp_check_public ()
 {
+    echo "func_clp_check_public start ..."
+    echo "<<< mkdir -p ${PUB_HTML_CLP_ARH} >>>"
     mkdir -p "${PUB_HTML_CLP_ARH}"
+    echo "func_clp_check_public exit"    
 }
 
 ####################################################################################################
@@ -592,3 +595,33 @@ func_git_tree ()
 ####################################################################################################
 #### 
 ####################################################################################################
+
+func_rs_pacman ()
+{
+    func_clp_check_public
+
+    if [[ -d "${VAR_CACHE_PACMAN}" ]]
+    then
+        cd ${VAR_CACHE_PACMAN}
+        tar -cvvJf pkg.tar.xz pkg/
+        mv pkg.tar.xz ${PUB_HTML_CLP_ARH}/
+    fi
+
+    if [[ -d "${VAR_CACHE_PACMAN}" ]]
+    then
+        cd ${VAR_LIB_PACMAN}
+        tar -cvvJf sync.tar.xz sync/
+        mv sync.tar.xz ${PUB_HTML_CLP_ARH}/
+    fi
+
+    rs-local-pi
+}
+
+func_rs_dot_emacs_d_public ()
+{
+    func_clp_check_public
+
+    cd ${HOME}
+    tar -cvvJf dot.emacs.d.tar.xz .emacs.d/
+    mv dot.emacs.d.tar.xz ${PUB_HTML_CLP_ARH}/
+}
