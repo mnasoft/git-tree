@@ -47,17 +47,21 @@
 - git-reclone           - удаление каталога, содержащего репозиторий pi и повторное его клонирование из удаленного репозитория
 
 - clp-dot-emacs-d-pi
-- rs-emacs-d           - 
-- remake-git-pp        - Выполняет пересоздание каталога ~/git, наполняя его чистыми репозиториями. Поиск репозиротиев ведется в каталогах: ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
+- rs-emacs-d - Перенос в каталог ${PUB_HTML_CLP_ARH}/ файлов из
+  каталога [[~/.emacs.d]].
+- remake-git-pp - Выполняет пересоздание каталога ~/git, наполняя его
+  чистыми репозиториями. Поиск репозиротиев ведется в каталогах:
+  ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 - func_remake_xz_pp_all            - Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
 - xz-git               - Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
 - rs-pacman - Выполняет перенос в папку ~/public_html/ пакетов и
   файлов синхронизации, необходимях для обновления msys2.
-- clp-quicklisp-pi     - Выполняет перенос на сайт pi файлов, необходимях для обновления quicklisp.
-- rs-quicklisp - Выполняет перенос в каталог public файлов,
+- rs-quicklisp - Выполняет перенос в каталог ~/public_html/ файлов,
   необходимях для обновления quicklisp.
-- clp-xz-pi            - Выполняет перенос на сайт pi ${PUB_HTML_CLP_ARH}/ архивов git.tar.xz.
-- clp-xz-public        - Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов git.tar.xz.
+- clp-xz-pi - Выполняет перенос на сайт pi ${PUB_HTML_CLP_ARH}/
+  архивов git.tar.xz.
+- clp-xz-public - Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/
+  архивов git.tar.xz.
 
 - git-tree-repo
 - git-tree-temp - Содержит фрагменты кода
@@ -111,3 +115,128 @@ UNINSTALL.run - сценарий удаления
 #+begin_src shell
  git-tree
 #+end_src
+
+* Граф вызовов
+  #+name:dot-eg-table
+  | func_remake_git_pp_all       | func_remove_git_pp            |
+  | func_remake_git_pp_all       | func_remake_git_pp            |
+  | func_remake_xz_pp_all        | func_remove_repo_xz_pp        |
+  | func_remake_xz_pp_all        | func_remake_xz_pp             |
+  | func_remake_xz_pz_all        | func_remove_repo_xz_pz        |
+  | func_remake_xz_pz_all        | func_remake_xz_pz             |
+  | func_clp_xz_public           | func_remake_git_pp_all        |
+  | func_clp_xz_public           | func_remake_xz_pp_all         |
+  | func_git_tree_push           | func_git_tree_echo_short      |
+  | func_git_tree_pull           | func_git_tree_echo_short      |
+  | func_git_tree_add            | func_git_tree_echo_short      |
+  | func_git_tree_readd_pp       | func_git_tree_echo_short      |
+  | func_git_tree_readd_pz       | func_git_tree_echo_short      |
+  | func_git_tree_readd_pi       | func_git_tree_echo_short      |
+  | func_git_tree_readd_or       | func_git_tree_echo_short      |
+  | func_git_rm_pp               | func_git_tree_echo_short      |
+  | func_git_rm_pz               | func_git_tree_echo_short      |
+  | func_git_rm_pi               | func_git_tree_echo_short      |
+  | func_git_rm_or               | func_git_tree_echo_short      |
+  | func_git_clone_pp            | func_git_tree_echo_short      |
+  | func_git_clone_pz            | func_git_tree_echo_short      |
+  | func_git_clone_pi            | func_git_tree_echo_short      |
+  | func_git_clone_or            | func_git_tree_echo_short      |
+  | func_git_tree_commit         | func_git_tree_echo_short      |
+  | func_git_tree_push_or_pull   | func_git_tree_echo_short      |
+  | func_git_tree_command_branch | func_git_tree_push_or_pull    |
+  | func_git_tree_command_branch | func_git_tree_pull            |
+  | func_git_tree_command_branch | func_git_tree_push            |
+  | func_git_tree_command_branch | func_git_tree_add             |
+  | func_git_tree_command_branch | func_git_tree_commit          |
+  | func_git_tree_command_branch | func_git_tree_pull            |
+  | func_git_tree_command_branch | func_git_tree_add             |
+  | func_git_tree_command_branch | func_git_tree_commit          |
+  | func_git_tree_command_branch | func_git_tree_push            |
+  | func_git_tree_command_branch | func_git_tree_readd_pp        |
+  | func_git_tree_command_branch | func_git_tree_readd_pz        |
+  | func_git_tree_command_branch | func_git_tree_readd_pi        |
+  | func_git_tree_command_branch | func_git_tree_readd_or        |
+  | func_git_tree_command_branch | func_git_rm_pp                |
+  | func_git_tree_command_branch | func_git_rm_pz                |
+  | func_git_tree_command_branch | func_git_rm_pi                |
+  | func_git_tree_command_branch | func_git_rm_or                |
+  | func_git_tree_command_branch | func_git_clone_pp             |
+  | func_git_tree_command_branch | func_git_clone_pz             |
+  | func_git_tree_command_branch | func_git_clone_pi             |
+  | func_git_tree_command_branch | func_git_clone_or             |
+  | func_git_tree_command        | func_git_tree_echo_long_equal |
+  | func_git_tree_command        | func_git_tree_echo_long       |
+  | func_git_tree_command        | func_git_tree_command_branch  |
+  | func_git_tree_command        | func_git_tree_echo_long_plus  |
+  | func_git_tree                | func_git_tree_usage_show      |
+  | func_git_tree                | func_git_tree_command         |
+  | func_rs_pacman               | func_clp_check_public         |
+  | func_rs_dot_emacs_d_public   | func_clp_check_public         |
+  | func_rs_quicklisp            | func_clp_check_public         |
+  | clp-dot-emacs-d-pi           | clp-dot-emacs-public          |
+  | clp-dot-emacs-d-pi           | rs-local-pi                   |
+  | clp-xz-pi                    | clp-xz-public                 |
+  | clp-xz-pi                    | rs-local-pi                   |
+  | clp-xz-public                | func_clp_check_public         |
+  | clp-xz-public                | func_clp_xz_public            |
+  | git-tree                     | func_git_tree                 |
+  | remake-git-pp                | func_remake_git_pp_all        |
+  | remake-xz-pp                 | func_remake_xz_pp_all         |
+  | remake-xz-pz                 | func_remake_xz_pz_all         |
+  | rs-emacs-d                   | func_rs_dot_emacs_d_public    |
+  | rs-pacman                    | func_rs_pacman                |
+  | rs-quicklisp                 | func_rs_quicklisp             |
+
+   xz-git
+git-reclone
+git-tree-repo
+rs-local-pi
+rs-pi-html
+rs-pi-local
+
+
+  #+name: make-dot-bak
+  #+begin_src emacs-lisp :var table=dot-eg-table :results output :exports none
+    (mapcar #'(lambda (x)
+                (princ (format "%s [label =\"%s\", shape = \"box\"];\n"
+                               (first x) (second x)))) table)
+                  (princ (format "%s -- %s;\n" (first (first table)) (first (second table))))
+  #+end_src
+
+  #+name: make-dot
+  #+begin_src lisp :var table=dot-eg-table :results output :exports none
+
+    (format t "rankdir=LR;~%")
+    (mapcar
+     #'(lambda (x)
+         (format t "~s [label =~s, shape = \"box\"];~%" x x ))
+     (remove-duplicates (apply #'append table)))
+
+    (format t "~{~{~S~^ -> ~};~%~}" table)
+  #+end_src
+
+  #+RESULTS: make-dot
+  #+begin_example
+  "a" [label ="a", shape = "box"];
+  "Hellow" [label ="Hellow", shape = "box"];
+  "b" [label ="b", shape = "box"];
+  "World" [label ="World", shape = "box"];
+  "c" [label ="c", shape = "box"];
+  "And" [label ="And", shape = "box"];
+  "d" [label ="d", shape = "box"];
+  "Common see you" [label ="Common see you", shape = "box"];
+  "a" -> "Hellow";
+  "b" -> "World";
+  "c" -> "And";
+  "d" -> "Common see you";
+  #+end_example
+
+  #+begin_src dot :file ~/test-dot.png :var input=make-dot :exports results
+    digraph
+    {
+    $input
+    }
+    #+end_src
+
+    #+RESULTS:
+    [[file:~/test-dot.png]]

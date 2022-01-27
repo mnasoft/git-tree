@@ -48,10 +48,8 @@ func_git_tree_echo_long_equal ()
 
 func_clp_check_public ()
 {
-    echo "func_clp_check_public start ..."
     echo "<<< mkdir -p ${PUB_HTML_CLP_ARH} >>>"
     mkdir -p "${PUB_HTML_CLP_ARH}"
-    echo "func_clp_check_public exit"    
 }
 
 ####################################################################################################
@@ -60,11 +58,13 @@ func_clp_check_public ()
 
 func_remove_git_pp ()
 {
+    echo "<<< rm -rf $REPO_URL_GIT_PP/*.git >>>"    
     rm -rf $REPO_URL_GIT_PP/*.git
 }
 
 func_remove_git_pz ()
 {
+    echo "<<< rm -rf $REPO_URL_GIT_PZ/*.git >>>"
     rm -rf $REPO_URL_GIT_PZ/*.git
 }
 
@@ -120,13 +120,13 @@ func_remake_git_pp_all ()
 {
     func_remove_git_pp
     
-    cd ~/quicklisp/local-projects/
+    cd ${HOME}/quicklisp/local-projects/
     func_remake_git_pp
 
-    cd ~/develop/
+    cd ${HOME}/develop/
     func_remake_git_pp
 
-    cd ~/elisp/
+    cd ${HOME}/elisp/
     func_remake_git_pp
 }
 
@@ -613,8 +613,6 @@ func_rs_pacman ()
         tar -cvvJf sync.tar.xz sync/
         mv sync.tar.xz ${PUB_HTML_CLP_ARH}/
     fi
-
-    rs-local-pi
 }
 
 func_rs_dot_emacs_d_public ()
