@@ -1,7 +1,0 @@
-#!/bin/bash
-#
-#  Выполняет перенос в каталог public файлов, необходимях для обновления quicklisp.
-
-. clp-config
-
-func_rs_quicklisp

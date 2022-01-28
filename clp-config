@@ -575,27 +575,30 @@ func_rs_quicklisp ()
 #   обновления quicklisp.
     func_clp_check_public
 
-    cd ~/quicklisp/dists
+    cd $HOME/quicklisp/dists
     tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
-    mv quicklisp.tar.xz "${PUB_HTML_CLP_ARH}/"
+    mv quicklisp.tar.xz ${PUB_HTML_CLP_ARH}
 }
 
 func_rs_pacman ()
 {
+    # Выполняет копирование в какалог ${PUB_HTML_CLP_ARH} пакетов и
+    # файлов синхронизации, необходимях для обновления msys2.
+    
     func_clp_check_public
 
     if [[ -d "${VAR_CACHE_PACMAN}" ]]
     then
         cd ${VAR_CACHE_PACMAN}
         tar -cvvJf pkg.tar.xz pkg/
-        mv pkg.tar.xz ${PUB_HTML_CLP_ARH}/
+        mv -f pkg.tar.xz ${PUB_HTML_CLP_ARH}
     fi
 
     if [[ -d "${VAR_CACHE_PACMAN}" ]]
     then
         cd ${VAR_LIB_PACMAN}
         tar -cvvJf sync.tar.xz sync/
-        mv sync.tar.xz ${PUB_HTML_CLP_ARH}/
+        mv -f sync.tar.xz ${PUB_HTML_CLP_ARH}
     fi
 }
 
