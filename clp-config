@@ -14,6 +14,7 @@ REPO_URL_XZ_PP="$HOME/xz"
 REPO_URL_XZ_PZ="$HOME/xz-big"
 #
 REPO_XZ_TAR_PP="xz.tar"
+REPO_XZ_TAR_PZ="xz-big.tar"
 #
 PUB_HTML_CLP_ARH="$HOME/public_html/Common-Lisp-Programs/Archive"
 #

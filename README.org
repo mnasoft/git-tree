@@ -1,4 +1,3 @@
-
 #+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
 #+options: author:t broken-links:nil c:nil creator:nil
 #+options: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
@@ -42,41 +41,43 @@
    sudo ./UNINSTALL.run 
 #+end_src
 
-- clp-config            - системные переменные
-- git-tree              - работа с деревом репозиториев
-- git-reclone           - удаление каталога, содержащего репозиторий pi и повторное его клонирование из удаленного репозитория
+- INSTALL.log - лог установки
+- INSTALL.run - сценарий установки
+- README.org - настоящий документ
+- ToDo.org  - заметки по направлению развития проекта
+- UNINSTALL.run - сценарий удаления
 
-- clp-dot-emacs-d-pi
+- clp-config - содержит системные переменные и функции;
+- clp-xz-pp-public - создает в каталоге ${PUB_HTML_CLP_ARH}/ xz.tar;
+- clp-xz-pz-public - создает в каталоге ${PUB_HTML_CLP_ARH}/ xz-big.tar;
+- git-reclone - удаление каталога, содержащего репозиторий pi и
+  повторное его клонирование из удаленного репозитория
+- git-tree - работа с деревом репозиториев
+- git-tree-repo
 - rs-emacs-d - Перенос в каталог ${PUB_HTML_CLP_ARH}/ файлов из
   каталога [[~/.emacs.d]].
+
 - remake-git-pp - Выполняет пересоздание каталога ~/git, наполняя его
   чистыми репозиториями. Поиск репозиротиев ведется в каталогах:
   ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
-- func_remake_xz_pp_all            - Создает архивы git.tar.xz для мест расположения чистых репозиториев pp и pz
-- xz-git               - Распаковывает архивы git.tar.xz, содержащие репозитории git, в каталоги с чистыми репозиториями для pp и pz расположений.
+
+- func_remake_xz_pp_all - Создает архивы git.tar.xz для мест
+  расположения чистых репозиториев pp и pz
 - rs-pacman - Выполняет перенос в папку ~/public_html/ пакетов и
   файлов синхронизации, необходимях для обновления msys2.
 - rs-quicklisp - Выполняет перенос в каталог ~/public_html/ файлов,
   необходимях для обновления quicklisp.
+
 - clp-xz-pi - Выполняет перенос на сайт pi ${PUB_HTML_CLP_ARH}/
   архивов git.tar.xz.
-- clp-xz-public - Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/
-  архивов git.tar.xz.
-
-- git-tree-repo
-- git-tree-temp - Содержит фрагменты кода
-
-rs-local-pi - Синхронизация папки ~/public_html/ с с сервером mnasoft.ddns.mksat.net.
-rs-pi-html  - Синхронизация папки ~/public_html/Common-Lisp-Programs/ с сервером mnasoft.ddns.mksat.net
-rs-pi-local - Синхронизация mnasoft.ddns.mksat.net с папкой ~/public_html.
-
-README.org - настоящий документ
-ToDo.org 
-INSTALL.log - лог установки
-INSTALL.run - сценарий установки
-UNINSTALL.run - сценарий удаления
-
-
+- rs-local-pi - Синхронизация папки ~/public_html/ с с сервером
+  mnasoft.ddns.mksat.net.
+- rs-pi-html - Синхронизация папки ~/public_html/Common-Lisp-Programs/
+  с сервером mnasoft.ddns.mksat.net
+- rs-pi-local - Синхронизация mnasoft.ddns.mksat.net с папкой
+  ~/public_html.
+- xz-git - Распаковывает архивы git.tar.xz, содержащие репозитории
+  git, в каталоги с чистыми репозиториями для pp и pz расположений.
 
 * Команды
   1. Установка / Удаление
