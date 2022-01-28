@@ -636,6 +636,9 @@ func_rs_dot_emacs_d_public ()
 
 func_xz_git ()
 {
+    # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
+    # каталоги с чистыми репозиториями для pp и pz расположений.
+    
     mkdir -p "$REPO_URL_GIT_PP"
     cd "$REPO_URL_GIT_PP"
     if [[ `pwd` == "$REPO_URL_GIT_PP" ]]
@@ -730,5 +733,3 @@ func_git_tree ()
         fi
     fi
 }
-
-
