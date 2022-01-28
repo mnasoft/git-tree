@@ -137,6 +137,9 @@ func_remake_git_pp_all ()
 
 func_remake_xz_pp_all ()
 {
+    # ToDo Рассмотреть возможность объединения func_remake_xz_pp
+    # func_remove_repo_xz_pz в функцию с тремя параметрами
+
     func_remove_repo_xz_pp
     func_remake_xz_pp
 }
@@ -147,6 +150,9 @@ func_remake_xz_pp_all ()
 
 func_remake_xz_pz_all ()
 {
+    # ToDo Рассмотреть возможность объединения func_remake_xz_pp
+    # func_remove_repo_xz_pz в функцию с тремя параметрами
+
     func_remove_repo_xz_pz
     func_remake_xz_pz
 }
@@ -157,22 +163,29 @@ func_remake_xz_pz_all ()
 
 func_clp_xz_pp_public ()
 {
-#   func_remake_git_pp_all
+    # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
+    # git.tar.xz
+    
+    func_clp_check_public    
     func_remake_xz_pp_all
+    
     cd ${REPO_URL_XZ_PP}
     tar -cvvf ${REPO_XZ_TAR_PP} *.git.tar.xz
-    mv ${REPO_XZ_TAR_PP} "${PUB_HTML_CLP_ARH}/"
+    mv -f ${REPO_XZ_TAR_PP} ${PUB_HTML_CLP_ARH}
 }
 
 func_clp_xz_pz_public ()
 {
-#   func_remake_git_pp_all
+    # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
+    # git.tar.xz
+    
+    func_clp_check_public
     func_remake_xz_pz_all
+    
     cd ${REPO_URL_XZ_PZ}
     tar -cvvf ${REPO_XZ_TAR_PZ} *.git.tar.xz
-    mv ${REPO_XZ_TAR_PZ} "${PUB_HTML_CLP_ARH}/"
+    mv -f ${REPO_XZ_TAR_PZ} ${PUB_HTML_CLP_ARH}
 }
-
 
 ####################################################################################################
 #### remake-xz-pp
@@ -228,6 +241,11 @@ Usage:
    $(basename $0) dot_emacs_d
    $(basename $0) remake_git_pp
    $(basename $0) remake_git_pz - недоопределена
+   $(basename $0) remake_xz_pp
+   $(basename $0) remake_xz_pz
+   $(basename $0) clp_xz_pp
+   $(basename $0) clp_xz_pz
+   $(basename $0) xz_git
 
 Command: 
         pull          - получение изменений с сервера;
@@ -616,6 +634,33 @@ func_rs_dot_emacs_d_public ()
     mv -f dot.emacs.d.tar.xz ${PUB_HTML_CLP_ARH}
 }
 
+func_xz_git ()
+{
+    mkdir -p "$REPO_URL_GIT_PP"
+    cd "$REPO_URL_GIT_PP"
+    if [[ `pwd` == "$REPO_URL_GIT_PP" ]]
+    then
+	rm -rf *.git
+    fi
+    for i in `ls ${REPO_URL_XZ_PP}/*.git.tar.xz`
+    do tar -xvf $i
+    done
+
+    mkdir -p "$REPO_URL_GIT_PZ"
+    cd "$REPO_URL_GIT_PZ"
+    if [[ `pwd` == "$REPO_URL_GIT_PZ" ]]
+    then
+	rm -rf *.git
+    fi
+    for i in `ls ${REPO_URL_XZ_PZ}/*.git.tar.xz`
+    do tar -xvf $i
+    done
+}
+
+####################################################################################################
+#### func_git_tree
+####################################################################################################
+
 func_git_tree ()
 {
     if ! [[ -z "$2" ]]
@@ -662,10 +707,28 @@ func_git_tree ()
 	elif [[ ${COMMAND} == "remake_git_pp" ]]
 	then
 	    func_remake_git_pp_all
+	    
+	elif [[ ${COMMAND} == "remake_xz_pp" ]]
+	then
+	    func_remake_xz_pp_all
+	elif [[ ${COMMAND} == "remake_xz_pz" ]]
+	then
+	    func_remake_xz_pz_all
+
+	elif [[ ${COMMAND} == "clp_xz_pp" ]]
+	then
+	    func_clp_xz_pp_public
+	elif [[ ${COMMAND} == "clp_xz_pz" ]]
+	then
+	    func_clp_xz_pz_public
+	elif [[ ${COMMAND} == "xz_git" ]]
+	then
+	    func_xz_git
         else
             echo "Unknown command: ${COMMAND}"
             func_git_tree_usage_show
         fi
     fi
 }
+
 

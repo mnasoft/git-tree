@@ -1,9 +1,0 @@
-#!/bin/bash
-#
-# Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов git.tar.xz 
-
-. clp-config
-
-func_clp_check_public
-
-func_clp_xz_pp_public
