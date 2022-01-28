@@ -1,5 +1,0 @@
-#!/bin/bash
-#
-# Синхронизация mnasoft.ddns.mksat.net с папкой ~/public_html.
-
-rsync -Pavzhe ssh --delete namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/ ~/public_html
