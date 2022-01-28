@@ -167,9 +167,9 @@ func_clp_xz_pz_public ()
 {
 #   func_remake_git_pp_all
     func_remake_xz_pz_all
-    cd ${REPO_URL_XZ_PP}
-    tar -cvvf ${REPO_XZ_TAR_PP} *.git.tar.xz
-    mv ${REPO_XZ_TAR_PP} "${PUB_HTML_CLP_ARH}/"
+    cd ${REPO_URL_XZ_PZ}
+    tar -cvvf ${REPO_XZ_TAR_PZ} *.git.tar.xz
+    mv ${REPO_XZ_TAR_PZ} "${PUB_HTML_CLP_ARH}/"
 }
 
 
