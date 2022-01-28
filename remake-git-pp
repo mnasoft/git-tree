@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# Выполняет пересоздание каталога ~/git, наполняя его чистыми
-# репозиториями. Поиск репозиротиев ведется в каталогах:
-# ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
-
-. clp-config 
-
-func_remake_git_pp_all

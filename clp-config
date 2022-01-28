@@ -113,12 +113,12 @@ func_remake_git_pz ()
     done
 }
 
-####################################################################################################
-#### func_remake_git_pp_all
-####################################################################################################
-
 func_remake_git_pp_all ()
 {
+    # Выполняет пересоздание каталога ~/git, наполняя его чистыми
+    # репозиториями. Поиск репозиротиев ведется в каталогах:
+    # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
+
     func_remove_git_pp
     
     cd ${HOME}/quicklisp/local-projects/
@@ -226,6 +226,8 @@ Usage:
    $(basename $0) quicklisp
    $(basename $0) pacman
    $(basename $0) dot_emacs_d
+   $(basename $0) remake_git_pp
+   $(basename $0) remake_git_pz - недоопределена
 
 Command: 
         pull          - получение изменений с сервера;
@@ -577,7 +579,7 @@ func_rs_quicklisp ()
 
     cd $HOME/quicklisp/dists
     tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
-    mv quicklisp.tar.xz ${PUB_HTML_CLP_ARH}
+    mv -f quicklisp.tar.xz ${PUB_HTML_CLP_ARH}
 }
 
 func_rs_pacman ()
@@ -602,14 +604,16 @@ func_rs_pacman ()
     fi
 }
 
-
 func_rs_dot_emacs_d_public ()
 {
+    # Выполняет копирование в какалог ${PUB_HTML_CLP_ARH} файлов из
+    # каталога .emacs.d.
+
     func_clp_check_public
 
     cd ${HOME}
     tar -cvvJf dot.emacs.d.tar.xz .emacs.d/
-    mv dot.emacs.d.tar.xz ${PUB_HTML_CLP_ARH}/
+    mv -f dot.emacs.d.tar.xz ${PUB_HTML_CLP_ARH}
 }
 
 func_git_tree ()
@@ -655,9 +659,13 @@ func_git_tree ()
 	elif [[ ${COMMAND} == "dot_emacs_d" ]]
 	then
 	    func_rs_dot_emacs_d_public
+	elif [[ ${COMMAND} == "remake_git_pp" ]]
+	then
+	    func_remake_git_pp_all
         else
             echo "Unknown command: ${COMMAND}"
             func_git_tree_usage_show
         fi
     fi
 }
+
