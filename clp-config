@@ -151,17 +151,27 @@ func_remake_xz_pz_all ()
 }
 
 ####################################################################################################
-# clp-xz-public func_clp_xz_public
+# clp-xz-pp-public func_clp_xz_pp_public
 ####################################################################################################
 
-func_clp_xz_public ()
+func_clp_xz_pp_public ()
 {
-    func_remake_git_pp_all
+#   func_remake_git_pp_all
     func_remake_xz_pp_all
     cd ${REPO_URL_XZ_PP}
     tar -cvvf ${REPO_XZ_TAR_PP} *.git.tar.xz
     mv ${REPO_XZ_TAR_PP} "${PUB_HTML_CLP_ARH}/"
 }
+
+func_clp_xz_pz_public ()
+{
+#   func_remake_git_pp_all
+    func_remake_xz_pz_all
+    cd ${REPO_URL_XZ_PP}
+    tar -cvvf ${REPO_XZ_TAR_PP} *.git.tar.xz
+    mv ${REPO_XZ_TAR_PP} "${PUB_HTML_CLP_ARH}/"
+}
+
 
 ####################################################################################################
 #### remake-xz-pp

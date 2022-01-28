@@ -124,8 +124,8 @@ UNINSTALL.run - сценарий удаления
   | func_remake_xz_pp_all        | func_remake_xz_pp             |
   | func_remake_xz_pz_all        | func_remove_repo_xz_pz        |
   | func_remake_xz_pz_all        | func_remake_xz_pz             |
-  | func_clp_xz_public           | func_remake_git_pp_all        |
-  | func_clp_xz_public           | func_remake_xz_pp_all         |
+  | func_clp_xz_pp_public        | func_remake_git_pp_all        |
+  | func_clp_xz_pp_public        | func_remake_xz_pp_all         |
   | func_git_tree_push           | func_git_tree_echo_short      |
   | func_git_tree_pull           | func_git_tree_echo_short      |
   | func_git_tree_add            | func_git_tree_echo_short      |
@@ -178,7 +178,7 @@ UNINSTALL.run - сценарий удаления
   | clp-xz-pi                    | clp-xz-public                 |
   | clp-xz-pi                    | rs-local-pi                   |
   | clp-xz-public                | func_clp_check_public         |
-  | clp-xz-public                | func_clp_xz_public            |
+  | clp-xz-public                | func_clp_xz_pp_public         |
   | git-tree                     | func_git_tree                 |
   | remake-git-pp                | func_remake_git_pp_all        |
   | remake-xz-pp                 | func_remake_xz_pp_all         |
@@ -194,15 +194,6 @@ rs-local-pi
 rs-pi-html
 rs-pi-local
 
-
-  #+name: make-dot-bak
-  #+begin_src emacs-lisp :var table=dot-eg-table :results output :exports none
-    (mapcar #'(lambda (x)
-                (princ (format "%s [label =\"%s\", shape = \"box\"];\n"
-                               (first x) (second x)))) table)
-                  (princ (format "%s -- %s;\n" (first (first table)) (first (second table))))
-  #+end_src
-
   #+name: make-dot
   #+begin_src lisp :var table=dot-eg-table :results output :exports none
 
@@ -215,21 +206,7 @@ rs-pi-local
     (format t "~{~{~S~^ -> ~};~%~}" table)
   #+end_src
 
-  #+RESULTS: make-dot
-  #+begin_example
-  "a" [label ="a", shape = "box"];
-  "Hellow" [label ="Hellow", shape = "box"];
-  "b" [label ="b", shape = "box"];
-  "World" [label ="World", shape = "box"];
-  "c" [label ="c", shape = "box"];
-  "And" [label ="And", shape = "box"];
-  "d" [label ="d", shape = "box"];
-  "Common see you" [label ="Common see you", shape = "box"];
-  "a" -> "Hellow";
-  "b" -> "World";
-  "c" -> "And";
-  "d" -> "Common see you";
-  #+end_example
+
 
   #+begin_src dot :file ~/test-dot.png :var input=make-dot :exports results
     digraph
