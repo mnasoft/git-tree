@@ -221,7 +221,11 @@ func_remake_xz_pz ()
 ####################################################################################################
 
 GIT_TREE_USAGE="
-Usage: $(basename $0) COMMAND [BRANCH]
+Usage: 
+   $(basename $0) COMMAND [BRANCH]
+   $(basename $0) quicklisp
+   $(basename $0) pacman
+   $(basename $0) dot_emacs_d
 
 Command: 
         pull          - получение изменений с сервера;
@@ -563,49 +567,18 @@ func_git_tree_command ()
     cd ${CDIR}
 }
 
-func_git_tree ()
+####################################################################################################
+
+func_rs_quicklisp ()
 {
-    if ! [[ -z "$2" ]]
-    then
-        BRANCH=$2
-        echo ${BRANCH}
-    fi
+#   Выполняет перенос в каталог public файлов, необходимях для
+#   обновления quicklisp.
+    func_clp_check_public
 
-    if [ -z "$1" ]
-    then
-        func_git_tree_usage_show
-    else
-        COMMAND=$1
-        if [[ ${COMMAND} == "push"          || \
-                  ${COMMAND} == "pull"          || \
-                  ${COMMAND} == "pullsh"        || \
-                  ${COMMAND} == "add"           || \
-                  ${COMMAND} == "commit"        || \
-                  ${COMMAND} == "all"           || \
-                  ${COMMAND} == "readd_pp"      || \
-                  ${COMMAND} == "readd_pz"      || \
-                  ${COMMAND} == "readd_pi"      || \
-                  ${COMMAND} == "readd_or"      || \
-                  ${COMMAND} == "rm_pp"         || \
-                  ${COMMAND} == "rm_pz"         || \
-                  ${COMMAND} == "rm_pi"         || \
-                  ${COMMAND} == "rm_or"         || \
-                  ${COMMAND} == "clone_pp"      || \
-                  ${COMMAND} == "clone_pz"      || \
-                  ${COMMAND} == "clone_pi"      || \
-                  ${COMMAND} == "clone_or" ]]
-        then
-            func_git_tree_command
-        else
-            echo "Unknown command: ${COMMAND}"
-            func_git_tree_usage_show
-        fi
-    fi
+    cd ~/quicklisp/dists
+    tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
+    mv quicklisp.tar.xz "${PUB_HTML_CLP_ARH}/"
 }
-
-####################################################################################################
-#### 
-####################################################################################################
 
 func_rs_pacman ()
 {
@@ -626,6 +599,7 @@ func_rs_pacman ()
     fi
 }
 
+
 func_rs_dot_emacs_d_public ()
 {
     func_clp_check_public
@@ -635,11 +609,52 @@ func_rs_dot_emacs_d_public ()
     mv dot.emacs.d.tar.xz ${PUB_HTML_CLP_ARH}/
 }
 
-func_rs_quicklisp ()
+func_git_tree ()
 {
-    func_clp_check_public
+    if ! [[ -z "$2" ]]
+    then
+        BRANCH=$2
+        echo ${BRANCH}
+    fi
 
-    cd ~/quicklisp/dists
-    tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
-    mv quicklisp.tar.xz "${PUB_HTML_CLP_ARH}/"
+    if [ -z "$1" ]
+    then
+        func_git_tree_usage_show
+    else
+        COMMAND=$1
+        if [[ ${COMMAND} == "push"          || \
+		  ${COMMAND} == "pull"      || \
+                  ${COMMAND} == "pullsh"    || \
+                  ${COMMAND} == "add"       || \
+                  ${COMMAND} == "commit"    || \
+                  ${COMMAND} == "all"       || \
+                  ${COMMAND} == "readd_pp"  || \
+                  ${COMMAND} == "readd_pz"  || \
+                  ${COMMAND} == "readd_pi"  || \
+                  ${COMMAND} == "readd_or"  || \
+                  ${COMMAND} == "rm_pp"     || \
+                  ${COMMAND} == "rm_pz"     || \
+                  ${COMMAND} == "rm_pi"     || \
+                  ${COMMAND} == "rm_or"     || \
+                  ${COMMAND} == "clone_pp"  || \
+                  ${COMMAND} == "clone_pz"  || \
+                  ${COMMAND} == "clone_pi"  || \
+                  ${COMMAND} == "clone_or" ]]
+	   
+        then
+            func_git_tree_command
+	elif [[ ${COMMAND} == "quicklisp" ]]
+	then
+	    func_rs_quicklisp
+	elif [[ ${COMMAND} == "pacman" ]]
+	then
+	    func_rs_pacman
+	elif [[ ${COMMAND} == "dot_emacs_d" ]]
+	then
+	    func_rs_dot_emacs_d_public
+        else
+            echo "Unknown command: ${COMMAND}"
+            func_git_tree_usage_show
+        fi
+    fi
 }
