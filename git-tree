@@ -249,6 +249,7 @@ Usage:
    $(basename $0) rs_local_pi
    $(basename $0) rs_pi_local
    $(basename $0) rs_pi_html
+   $(basename $0) reclone
 
 Command: 
         pull          - получение изменений с сервера;
@@ -663,6 +664,38 @@ func_xz_git ()
     done
 }
 
+func_reclone ()
+{
+# Для каталога, содержащего git-репозиторий выполняет:
+#
+# - проверку того, что в git-репозитории существует ссылка на
+# удаленный git-репозиторий;
+#
+# - в случае успеха переходит в вышележащий каталог, удаляет
+# git-репозиторий и затем осуществляет попытку его повторного
+# клонирования.
+
+### ToDo
+### Добавить второй параметр - имя репозитория (вместо pi).
+### Добавить проверку, на то что удаленный репозиторий существует.
+
+
+CDIR=`pwd`
+
+REPO_PI=`git remote | grep pi`
+
+if [[ ${REPO_PI} ==  ${REPO_NAME_PI} ]]
+then
+    B_NAME=`basename $CDIR`
+    echo $B_NAME
+    cd ../
+    rm -rf $B_NAME
+    git clone $REPO_URL_GIT_PI/$B_NAME.git
+    cd $B_NAME
+    git remote rename origin ${REPO_NAME_PI}
+fi
+}
+
 ####################################################################################################
 #### func_git_tree
 ####################################################################################################
@@ -742,7 +775,10 @@ func_git_tree ()
 	elif [[ ${COMMAND} == "rs_pi_html" ]]
 	then
 	    # Синхронизация папки ~/public_html/Common-Lisp-Programs/ с сервером mnasoft.ddns.mksat.net
-	    rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/ 
+	    rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/
+	elif [[ ${COMMAND} == "reclone" ]]
+	then
+            func_reclone
         else
             echo "Unknown command: ${COMMAND}"
             func_git_tree_usage_show
@@ -750,3 +786,8 @@ func_git_tree ()
     fi
 }
 
+####################################################################################################
+#### Main 
+####################################################################################################
+
+func_git_tree ${1} ${2} 
