@@ -44,13 +44,37 @@ func_git_tree_echo_long_equal ()
     echo '================================================================================'
 }
 ####################################################################################################
-#### func_clp_check_public
+#### check_dir
 ####################################################################################################
 
-func_clp_check_public ()
+check_dir_public_html_clp_arch ()
 {
     echo "<<< mkdir -p ${PUB_HTML_CLP_ARH} >>>"
-    mkdir -p "${PUB_HTML_CLP_ARH}"
+    mkdir -p ${PUB_HTML_CLP_ARH}
+}
+
+check_dir_git_pp ()
+{
+    echo "<<< mkdir -p ${REPO_URL_GIT_PP} >>>"
+    mkdir -p ${REPO_URL_GIT_PP}
+}
+
+check_dir_git_pz ()
+{
+    echo "<<< mkdir -p ${REPO_URL_GIT_PZ} >>>"
+    mkdir -p ${REPO_URL_GIT_PZ}
+}
+
+check_dir_xz_pp ()
+{
+    echo "<<< mkdir -p ${REPO_URL_XZ_PP} >>>"    
+    mkdir -p ${REPO_URL_XZ_PP}
+}
+
+check_dir_xz_pz ()
+{
+    echo "<<< mkdir -p ${REPO_URL_XZ_PZ} >>>"
+    mkdir -p ${REPO_URL_XZ_PZ}
 }
 
 ####################################################################################################
@@ -68,6 +92,20 @@ func_remove_git_pz ()
     echo "<<< rm -rf $REPO_URL_GIT_PZ/*.git >>>"
     rm -rf $REPO_URL_GIT_PZ/*.git
 }
+
+func_remove_xz_pp ()
+{
+    rm -f $REPO_URL_XZ_PP/*.git.tar.xz
+}
+
+func_remove_xz_pz ()
+{
+    rm -f $REPO_URL_XZ_PZ/*.git.tar.xz
+}
+
+####################################################################################################
+#### remake-git 
+####################################################################################################
 
 func_remake_git_pp ()
 {
@@ -113,6 +151,42 @@ func_remake_git_pz ()
     done
 }
 
+####################################################################################################
+#### remake-xz 
+####################################################################################################
+
+func_remake_xz_pp ()
+{
+    check_dir_xz_pp
+    cd $REPO_URL_GIT_PP
+    for i in `find . -name "*.git"`
+    do
+        BNAME=`basename $i`
+        echo $i
+        echo $BNAME
+        tar -cvvJf $BNAME.tar.xz $BNAME/
+        mv $BNAME.tar.xz $REPO_URL_XZ_PP/
+    done
+}
+
+func_remake_xz_pz ()
+{
+    check_dir_xz_pz
+    cd $REPO_URL_GIT_PZ
+    for i in `find . -name "*.git"`
+    do
+        BNAME=`basename $i`
+        echo $i
+        echo $BNAME
+        tar -cvvJf $BNAME.tar.xz $BNAME/
+        mv $BNAME.tar.xz $REPO_URL_XZ_PZ/
+    done
+}
+
+####################################################################################################
+####
+####################################################################################################
+
 func_remake_git_pp_all ()
 {
     # Выполняет пересоздание каталога ~/git, наполняя его чистыми
@@ -138,9 +212,9 @@ func_remake_git_pp_all ()
 func_remake_xz_pp_all ()
 {
     # ToDo Рассмотреть возможность объединения func_remake_xz_pp
-    # func_remove_repo_xz_pz в функцию с тремя параметрами
+    # func_remove_xz_pz в функцию с тремя параметрами
 
-    func_remove_repo_xz_pp
+    func_remove_xz_pp
     func_remake_xz_pp
 }
 
@@ -151,9 +225,9 @@ func_remake_xz_pp_all ()
 func_remake_xz_pz_all ()
 {
     # ToDo Рассмотреть возможность объединения func_remake_xz_pp
-    # func_remove_repo_xz_pz в функцию с тремя параметрами
+    # func_remove_xz_pz в функцию с тремя параметрами
 
-    func_remove_repo_xz_pz
+    func_remove_xz_pz
     func_remake_xz_pz
 }
 
@@ -166,7 +240,7 @@ func_clp_xz_pp_public ()
     # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
     # git.tar.xz
     
-    func_clp_check_public    
+    check_dir_public_html_clp_arch    
     func_remake_xz_pp_all
     
     cd ${REPO_URL_XZ_PP}
@@ -179,54 +253,12 @@ func_clp_xz_pz_public ()
     # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
     # git.tar.xz
     
-    func_clp_check_public
+    check_dir_public_html_clp_arch
     func_remake_xz_pz_all
     
     cd ${REPO_URL_XZ_PZ}
     tar -cvvf ${REPO_XZ_TAR_PZ} *.git.tar.xz
     mv -f ${REPO_XZ_TAR_PZ} ${PUB_HTML_CLP_ARH}
-}
-
-####################################################################################################
-#### remake-xz-pp
-####################################################################################################
-
-func_remove_repo_xz_pp ()
-{
-    rm -f $REPO_URL_XZ_PP/*.git.tar.xz
-}
-
-func_remake_xz_pp ()
-{
-    mkdir -p $REPO_URL_XZ_PP
-    cd $REPO_URL_GIT_PP
-    for i in `find . -name "*.git"`
-    do
-        BNAME=`basename $i`
-        echo $i
-        echo $BNAME
-        tar -cvvJf $BNAME.tar.xz $BNAME/
-        mv $BNAME.tar.xz $REPO_URL_XZ_PP/
-    done
-}
-
-func_remove_repo_xz_pz ()
-{
-    rm -f $REPO_URL_XZ_PZ/*.git.tar.xz
-}
-
-func_remake_xz_pz ()
-{
-    mkdir -p $REPO_URL_XZ_PZ
-    cd $REPO_URL_GIT_PZ
-    for i in `find . -name "*.git"`
-    do
-        BNAME=`basename $i`
-        echo $i
-        echo $BNAME
-        tar -cvvJf $BNAME.tar.xz $BNAME/
-        mv $BNAME.tar.xz $REPO_URL_XZ_PZ/
-    done
 }
 
 ####################################################################################################
@@ -597,7 +629,7 @@ func_rs_quicklisp ()
 {
 #   Выполняет перенос в каталог public файлов, необходимях для
 #   обновления quicklisp.
-    func_clp_check_public
+    check_dir_public_html_clp_arch
 
     cd $HOME/quicklisp/dists
     tar -cvvJf quicklisp.tar.xz ./quicklisp/*.cdb ./quicklisp/*.txt ./quicklisp/archives/
@@ -609,7 +641,7 @@ func_rs_pacman ()
     # Выполняет копирование в какалог ${PUB_HTML_CLP_ARH} пакетов и
     # файлов синхронизации, необходимях для обновления msys2.
     
-    func_clp_check_public
+    check_dir_public_html_clp_arch
 
     if [[ -d "${VAR_CACHE_PACMAN}" ]]
     then
@@ -631,7 +663,7 @@ func_rs_dot_emacs_d_public ()
     # Выполняет копирование в какалог ${PUB_HTML_CLP_ARH} файлов из
     # каталога .emacs.d.
 
-    func_clp_check_public
+    check_dir_public_html_clp_arch
 
     cd ${HOME}
     tar -cvvJf dot.emacs.d.tar.xz .emacs.d/
@@ -643,8 +675,8 @@ func_xz_git ()
     # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
     # каталоги с чистыми репозиториями для pp и pz расположений.
     
-    mkdir -p "$REPO_URL_GIT_PP"
-    cd "$REPO_URL_GIT_PP"
+    check_dir_git_pp
+    cd $REPO_URL_GIT_PP
     if [[ `pwd` == "$REPO_URL_GIT_PP" ]]
     then
 	rm -rf *.git
@@ -653,7 +685,7 @@ func_xz_git ()
     do tar -xvf $i
     done
 
-    mkdir -p "$REPO_URL_GIT_PZ"
+    check_dir_git_pz
     cd "$REPO_URL_GIT_PZ"
     if [[ `pwd` == "$REPO_URL_GIT_PZ" ]]
     then
