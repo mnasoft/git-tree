@@ -285,10 +285,12 @@ Command:
 
     remake_xz_pp_tar - создает архив ${REPO_XZ_PP_TAR} из файлов 
         с расширением .git.tar.xz, находящихся в каталоге 
-        ${REPO_XZ_PP_URL}, и перемещает его в каталог ${PUB_HTML_CLP_ARH};
+        ${REPO_XZ_PP_URL}, и перемещает его в каталог 
+        ${PUB_HTML_CLP_ARH};
     remake_xz_pz_tar - создает архив ${REPO_XZ_PZ_TAR} из файлов 
         с расширением .git.tar.xz, находящихся в каталоге 
-        ${REPO_XZ_PZ_URL}, и перемещает его в каталог ${PUB_HTML_CLP_ARH};
+        ${REPO_XZ_PZ_URL}, и перемещает его в каталог 
+        ${PUB_HTML_CLP_ARH};
 
 Описание:
 
