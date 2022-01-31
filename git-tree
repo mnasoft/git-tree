@@ -251,7 +251,7 @@ Usage:
    $(basename $0) remake_git_pz - недоопределена
    $(basename $0) remake_xz_pp
    $(basename $0) remake_xz_pz
-   $(basename $0) remake_xz_pp_tar
+   $(basename $0) remake_xz_pp_tar 
    $(basename $0) remake_xz_pz_tar
    $(basename $0) xz_git
    $(basename $0) rs_local_pi
@@ -260,28 +260,35 @@ Usage:
    $(basename $0) reclone
 
 Command: 
-        pull          - получение изменений с сервера;
-        push          - отправка изменений на сервер;
-        pullsh        - получение и отправка изменений;
-        add           - добавление изменений;
-        commit        - фиксация изменений;
-        all           - получение изменений с сервера, добавление изменений,
-                        фиксация изменений, отправка изменений на сервер;
-           Удаление и повторное добавление удаленного репозитория:
-        readd_pp      - pp;
-        readd_pz      - pz;
-        readd_pi      - pi;
-        readd_or      - or;
-           Удаление удаленного репозитория:
-        rm_pp         -  pp;
-        rm_pz         -  pz;
-        rm_pi         -  pi;
-        rm_or         -  or;
-           Клонирование дерева репозиториев:
-        clone_pp      - в размещение pp;
-        clone_pz      - в размещение pz;
-        clone_pi      - в размещение pi;
-        clone_or      - в размещение or;
+    pull          - получение изменений с сервера;
+    push          - отправка изменений на сервер;
+    pullsh        - получение и отправка изменений;
+    add           - добавление изменений;
+    commit        - фиксация изменений;
+    all           - получение изменений с сервера, добавление изменений,
+                    фиксация изменений, отправка изменений на сервер;
+        Удаление и повторное добавление удаленного репозитория:
+    readd_pp      - pp;
+    readd_pz      - pz;
+    readd_pi      - pi;
+    readd_or      - or;
+       Удаление удаленного репозитория:
+    rm_pp         -  pp;
+    rm_pz         -  pz;
+    rm_pi         -  pi;
+    rm_or         -  or;
+       Клонирование дерева репозиториев:
+    clone_pp      - в размещение pp;
+    clone_pz      - в размещение pz;
+    clone_pi      - в размещение pi;
+    clone_or      - в размещение or;
+
+    remake_xz_pp_tar - создает архив ${REPO_XZ_PP_TAR} из файлов 
+        с расширением .git.tar.xz, находящихся в каталоге 
+        ${REPO_XZ_PP_URL}, и перемещает его в каталог ${PUB_HTML_CLP_ARH};
+    remake_xz_pz_tar - создает архив ${REPO_XZ_PZ_TAR} из файлов 
+        с расширением .git.tar.xz, находящихся в каталоге 
+        ${REPO_XZ_PZ_URL}, и перемещает его в каталог ${PUB_HTML_CLP_ARH};
 
 Описание:
 
