@@ -224,7 +224,6 @@ remake_xz_pp_tar ()
     mv -f ${REPO_XZ_PP_TAR} ${PUB_HTML_CLP_ARH}
 }
 
-func_clp_xz_pz_public remake_xz_pz_tar
 remake_xz_pz_tar ()
 {
     # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
