@@ -78,16 +78,16 @@ check_dir_xz_pz ()
 }
 
 ####################################################################################################
-#### For remake-git-pp
+#### remove_git
 ####################################################################################################
 
-func_remove_git_pp ()
+remove_git_pp ()
 {
     echo "<<< rm -rf $REPO_GIT_PP_URL/*.git >>>"    
     rm -rf $REPO_GIT_PP_URL/*.git
 }
 
-func_remove_git_pz ()
+remove_git_pz ()
 {
     echo "<<< rm -rf $REPO_GIT_PZ_URL/*.git >>>"
     rm -rf $REPO_GIT_PZ_URL/*.git
@@ -104,10 +104,10 @@ remove_xz_pz ()
 }
 
 ####################################################################################################
-#### remake-git 
+#### make_git 
 ####################################################################################################
 
-func_remake_git_pp ()
+make_git_pp ()
 {
     CDIR=`pwd`
     for i in `find . -name "*.git"`
@@ -129,7 +129,7 @@ func_remake_git_pp ()
     done
 }
 
-func_remake_git_pz ()
+make_git_pz ()
 {
     CDIR=`pwd`
     for i in `find . -name "*.git"`
@@ -189,22 +189,40 @@ remake_xz_pz ()
 ####
 ####################################################################################################
 
-func_remake_git_pp_all ()
+remake_git_pp ()
 {
     # Выполняет пересоздание каталога ~/git, наполняя его чистыми
     # репозиториями. Поиск репозиротиев ведется в каталогах:
     # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 
-    func_remove_git_pp
+    remove_git_pp
     
     cd ${HOME}/quicklisp/local-projects/
-    func_remake_git_pp
+    make_git_pp
 
     cd ${HOME}/develop/
-    func_remake_git_pp
+    make_git_pp
 
     cd ${HOME}/elisp/
-    func_remake_git_pp
+    make_git_pp
+}
+
+remake_git_pz ()
+{
+    # Выполняет пересоздание каталога ~/git, наполняя его чистыми
+    # репозиториями. Поиск репозиротиев ведется в каталогах:
+    # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
+
+    remove_git_pz
+    
+    cd ${HOME}/quicklisp/local-projects/
+    make_git_pz
+
+    cd ${HOME}/develop/
+    make_git_pz
+
+    cd ${HOME}/elisp/
+    make_git_pz
 }
 
 ####################################################################################################
@@ -247,12 +265,8 @@ Usage:
    $(basename $0) quicklisp
    $(basename $0) pacman
    $(basename $0) dot_emacs_d
-   $(basename $0) remake_git_pp
-   $(basename $0) remake_git_pz - недоопределена
    $(basename $0) remake_xz_pp
    $(basename $0) remake_xz_pz
-   $(basename $0) remake_xz_pp_tar 
-   $(basename $0) remake_xz_pz_tar
    $(basename $0) xz_git
    $(basename $0) rs_local_pi
    $(basename $0) rs_pi_local
@@ -283,10 +297,15 @@ Command:
     clone_pi      - в размещение pi;
     clone_or      - в размещение or;
 
+    remake_git_pp -
+
+    remake_git_pz -
+
     remake_xz_pp_tar - создает архив ${REPO_XZ_PP_TAR} из файлов 
         с расширением .git.tar.xz, находящихся в каталоге 
         ${REPO_XZ_PP_URL}, и перемещает его в каталог 
         ${PUB_HTML_CLP_ARH};
+
     remake_xz_pz_tar - создает архив ${REPO_XZ_PZ_TAR} из файлов 
         с расширением .git.tar.xz, находящихся в каталоге 
         ${REPO_XZ_PZ_URL}, и перемещает его в каталог 
@@ -762,8 +781,10 @@ func_git_tree ()
 	    func_rs_dot_emacs_d_public
 	elif [[ ${COMMAND} == "remake_git_pp" ]]
 	then
-	    func_remake_git_pp_all
-	    
+	    remake_git_pp
+        elif [[ ${COMMAND} == "remake_git_pz" ]]
+	then
+	    remake_git_pz
 	elif [[ ${COMMAND} == "remake_xz_pp" ]]
 	then
 	    remake_xz_pp
