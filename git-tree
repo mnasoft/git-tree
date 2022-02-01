@@ -262,7 +262,7 @@ remake_xz_pz_tar ()
 GIT_TREE_USAGE="
 Usage: 
    $(basename $0) COMMAND [BRANCH]
-   $(basename $0) quicklisp
+
    $(basename $0) pacman
    $(basename $0) dot_emacs_d
    $(basename $0) xz_git
@@ -295,8 +295,8 @@ Command:
     clone_pi      - в размещение pi;
     clone_or      - в размещение or;
 
-        Создает чистые репозитории git, выполняя проход по дереву
-        каталогов в каталоге:
+       Создает чистые репозитории git, выполняя проход по дереву
+       каталогов в каталоге:
     make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
     make_git_pz - $REPO_GIT_PZ_URL для удаленного репозитория pz;
 
@@ -334,8 +334,10 @@ Command:
         ${REPO_XZ_PZ_URL}, и перемещает его в каталог 
         ${PUB_HTML_CLP_ARH};
 
-Описание:
+    quicklisp - создает в каталоге ${PUB_HTML_CLP_ARH} файл quicklisp.tar.xz,
+        содержащий данные для обновления quicklisp.
 
+Описание:
          Выполняет поиск репозиториев git, начиная с текущего
          каталога. Для каздого из, найденных репозиториев выполняет
          команду COMMAND для всех удаленных репозиториев.
