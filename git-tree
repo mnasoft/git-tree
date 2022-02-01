@@ -295,9 +295,24 @@ Command:
     clone_pi      - в размещение pi;
     clone_or      - в размещение or;
 
-    remake_git_pp -
+        Создает чистые репозитории git, выполняя проход по дереву
+        каталогов в каталоге:
+    make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
+    make_git_pz - $REPO_GIT_PP_URL для удаленного репозитория pz;
 
-    remake_git_pz -
+    remake_git_pp - удаляет и создает повтроно в каталоге
+        $REPO_GIT_PP_URL чистые репозитории git, 
+        находящиеся в каталогах:
+        - ${HOME}/quicklisp/local-projects/;
+        - ${HOME}/develop/;
+        - ${HOME}/elisp/;
+
+    remake_git_pz - удаляет и создает повтроно в каталоге
+        $REPO_GIT_PZ_URL чистые репозитории git, 
+        находящиеся в каталогах:
+        - ${HOME}/quicklisp/local-projects/;
+        - ${HOME}/develop/;
+        - ${HOME}/elisp/;
 
     remake_xz_pp - удаляет и повторно создает в каталоге
         $REPO_XZ_PP_URL 
@@ -824,6 +839,12 @@ func_git_tree ()
 	elif [[ ${COMMAND} == "reclone" ]]
 	then
             func_reclone
+	elif [[ ${COMMAND} == "make_git_pp" ]]
+	then
+            make_git_pp
+	elif [[ ${COMMAND} == "make_git_pz" ]]
+	then
+            make_git_pz
         else
             echo "Unknown command: ${COMMAND}"
             func_git_tree_usage_show
