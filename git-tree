@@ -298,7 +298,7 @@ Command:
         Создает чистые репозитории git, выполняя проход по дереву
         каталогов в каталоге:
     make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
-    make_git_pz - $REPO_GIT_PP_URL для удаленного репозитория pz;
+    make_git_pz - $REPO_GIT_PZ_URL для удаленного репозитория pz;
 
     remake_git_pp - удаляет и создает повтроно в каталоге
         $REPO_GIT_PP_URL чистые репозитории git, 
