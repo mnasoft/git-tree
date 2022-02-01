@@ -265,8 +265,6 @@ Usage:
    $(basename $0) quicklisp
    $(basename $0) pacman
    $(basename $0) dot_emacs_d
-   $(basename $0) remake_xz_pp
-   $(basename $0) remake_xz_pz
    $(basename $0) xz_git
    $(basename $0) rs_local_pi
    $(basename $0) rs_pi_local
@@ -300,6 +298,16 @@ Command:
     remake_git_pp -
 
     remake_git_pz -
+
+    remake_xz_pp - удаляет и повторно создает в каталоге
+        $REPO_XZ_PP_URL 
+        архивы .tar.xz репозиториев git, находящихся в каталоге 
+        $REPO_GIT_PP_URL;
+
+    remake_xz_pz - удаляет и повторно создает в каталоге
+        $REPO_XZ_PZ_URL 
+        архивы .tar.xz репозиториев git, находящихся в каталоге 
+        $REPO_GIT_PZ_URL;
 
     remake_xz_pp_tar - создает архив ${REPO_XZ_PP_TAR} из файлов 
         с расширением .git.tar.xz, находящихся в каталоге 
