@@ -260,92 +260,114 @@ remake_xz_pz_tar ()
 ####################################################################################################
 
 GIT_TREE_USAGE="
-Usage: 
-   $(basename $0) COMMAND [BRANCH]
+NAME
 
-   $(basename $0) pacman
-   $(basename $0) dot_emacs_d
-   $(basename $0) xz_git
-   $(basename $0) rs_local_pi
-   $(basename $0) rs_pi_local
-   $(basename $0) rs_pi_html
-   $(basename $0) reclone
-   $(basename $0) add_aliases
+        $(basename $0) выполняет однотипные над репозиториями git,
+            расположенными в дереве каталогов
 
-Command: 
-    pull          - получение изменений с сервера;
-    push          - отправка изменений на сервер;
-    pullsh        - получение и отправка изменений;
-    add           - добавление изменений;
-    commit        - фиксация изменений;
-    all           - получение изменений с сервера, добавление изменений,
+SYNOPSIS
+        $(basename $0) [ pull | push | pullsh | all [<branch>]] 
+                       | [commit | add]
+                       | [readd_pp | readd_pz | readd_pi | readd_or] 
+                       | [rm_pp | rm_pz | rm_pi | rm_or] 
+                       | [clone_pp | clone_pz | clone_pi | clone_or ] 
+                       | [make_git_pp | make_git_pz] 
+
+        $(basename $0) [remake_git_pp | remake_git_pz] 
+                       | [remake_xz_pp_tar | remake_xz_pz_tar] 
+                       | [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases]
+                       | [xz_git] 
+                       | [rs_local_pi | rs_pi_local | rs_pi_html]
+                       | [reclone]
+
+DESCRIPTION
+    Форма 1:
+        Выполняет поиск репозиториев git, начиная с текущего
+        каталога. Для каждого найденного репозитория git выполняет
+        соответствующую команду.
+    Форма 2:
+        Выполняет сооветствующую команду.
+
+OPTIONS 
+        <branch> задает ветку, получаемую|отправляемую на удаленные
+            сервера. Если не указана операция выполняется с текущей
+            веткой.
+
+COMMANDS
+        pull      - получение изменений с сервера;
+        push      - отправка изменений на сервер;
+        pullsh    - получение и отправка изменений;
+        add       - добавление изменений;
+        commit    - фиксация изменений;
+        all       - получение изменений с сервера, добавление изменений,
                     фиксация изменений, отправка изменений на сервер;
-        Удаление и повторное добавление удаленного репозитория:
-    readd_pp      - pp;
-    readd_pz      - pz;
-    readd_pi      - pi;
-    readd_or      - or;
-       Удаление удаленного репозитория:
-    rm_pp         -  pp;
-    rm_pz         -  pz;
-    rm_pi         -  pi;
-    rm_or         -  or;
-       Клонирование дерева репозиториев:
-    clone_pp      - в размещение pp;
-    clone_pz      - в размещение pz;
-    clone_pi      - в размещение pi;
-    clone_or      - в размещение or;
 
-       Создает чистые репозитории git, выполняя проход по дереву
-       каталогов в каталоге:
-    make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
-    make_git_pz - $REPO_GIT_PZ_URL для удаленного репозитория pz;
+    Удаление и повторное добавление удаленного репозитория:
+        readd_pp      - pp;
+        readd_pz      - pz;
+        readd_pi      - pi;
+        readd_or      - or;
 
-    remake_git_pp - удаляет и создает повтроно в каталоге
-        $REPO_GIT_PP_URL чистые репозитории git, 
-        находящиеся в каталогах:
-        - ${HOME}/quicklisp/local-projects/;
-        - ${HOME}/develop/;
-        - ${HOME}/elisp/;
+    Удаление удаленного репозитория:
+        rm_pp         -  pp;
+        rm_pz         -  pz;
+        rm_pi         -  pi;
+        rm_or         -  or;
 
-    remake_git_pz - удаляет и создает повтроно в каталоге
-        $REPO_GIT_PZ_URL чистые репозитории git, 
-        находящиеся в каталогах:
-        - ${HOME}/quicklisp/local-projects/;
-        - ${HOME}/develop/;
-        - ${HOME}/elisp/;
+   Клонирование дерева репозиториев:
+        clone_pp      - в размещение pp;
+        clone_pz      - в размещение pz;
+        clone_pi      - в размещение pi;
+        clone_or      - в размещение or;
 
-    remake_xz_pp - удаляет и повторно создает в каталоге
-        $REPO_XZ_PP_URL 
-        архивы .tar.xz репозиториев git, находящихся в каталоге 
-        $REPO_GIT_PP_URL;
+   Создание чистых репозиториев git:
+        make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
+        make_git_pz - $REPO_GIT_PZ_URL для удаленного репозитория pz;
 
-    remake_xz_pz - удаляет и повторно создает в каталоге
-        $REPO_XZ_PZ_URL 
-        архивы .tar.xz репозиториев git, находящихся в каталоге 
-        $REPO_GIT_PZ_URL;
+        remake_git_pp - удаляет и создает повтроно в каталоге
+            $REPO_GIT_PP_URL чистые репозитории git, находящиеся в
+            каталогах:
+            - ${HOME}/quicklisp/local-projects/;
+            - ${HOME}/develop/;
+            - ${HOME}/elisp/;
 
-    remake_xz_pp_tar - создает архив ${REPO_XZ_PP_TAR} из файлов 
-        с расширением .git.tar.xz, находящихся в каталоге 
-        ${REPO_XZ_PP_URL}, и перемещает его в каталог 
-        ${PUB_HTML_CLP_ARH};
+        remake_git_pz - удаляет и создает повтроно в каталоге
+            $REPO_GIT_PZ_URL чистые репозитории git, 
+            находящиеся в каталогах:
+            - ${HOME}/quicklisp/local-projects/;
+            - ${HOME}/develop/;
+            - ${HOME}/elisp/;
 
-    remake_xz_pz_tar - создает архив ${REPO_XZ_PZ_TAR} из файлов 
-        с расширением .git.tar.xz, находящихся в каталоге 
-        ${REPO_XZ_PZ_URL}, и перемещает его в каталог 
-        ${PUB_HTML_CLP_ARH};
-
-    quicklisp - создает в каталоге ${PUB_HTML_CLP_ARH} файл quicklisp.tar.xz,
-        содержащий данные для обновления quicklisp.
-
-Описание:
-         Выполняет поиск репозиториев git, начиная с текущего
-         каталога. Для каздого из, найденных репозиториев выполняет
-         команду COMMAND для всех удаленных репозиториев.
-
-         Необязательный параметр BRANCH задает ветку,
-         получаемую|отправляемую на удаленные сервера. Если он не
-         задан синхронизируется текущая ветка.
+        remake_xz_pp - удаляет и повторно создает в каталоге
+            $REPO_XZ_PP_URL 
+            архивы .tar.xz репозиториев git, находящихся в каталоге 
+            $REPO_GIT_PP_URL;
+    
+        remake_xz_pz - удаляет и повторно создает в каталоге
+            $REPO_XZ_PZ_URL 
+            архивы .tar.xz репозиториев git, находящихся в каталоге 
+            $REPO_GIT_PZ_URL;
+    
+        remake_xz_pp_tar - создает архив ${REPO_XZ_PP_TAR} из файлов 
+            с расширением .git.tar.xz, находящихся в каталоге 
+            ${REPO_XZ_PP_URL}, и перемещает его в каталог 
+            ${PUB_HTML_CLP_ARH};
+    
+        remake_xz_pz_tar - создает архив ${REPO_XZ_PZ_TAR} из файлов 
+            с расширением .git.tar.xz, находящихся в каталоге 
+            ${REPO_XZ_PZ_URL}, и перемещает его в каталог 
+            ${PUB_HTML_CLP_ARH};
+    
+        quicklisp - создает в каталоге ${PUB_HTML_CLP_ARH} файл quicklisp.tar.xz,
+            содержащий данные для обновления quicklisp;
+    
+        pacman - копирует в какалог ${PUB_HTML_CLP_ARH} пакетов и файлов
+            синхронизации, необходимях для обновления msys2;
+    
+        dot_emacs_d - копирует в какалог ${PUB_HTML_CLP_ARH} файлов из
+             каталога .emacs.d;
+    
+        add_aliases - добавляет аббревиатуры для запуска команд git.
 "
 
 func_git_tree_usage_show ()
@@ -767,6 +789,7 @@ add_aliases ()
     git config --global alias.st status
     git config --global alias.visual '!gitk'
     git config --global alias.tree '!git-tree'
+    git config --global core.editor emacs
 }
 
 ####################################################################################################
