@@ -302,7 +302,7 @@ SYNOPSIS
         $(basename $0) [remake_git_pp | remake_git_pz] 
                        | [remake_xz_pp_tar | remake_xz_pz_tar] 
                        | [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases]
-                       | [xz_git] 
+                       | [xz_git | xz_pp_git | xz_pz_git]
                        | [rs_local_pi | rs_pi_local | rs_pi_html]
                        | [reclone]
 
@@ -340,13 +340,13 @@ COMMANDS
         rm_pi         -  pi;
         rm_or         -  or;
 
-   Клонирование дерева репозиториев:
+    Клонирование дерева репозиториев:
         clone_pp      - в размещение pp;
         clone_pz      - в размещение pz;
         clone_pi      - в размещение pi;
         clone_or      - в размещение or;
 
-   Создание чистых репозиториев git:
+    Создание чистых репозиториев git:
         make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
         make_git_pz - $REPO_GIT_PZ_URL для удаленного репозитория pz;
 
@@ -383,6 +383,13 @@ COMMANDS
             с расширением .git.tar.xz, находящихся в каталоге 
             ${REPO_XZ_PZ_URL}, и перемещает его в каталог 
             ${PUB_HTML_CLP_ARH};
+
+
+    Распаковка архивов git.tar.xz в каталоги с чистыми репозиториями
+    для расположения:
+        xz_pp_git - pp;
+        xz_pz_git - pz;
+        xz_git - pp и pp;
     
         quicklisp - создает в каталоге ${PUB_HTML_CLP_ARH} файл quicklisp.tar.xz,
             содержащий данные для обновления quicklisp;
@@ -794,10 +801,10 @@ rm_rf_git ()
     rm -rf *.git
 }
 
-func_xz_git ()
+xz_pp_git ()
 {
     # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
-    # каталоги с чистыми репозиториями для pp и pz расположений.
+    # каталоги с чистыми репозиториями для pp расположения.
     
     check_dir_git_pp
     cd_git_pp_url ()
@@ -807,7 +814,13 @@ func_xz_git ()
     for i in `ls ${REPO_XZ_PP_URL}/*.git.tar.xz`
     do tar -xvf $i
     done
+}
 
+xz_pz_git ()
+{
+    # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
+    # каталоги с чистыми репозиториями для pz расположения.
+    
     check_dir_git_pz
     cd_git_pz_url
     if [[ `pwd` == "$REPO_GIT_PZ_URL" ]]
@@ -816,6 +829,14 @@ func_xz_git ()
     for i in `ls ${REPO_XZ_PZ_URL}/*.git.tar.xz`
     do tar -xvf $i
     done
+}
+
+xz_git ()
+{
+    # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
+    # каталоги с чистыми репозиториями для pp и pz расположений.
+    xz_pp_git
+    xz_pz_git
 }
 
 func_reclone ()
@@ -927,9 +948,15 @@ func_git_tree ()
 	elif [[ ${COMMAND} == "remake_xz_pz_tar" ]]
 	then
 	    remake_xz_pz_tar
-	elif [[ ${COMMAND} == "xz_git" ]]
+        elif [[ ${COMMAND} == "xz_git" ]]
 	then
-	    func_xz_git
+	    xz_git
+	elif [[ ${COMMAND} == "xz_pp_git" ]]
+	then
+	    xz_pp_git
+        elif [[ ${COMMAND} == "xz_pz_git" ]]
+	then
+	    xz_pz_git
 	elif [[ ${COMMAND} == "rs_local_pi" ]]
 	then
 	    # Выполняет синхронизацию папки ~/public_html/ с
