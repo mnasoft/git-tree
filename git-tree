@@ -807,7 +807,7 @@ xz_pp_git ()
     # каталоги с чистыми репозиториями для pp расположения.
     
     check_dir_git_pp
-    cd_git_pp_url ()
+    cd_git_pp_url
     if [[ `pwd` == "$REPO_GIT_PP_URL" ]]
     then rm_rf_git
     fi
