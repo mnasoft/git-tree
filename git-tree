@@ -229,7 +229,6 @@ remake_git_pz ()
     echo "<<< cd ${HOME}/quicklisp/local-projects/ >>>"
     cd ${HOME}/quicklisp/local-projects/
     
-    cd ${HOME}/quicklisp/local-projects/
     make_git_pz
 
     echo "<<< cd ${HOME}/develop/ >>>"
