@@ -967,7 +967,7 @@ func_git_tree ()
                   ${COMMAND} == "readd_pz"  || \
                   ${COMMAND} == "readd_pi"  || \
                   ${COMMAND} == "readd_or"  || \
-                  ${COMMAND} == "readd_pb"  || \                  
+                  ${COMMAND} == "readd_pb"  || \
                   ${COMMAND} == "rm_pp"     || \
                   ${COMMAND} == "rm_pz"     || \
                   ${COMMAND} == "rm_pi"     || \
