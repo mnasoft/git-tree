@@ -4,11 +4,13 @@ REPO_NAME_PP="pp"
 REPO_NAME_PZ="pz"
 REPO_NAME_PI="pi"
 REPO_NAME_OR="origin"
+REPO_NAME_PB="pb"
 # 
 REPO_GIT_PP_URL="$HOME/git"
 REPO_GIT_PZ_URL="$HOME/git-big"
 REPO_GIT_PI_URL="git@mnasoft.ddns.mksat.net:/opt/git"
 REPO_GIT_OR_URL="//n000325/home/_namatv/_git"
+REPO_GIT_PB_URL="//n133905/home/_namatv/git_pb"
 # 
 REPO_XZ_PP_URL="$HOME/xz"
 REPO_XZ_PZ_URL="$HOME/xz-big"
@@ -294,9 +296,9 @@ NAME
 SYNOPSIS
         $(basename $0) [ pull | push | pullsh | all [<branch>]] 
                        | [commit | add]
-                       | [readd_pp | readd_pz | readd_pi | readd_or] 
-                       | [rm_pp | rm_pz | rm_pi | rm_or] 
-                       | [clone_pp | clone_pz | clone_pi | clone_or ] 
+                       | [readd_pp | readd_pz | readd_pi | readd_or | readd_pb] 
+                       | [rm_pp | rm_pz | rm_pi | rm_or | rm_pb] 
+                       | [clone_pp | clone_pz | clone_pi | clone_or | clone_pb] 
                        | [make_git_pp | make_git_pz] 
 
         $(basename $0) [remake_git_pp | remake_git_pz] 
@@ -333,18 +335,21 @@ COMMANDS
         readd_pz      - pz;
         readd_pi      - pi;
         readd_or      - or;
+        readd_pb      - pb;
 
     Удаление удаленного репозитория:
         rm_pp         -  pp;
         rm_pz         -  pz;
         rm_pi         -  pi;
         rm_or         -  or;
+        rm_pb         -  pb;
 
     Клонирование дерева репозиториев:
         clone_pp      - в размещение pp;
         clone_pz      - в размещение pz;
         clone_pi      - в размещение pi;
         clone_or      - в размещение or;
+        clone_pb      - в размещение pb;
 
     Создание чистых репозиториев git:
         make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
@@ -509,6 +514,22 @@ func_git_tree_readd_or ()
     echo_short
 }
 
+func_git_tree_readd_pb ()
+{
+    echo_short
+    
+    echo "<<< git remote remove ${REPO_NAME_PB} >>>"
+    git remote remove ${REPO_NAME_PB}
+    
+    DIR_REPO=`pwd`
+    REPO=`basename ${DIR_REPO}`
+    
+    echo "<<< git remote add ${REPO_NAME_PB} ${REPO_GIT_PB_URL}/${REPO}.git >>>"
+    git remote add ${REPO_NAME_PB} ${REPO_GIT_PB_URL}/${REPO}.git
+    
+    echo_short
+}
+
 func_git_rm_pp ()
 {
     echo_short
@@ -538,6 +559,14 @@ func_git_rm_or ()
     echo_short
     echo "<<< git remote remove ${REPO_NAME_OR} >>>"
     git remote remove ${REPO_NAME_OR}
+    echo_short
+}
+
+func_git_rm_pb ()
+{
+    echo_short
+    echo "<<< git remote remove ${REPO_NAME_PB} >>>"
+    git remote remove ${REPO_NAME_PB}
     echo_short
 }
 
@@ -585,6 +614,18 @@ func_git_clone_or ()
         BNAME=`basename $NAME`
         echo "<<< git clone --bare . ${REPO_GIT_OR_URL}/${BNAME}.git >>>"
         git           clone --bare . ${REPO_GIT_OR_URL}/${BNAME}.git
+    fi
+    echo_short
+}
+
+func_git_clone_pb ()
+{
+    if [[ `git remote | grep origin` ]]
+    then
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo "<<< git clone --bare . ${REPO_GIT_PB_URL}/${BNAME}.git >>>"
+        git           clone --bare . ${REPO_GIT_PB_URL}/${BNAME}.git
     fi
     echo_short
 }
@@ -674,6 +715,12 @@ func_git_tree_command_branch ()
     then
         func_git_tree_readd_or
     fi
+# readd_pb      - удаление и повторное добавление удаленного
+#                 репозитория origin;
+    if [[ ${COMMAND} == "readd_pb" ]]
+    then
+        func_git_tree_readd_pb
+    fi    
 # rm_pp         - удаление удаленного репозитория pp;
     if [[ ${COMMAND} == "rm_pp" ]]
     then
@@ -693,6 +740,11 @@ if [[ ${COMMAND} == "rm_pi" ]]
     if [[ ${COMMAND} == "rm_or" ]]
     then
         func_git_rm_or
+    fi
+# rm_pb         - удаление удаленного репозитория origin;
+    if [[ ${COMMAND} == "rm_pb" ]]
+    then
+        func_git_rm_pb
     fi
 # clone_pp - клонирование дерева репозиториев в расположение pp;    
     if [[ ${COMMAND} == "clone_pp" ]]
@@ -714,6 +766,11 @@ if [[ ${COMMAND} == "rm_pi" ]]
     then
         func_git_clone_or
     fi
+# clone_pb - клонирование дерева репозиториев в расположение origin;    
+    if [[ ${COMMAND} == "clone_pb" ]]
+    then
+        func_git_clone_pb
+    fi    
 }
 
 func_git_tree_command ()
@@ -910,14 +967,17 @@ func_git_tree ()
                   ${COMMAND} == "readd_pz"  || \
                   ${COMMAND} == "readd_pi"  || \
                   ${COMMAND} == "readd_or"  || \
+                  ${COMMAND} == "readd_pb"  || \                  
                   ${COMMAND} == "rm_pp"     || \
                   ${COMMAND} == "rm_pz"     || \
                   ${COMMAND} == "rm_pi"     || \
                   ${COMMAND} == "rm_or"     || \
+                  ${COMMAND} == "rm_pb"     || \
                   ${COMMAND} == "clone_pp"  || \
                   ${COMMAND} == "clone_pz"  || \
                   ${COMMAND} == "clone_pi"  || \
-                  ${COMMAND} == "clone_or" ]]
+                  ${COMMAND} == "clone_or"  || \
+                  ${COMMAND} == "clone_pb" ]]
 	   
         then
             func_git_tree_command
