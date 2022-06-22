@@ -620,7 +620,7 @@ func_git_clone_or ()
 
 func_git_clone_pb ()
 {
-    if [[ `git remote | grep origin` ]]
+    if [[ `git remote | grep pb` ]]
     then
         NAME=`pwd`
         BNAME=`basename $NAME`
@@ -759,14 +759,14 @@ if [[ ${COMMAND} == "rm_pi" ]]
 # clone_pi - клонирование дерева репозиториев в расположение pi;     
     if [[ ${COMMAND} == "clone_pi" ]]
     then
-        func_git_clone_pp
+        func_git_clone_pi
     fi
 # clone_or - клонирование дерева репозиториев в расположение origin;    
     if [[ ${COMMAND} == "clone_or" ]]
     then
         func_git_clone_or
     fi
-# clone_pb - клонирование дерева репозиториев в расположение origin;    
+# clone_pb - клонирование дерева репозиториев в расположение pb;
     if [[ ${COMMAND} == "clone_pb" ]]
     then
         func_git_clone_pb
@@ -978,7 +978,6 @@ func_git_tree ()
                   ${COMMAND} == "clone_pi"  || \
                   ${COMMAND} == "clone_or"  || \
                   ${COMMAND} == "clone_pb" ]]
-	   
         then
             func_git_tree_command
 	elif [[ ${COMMAND} == "quicklisp" ]]
