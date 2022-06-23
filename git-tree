@@ -15,13 +15,14 @@ REPO_GIT_URL_pb="//n133905/home/_namatv/git_pb"
 REPO_XZ_URL_pp="$HOME/xz"
 REPO_XZ_URL_pz="$HOME/xz-big"
 # 
-REPO_XZ_PP_TAR="xz.tar"
-REPO_XZ_PZ_TAR="xz-big.tar"
+REPO_XZ_TAR_pp="xz.tar"
+REPO_XZ_TAR_pz="xz-big.tar"
 #
 PUB_HTML_CLP_ARH="$HOME/public_html/Common-Lisp-Programs/Archive"
 #
 VAR_CACHE_PACMAN="/var/cache/pacman"
 VAR_LIB_PACMAN="/var/lib/pacman"
+#   remake_git
 
 echo_short ()
 {
@@ -55,69 +56,43 @@ check_dir_public_html_clp_arch ()
     mkdir -p ${PUB_HTML_CLP_ARH}
 }
 
-check_dir_git_pp ()
+check_dir_git ()
 {
-    echo "<<< mkdir -p ${REPO_GIT_URL_pp} >>>"
-    mkdir -p ${REPO_GIT_URL_pp}
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    echo "<<< mkdir -p ${!REPO_GIT_URL} >>>"
+    mkdir -p ${!REPO_GIT_URL}
 }
 
-check_dir_git_pz ()
+check_dir_xz ()
 {
-    echo "<<< mkdir -p ${REPO_GIT_URL_pz} >>>"
-    mkdir -p ${REPO_GIT_URL_pz}
+    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
+    echo "<<< mkdir -p ${!REPO_XZ_URL} >>>"    
+    mkdir -p ${!REPO_XZ_URL}
 }
 
-check_dir_xz_pp ()
+rm_git ()
 {
-    echo "<<< mkdir -p ${REPO_XZ_URL_pp} >>>"    
-    mkdir -p ${REPO_XZ_URL_pp}
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    echo "<<< rm -rf ${!REPO_GIT_URL}/*.git >>>"    
+    rm -rf ${!REPO_GIT_URL}/*.git
 }
 
-check_dir_xz_pz ()
+remove_xz ()
 {
-    echo "<<< mkdir -p ${REPO_XZ_URL_pz} >>>"
-    mkdir -p ${REPO_XZ_URL_pz}
+    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
+    echo "<<< rm -f ${!REPO_XZ_URL}/*.git.tar.xz >>>"
+    rm -f ${!REPO_XZ_URL}/*.git.tar.xz
 }
 
-####################################################################################################
-#### remove_git
-####################################################################################################
-
-rm_git_pp ()
-{
-    echo "<<< rm -rf $REPO_GIT_URL_pp/*.git >>>"    
-    rm -rf $REPO_GIT_URL_pp/*.git
-}
-
-rm_git_pz ()
-{
-    echo "<<< rm -rf $REPO_GIT_URL_pz/*.git >>>"
-    rm -rf $REPO_GIT_URL_pz/*.git
-}
-
-remove_xz_pp ()
-{
-    echo "<<< rm -f $REPO_XZ_URL_pp/*.git.tar.xz >>>"
-    rm -f $REPO_XZ_URL_pp/*.git.tar.xz
-}
-
-remove_xz_pz ()
-{
-    echo "<<< rm -f $REPO_XZ_URL_pz/*.git.tar.xz >>>"
-    rm -f $REPO_XZ_URL_pz/*.git.tar.xz
-}
-
-####################################################################################################
-#### make_git 
-####################################################################################################
-
-make_git_pp ()
+make_git ()
 {
     CDIR=`pwd`
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    
     for i in `find . -name "*.git"`
     do
         cd $i/..
-        if [[ `git remote | grep pp` ]]
+        if [[ `git remote | grep ${BRANCH}` ]]
         then
             NAME=`pwd`
             BNAME=`basename $NAME`
@@ -125,8 +100,8 @@ make_git_pp ()
             echo $NAME
             echo $BNAME
             cd ..
-            echo "<<< git clone --bare $BNAME $REPO_GIT_URL_pp/$BNAME.git >>>"
-            git clone --bare $BNAME $REPO_GIT_URL_pp/$BNAME.git
+            echo "<<< git clone --bare $BNAME ${!REPO_GIT_URL}/$BNAME.git >>>"
+            git clone --bare $BNAME ${!REPO_GIT_URL}/$BNAME.git
         else
             cd ..
         fi
@@ -134,38 +109,12 @@ make_git_pp ()
     done
 }
 
-make_git_pz ()
+remake_xz ()
 {
-    CDIR=`pwd`
-    for i in `find . -name "*.git"`
-    do
-        cd $i/..
-        if [[ `git remote | grep pz` ]]
-        then
-            NAME=`pwd`
-            BNAME=`basename $NAME`
-            echo $i
-            echo $NAME
-            echo $BNAME
-            cd ..
-            echo "<<< git clone --bare $BNAME $REPO_GIT_URL_pz/$BNAME.git >>>"
-            git clone --bare $BNAME $REPO_GIT_URL_pz/$BNAME.git
-        else
-            cd ..
-        fi
-        cd $CDIR
-    done
-}
-
-####################################################################################################
-#### remake-xz 
-####################################################################################################
-
-remake_xz_pp ()
-{
-    remove_xz_pp
-    check_dir_xz_pp
-    cd $REPO_GIT_URL_pp
+    remove_xz
+    check_dir_xz
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    cd ${!REPO_GIT_URL}
     for i in `find . -name "*.git"`
     do
         BNAME=`basename $i`
@@ -173,114 +122,54 @@ remake_xz_pp ()
         echo $BNAME
         echo "<<< tar -cvvJf $BNAME.tar.xz $BNAME/ >>>"
         tar -cvvJf $BNAME.tar.xz $BNAME/
-        echo "<<< mv $BNAME.tar.xz $REPO_XZ_URL_pp/ >>>"
-        mv $BNAME.tar.xz $REPO_XZ_URL_pp/
+        echo "<<< mv $BNAME.tar.xz ${!REPO_XZ_URL}/ >>>"
+        mv $BNAME.tar.xz ${!REPO_XZ_URL}/
     done
 }
 
-remake_xz_pz ()
-{
-    remove_xz_pz   
-    check_dir_xz_pz
-    cd $REPO_GIT_URL_pz
-    for i in `find . -name "*.git"`
-    do
-        BNAME=`basename $i`
-        echo $i
-        echo $BNAME
-        echo "<<< tar -cvvJf $BNAME.tar.xz $BNAME/ >>>"
-        tar -cvvJf $BNAME.tar.xz $BNAME/
-        echo "<<< mv $BNAME.tar.xz $REPO_XZ_URL_pz/ >>>"
-        mv $BNAME.tar.xz $REPO_XZ_URL_pz/
-    done
-}
-
-####################################################################################################
-####
-####################################################################################################
-
-remake_git_pp ()
+remake_git ()
 {
     # Выполняет пересоздание каталога ~/git, наполняя его чистыми
     # репозиториями. Поиск репозиротиев ведется в каталогах:
     # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 
-    rm_git_pp
+    rm_git
 
     echo "<<< cd ${HOME}/quicklisp/local-projects/ >>>"
     cd ${HOME}/quicklisp/local-projects/
-    make_git_pp
+    make_git
 
     echo "<<< cd ${HOME}/develop/ >>>"
     cd ${HOME}/develop/
-    make_git_pp
+    make_git
 
     echo "<<< cd ${HOME}/elisp/ >>>"
     cd ${HOME}/elisp/
-    make_git_pp
-}
-
-remake_git_pz ()
-{
-    # Выполняет пересоздание каталога ~/git, наполняя его чистыми
-    # репозиториями. Поиск репозиротиев ведется в каталогах:
-    # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
-
-    rm_git_pz
-
-    echo "<<< cd ${HOME}/quicklisp/local-projects/ >>>"
-    cd ${HOME}/quicklisp/local-projects/
-    
-    make_git_pz
-
-    echo "<<< cd ${HOME}/develop/ >>>"
-    cd ${HOME}/develop/
-    
-    make_git_pz
-
-    echo "<<< cd ${HOME}/elisp/ >>>"
-    cd ${HOME}/elisp/
-    make_git_pz
+    make_git
 }
 
 ####################################################################################################
-# remake_tar_xz_pp
+# remake_tar_xz
 ####################################################################################################
 
-remake_tar_xz_pp ()
+remake_tar_xz ()
 {
     # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
     # git.tar.xz
     
     check_dir_public_html_clp_arch
-    remake_xz_pp
+    remake_xz
 
-    echo "<<< cd ${REPO_XZ_URL_pp} >>>"
-    cd ${REPO_XZ_URL_pp}
-    
-    echo "<<< tar -cvvf ${REPO_XZ_PP_TAR} *.git.tar.xz >>>"
-    tar -cvvf ${REPO_XZ_PP_TAR} *.git.tar.xz
-    
-    echo "<<< mv -f ${REPO_XZ_PP_TAR} ${PUB_HTML_CLP_ARH} >>>"
-    mv -f ${REPO_XZ_PP_TAR} ${PUB_HTML_CLP_ARH}
-}
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    echo "<<< cd ${!REPO_XZ_URL} >>>"
+    cd ${!REPO_XZ_URL}
 
-remake_tar_xz_pz ()
-{
-    # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
-    # git.tar.xz
+    REPO_XZ_TAR="REPO_XZ_TAR_${BRANCH}"
+    echo "<<< tar -cvvf ${!REPO_XZ_TAR} *.git.tar.xz >>>"
+    tar -cvvf ${!REPO_XZ_TAR} *.git.tar.xz
     
-    check_dir_public_html_clp_arch
-    remake_xz_pz
-
-    echo "<<< cd ${REPO_XZ_URL_pz} >>>"
-    cd ${REPO_XZ_URL_pz}
-    
-    echo "<<< tar -cvvf ${REPO_XZ_PZ_TAR} *.git.tar.xz >>>"
-    tar -cvvf ${REPO_XZ_PZ_TAR} *.git.tar.xz
-    
-    echo "<<< mv -f ${REPO_XZ_PZ_TAR} ${PUB_HTML_CLP_ARH} >>>"
-    mv -f ${REPO_XZ_PZ_TAR} ${PUB_HTML_CLP_ARH}
+    echo "<<< mv -f ${!REPO_XZ_TAR} ${PUB_HTML_CLP_ARH} >>>"
+    mv -f ${!REPO_XZ_TAR} ${PUB_HTML_CLP_ARH}
 }
 
 ####################################################################################################
@@ -296,15 +185,15 @@ NAME
 SYNOPSIS
         $(basename $0) [ pull | push | pullsh | all [<branch>]] 
                        | [commit | add]
-                       | [readd  [pp | pz | pi | or | pb]]
-                       | [rm     [pp | pz | pi | or | pb]]
-                       | [clone  [pp | pz | pi | or | pb]]
-                       | [make_git_pp | make_git_pz] 
+                       | [readd         [ pp | pz | pi | or | pb]]
+                       | [rm            [ pp | pz | pi | or | pb]]
+                       | [clone         [ pp | pz | pi | or | pb]]
+                       | [make_git      [ pp | pz ]]
+                       | [xz_git        [ pp | pz ]]
+                       | [remake_git    [ pp | pz ]]
+                       | [remake_tar_xz [ pp | pz ]]
 
-        $(basename $0) [ remake_git_pp | remake_git_pz] 
-                       | [remake_tar_xz_pp | remake_tar_xz_pz] 
-                       | [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases]
-                       | [xz_git | xz_pp_git | xz_pz_git]
+        $(basename $0) [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases]
                        | [rs_local_pi | rs_pi_local | rs_pi_html]
                        | [reclone]
 
@@ -340,48 +229,39 @@ COMMANDS
         clone     - в размещение [ pp | pz | pi | or | pb ];
 
     Создание чистых репозиториев git:
-        make_git_pp - $REPO_GIT_URL_pp для удаленного репозитория pp;
-        make_git_pz - $REPO_GIT_URL_pz для удаленного репозитория pz;
+        make_git :
+            $REPO_GIT_URL_pp для расположения pp;
+            $REPO_GIT_URL_pz для расположения pz;
 
-        remake_git_pp - удаляет и создает повтроно в каталоге
-            $REPO_GIT_URL_pp чистые репозитории git, находящиеся в
+        remake_git - удаляет и создает повтроно для: расположения pp в
+            каталоге $REPO_GIT_URL_pp; расположения pz в каталоге
+            $REPO_GIT_URL_pz чистые репозитории git, находящиеся в
             каталогах:
             - ${HOME}/quicklisp/local-projects/;
             - ${HOME}/develop/;
             - ${HOME}/elisp/;
 
-        remake_git_pz - удаляет и создает повтроно в каталоге
-            $REPO_GIT_URL_pz чистые репозитории git, 
-            находящиеся в каталогах:
-            - ${HOME}/quicklisp/local-projects/;
-            - ${HOME}/develop/;
-            - ${HOME}/elisp/;
-
-        remake_xz_pp - удаляет и повторно создает в каталоге
-            $REPO_XZ_URL_pp 
-            архивы .tar.xz репозиториев git, находящихся в каталоге 
-            $REPO_GIT_URL_pp;
-    
-        remake_xz_pz - удаляет и повторно создает в каталоге
+        remake_xz - удаляет и повторно создает:
+            - для расположения pp в каталоге
+            $REPO_XZ_URL_pp
+            - для расположения pz в каталоге
             $REPO_XZ_URL_pz 
             архивы .tar.xz репозиториев git, находящихся в каталоге 
-            $REPO_GIT_URL_pz;
-    
-        remake_tar_xz_pp - создает архив ${REPO_XZ_PP_TAR} из файлов 
-            с расширением .git.tar.xz, находящихся в каталоге 
-            ${REPO_XZ_URL_pp}, и перемещает его в каталог 
-            ${PUB_HTML_CLP_ARH};
-    
-        remake_tar_xz_pz - создает архив ${REPO_XZ_PZ_TAR} из файлов 
-            с расширением .git.tar.xz, находящихся в каталоге 
-            ${REPO_XZ_URL_pz}, и перемещает его в каталог 
-            ${PUB_HTML_CLP_ARH};
+            $REPO_GIT_URL_pp;
+            $REPO_GIT_URL_pz
+            соответственно;
 
+        remake_tar_xz :
+            - для расположения pp создает архив ${REPO_XZ_TAR_pp} из
+              файлов с расширением .git.tar.xz, находящихся в каталоге
+              ${REPO_XZ_URL_pp};
+            - для расположения pz создает архив ${REPO_XZ_TAR_pz} из
+              файлов с расширением .git.tar.xz, находящихся в каталоге
+              ${REPO_XZ_URL_pz}, и перемещает его в каталог
+              ${PUB_HTML_CLP_ARH};
 
     Распаковка архивов git.tar.xz в каталоги с чистыми репозиториями
     для расположения:
-        xz_pp_git - pp;
-        xz_pz_git - pz;
         xz_git - pp и pp;
     
         quicklisp - создает в каталоге ${PUB_HTML_CLP_ARH} файл quicklisp.tar.xz,
@@ -626,16 +506,11 @@ func_rs_dot_emacs_d_public ()
     mv -f dot.emacs.d.tar.xz ${PUB_HTML_CLP_ARH}
 }
 
-cd_git_pp_url ()
+cd_git_url ()
 {
-    echo "<<< cd $REPO_GIT_URL_pp >>>"
-    cd $REPO_GIT_URL_pp
-}
-
-cd_git_pz_url ()
-{
-    echo "<<< cd $REPO_GIT_URL_pz >>>"
-    cd $REPO_GIT_URL_pz
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    echo "<<< cd ${!REPO_GIT_URL} >>>"
+    cd ${!REPO_GIT_URL}
 }
 
 rm_rf_git ()
@@ -644,42 +519,20 @@ rm_rf_git ()
     rm -rf *.git
 }
 
-xz_pp_git ()
+xz_git ()
 {
     # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
     # каталоги с чистыми репозиториями для pp расположения.
     
-    check_dir_git_pp
-    cd_git_pp_url
-    if [[ `pwd` == "$REPO_GIT_URL_pp" ]]
+    check_dir_git
+    cd_git_url
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    if [[ `pwd` == "${!REPO_GIT_URL}" ]]
     then rm_rf_git
     fi
-    for i in `ls ${REPO_XZ_URL_pp}/*.git.tar.xz`
+    for i in `ls ${!REPO_XZ_URL}/*.git.tar.xz`
     do tar -xvf $i
     done
-}
-
-xz_pz_git ()
-{
-    # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
-    # каталоги с чистыми репозиториями для pz расположения.
-    
-    check_dir_git_pz
-    cd_git_pz_url
-    if [[ `pwd` == "$REPO_GIT_URL_pz" ]]
-    then rm_rf_git
-    fi
-    for i in `ls ${REPO_XZ_URL_pz}/*.git.tar.xz`
-    do tar -xvf $i
-    done
-}
-
-xz_git ()
-{
-    # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
-    # каталоги с чистыми репозиториями для pp и pz расположений.
-    xz_pp_git
-    xz_pz_git
 }
 
 func_reclone ()
@@ -763,33 +616,18 @@ func_git_tree ()
 	elif [[ ${COMMAND} == "dot_emacs_d" ]]
 	then
 	    func_rs_dot_emacs_d_public
-	elif [[ ${COMMAND} == "remake_git_pp" ]]
+	elif [[ ${COMMAND} == "remake_git" ]]
 	then
-	    remake_git_pp
-        elif [[ ${COMMAND} == "remake_git_pz" ]]
+	    remake_git
+	elif [[ ${COMMAND} == "remake_xz" ]]
 	then
-	    remake_git_pz
-	elif [[ ${COMMAND} == "remake_xz_pp" ]]
+	    remake_xz
+	elif [[ ${COMMAND} == "remake_tar_xz" ]]
 	then
-	    remake_xz_pp
-	elif [[ ${COMMAND} == "remake_xz_pz" ]]
-	then
-	    remake_xz_pz
-	elif [[ ${COMMAND} == "remake_tar_xz_pp" ]]
-	then
-	    remake_tar_xz_pp
-	elif [[ ${COMMAND} == "remake_tar_xz_pz" ]]
-	then
-	    remake_tar_xz_pz
+	    remake_tar_xz
         elif [[ ${COMMAND} == "xz_git" ]]
 	then
 	    xz_git
-	elif [[ ${COMMAND} == "xz_pp_git" ]]
-	then
-	    xz_pp_git
-        elif [[ ${COMMAND} == "xz_pz_git" ]]
-	then
-	    xz_pz_git
 	elif [[ ${COMMAND} == "rs_local_pi" ]]
 	then
 	    # Выполняет синхронизацию папки ~/public_html/ с
@@ -806,12 +644,9 @@ func_git_tree ()
 	elif [[ ${COMMAND} == "reclone" ]]
 	then
             func_reclone
-	elif [[ ${COMMAND} == "make_git_pp" ]]
+	elif [[ ${COMMAND} == "make_git" ]]
 	then
-            make_git_pp
-	elif [[ ${COMMAND} == "make_git_pz" ]]
-	then
-            make_git_pz
+            make_git
         elif [[ ${COMMAND} == "add_aliases" ]]
 	then
             add_aliases
