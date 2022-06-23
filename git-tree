@@ -298,7 +298,6 @@ SYNOPSIS
                        | [commit | add]
                        | [readd [pp | pz | pi | or | pb]]
                        | [rm [pp | pz | pi | or | pb]]
-                       | [clone_pp | clone_pz | clone_pi | clone_or | clone_pb]
                        | [clone [pp | pz | pi | or | pb]]
                        | [make_git_pp | make_git_pz] 
 
@@ -339,11 +338,6 @@ COMMANDS
 
     Клонирование дерева репозиториев:
         clone         - в размещение [ pp | pz | pi | or | pb ];
-        clone_pp      - в размещение pp;
-        clone_pz      - в размещение pz;
-        clone_pi      - в размещение pi;
-        clone_or      - в размещение or;
-        clone_pb      - в размещение pb;
 
     Создание чистых репозиториев git:
         make_git_pp - $REPO_GIT_URL_pp для удаленного репозитория pp;
@@ -468,6 +462,21 @@ func_git_rm ()
     REPO_NAME="REPO_NAME_${BRANCH}"
     echo "<<< git remote remove ${!REPO_NAME} >>>"
     git remote remove ${!REPO_NAME}
+    echo_short
+}
+
+func_git_clone ()
+{
+    if [[ `git remote | grep ${BRANCH}` ]]
+    then
+        REPO_NAME="REPO_NAME_${BRANCH}"
+        REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+        
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo "<<< git clone --bare . ${!REPO_GIT_URL}/${BNAME}.git >>>"
+        git           clone --bare . ${!REPO_GIT_URL}/${BNAME}.git
+    fi
     echo_short
 }
 
@@ -633,6 +642,11 @@ func_git_tree_command_branch ()
     then
         func_git_rm
     fi
+# clone    - клонирование дерева репозиториев;
+    if [[ ${COMMAND} == "clone" ]]
+    then
+        func_git_clone
+    fi    
 # clone_pp - клонирование дерева репозиториев в расположение pp;    
     if [[ ${COMMAND} == "clone_pp" ]]
     then
@@ -857,6 +871,7 @@ func_git_tree ()
                   ${COMMAND} == "readd_or"  || \
                   ${COMMAND} == "readd_pb"  || \
                   ${COMMAND} == "rm"        || \
+                  ${COMMAND} == "clone"     || \
                   ${COMMAND} == "clone_pp"  || \
                   ${COMMAND} == "clone_pz"  || \
                   ${COMMAND} == "clone_pi"  || \
