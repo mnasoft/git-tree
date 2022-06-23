@@ -1,19 +1,19 @@
 #!/bin/bash
-#
-REPO_NAME_PP="pp"
-REPO_NAME_PZ="pz"
-REPO_NAME_PI="pi"
-REPO_NAME_OR="origin"
-REPO_NAME_PB="pb"
 # 
-REPO_GIT_PP_URL="$HOME/git"
-REPO_GIT_PZ_URL="$HOME/git-big"
-REPO_GIT_PI_URL="git@mnasoft.ddns.mksat.net:/opt/git"
-REPO_GIT_OR_URL="//n000325/home/_namatv/_git"
-REPO_GIT_PB_URL="//n133905/home/_namatv/git_pb"
+REPO_NAME_pp="pp"
+REPO_NAME_pz="pz"
+REPO_NAME_pi="pi"
+REPO_NAME_or="origin"
+REPO_NAME_pb="pb"
 # 
-REPO_XZ_PP_URL="$HOME/xz"
-REPO_XZ_PZ_URL="$HOME/xz-big"
+REPO_GIT_URL_pp="$HOME/git"
+REPO_GIT_URL_pz="$HOME/git-big"
+REPO_GIT_URL_pi="git@mnasoft.ddns.mksat.net:/opt/git"
+REPO_GIT_URL_or="//n000325/home/_namatv/_git"
+REPO_GIT_URL_pb="//n133905/home/_namatv/git_pb"
+# 
+REPO_XZ_URL_pp="$HOME/xz"
+REPO_XZ_URL_pz="$HOME/xz-big"
 # 
 REPO_XZ_PP_TAR="xz.tar"
 REPO_XZ_PZ_TAR="xz-big.tar"
@@ -57,26 +57,26 @@ check_dir_public_html_clp_arch ()
 
 check_dir_git_pp ()
 {
-    echo "<<< mkdir -p ${REPO_GIT_PP_URL} >>>"
-    mkdir -p ${REPO_GIT_PP_URL}
+    echo "<<< mkdir -p ${REPO_GIT_URL_pp} >>>"
+    mkdir -p ${REPO_GIT_URL_pp}
 }
 
 check_dir_git_pz ()
 {
-    echo "<<< mkdir -p ${REPO_GIT_PZ_URL} >>>"
-    mkdir -p ${REPO_GIT_PZ_URL}
+    echo "<<< mkdir -p ${REPO_GIT_URL_pz} >>>"
+    mkdir -p ${REPO_GIT_URL_pz}
 }
 
 check_dir_xz_pp ()
 {
-    echo "<<< mkdir -p ${REPO_XZ_PP_URL} >>>"    
-    mkdir -p ${REPO_XZ_PP_URL}
+    echo "<<< mkdir -p ${REPO_XZ_URL_pp} >>>"    
+    mkdir -p ${REPO_XZ_URL_pp}
 }
 
 check_dir_xz_pz ()
 {
-    echo "<<< mkdir -p ${REPO_XZ_PZ_URL} >>>"
-    mkdir -p ${REPO_XZ_PZ_URL}
+    echo "<<< mkdir -p ${REPO_XZ_URL_pz} >>>"
+    mkdir -p ${REPO_XZ_URL_pz}
 }
 
 ####################################################################################################
@@ -85,26 +85,26 @@ check_dir_xz_pz ()
 
 rm_git_pp ()
 {
-    echo "<<< rm -rf $REPO_GIT_PP_URL/*.git >>>"    
-    rm -rf $REPO_GIT_PP_URL/*.git
+    echo "<<< rm -rf $REPO_GIT_URL_pp/*.git >>>"    
+    rm -rf $REPO_GIT_URL_pp/*.git
 }
 
 rm_git_pz ()
 {
-    echo "<<< rm -rf $REPO_GIT_PZ_URL/*.git >>>"
-    rm -rf $REPO_GIT_PZ_URL/*.git
+    echo "<<< rm -rf $REPO_GIT_URL_pz/*.git >>>"
+    rm -rf $REPO_GIT_URL_pz/*.git
 }
 
 remove_xz_pp ()
 {
-    echo "<<< rm -f $REPO_XZ_PP_URL/*.git.tar.xz >>>"
-    rm -f $REPO_XZ_PP_URL/*.git.tar.xz
+    echo "<<< rm -f $REPO_XZ_URL_pp/*.git.tar.xz >>>"
+    rm -f $REPO_XZ_URL_pp/*.git.tar.xz
 }
 
 remove_xz_pz ()
 {
-    echo "<<< rm -f $REPO_XZ_PZ_URL/*.git.tar.xz >>>"
-    rm -f $REPO_XZ_PZ_URL/*.git.tar.xz
+    echo "<<< rm -f $REPO_XZ_URL_pz/*.git.tar.xz >>>"
+    rm -f $REPO_XZ_URL_pz/*.git.tar.xz
 }
 
 ####################################################################################################
@@ -125,8 +125,8 @@ make_git_pp ()
             echo $NAME
             echo $BNAME
             cd ..
-            echo "<<< git clone --bare $BNAME $REPO_GIT_PP_URL/$BNAME.git >>>"
-            git clone --bare $BNAME $REPO_GIT_PP_URL/$BNAME.git
+            echo "<<< git clone --bare $BNAME $REPO_GIT_URL_pp/$BNAME.git >>>"
+            git clone --bare $BNAME $REPO_GIT_URL_pp/$BNAME.git
         else
             cd ..
         fi
@@ -148,8 +148,8 @@ make_git_pz ()
             echo $NAME
             echo $BNAME
             cd ..
-            echo "<<< git clone --bare $BNAME $REPO_GIT_PZ_URL/$BNAME.git >>>"
-            git clone --bare $BNAME $REPO_GIT_PZ_URL/$BNAME.git
+            echo "<<< git clone --bare $BNAME $REPO_GIT_URL_pz/$BNAME.git >>>"
+            git clone --bare $BNAME $REPO_GIT_URL_pz/$BNAME.git
         else
             cd ..
         fi
@@ -165,7 +165,7 @@ remake_xz_pp ()
 {
     remove_xz_pp
     check_dir_xz_pp
-    cd $REPO_GIT_PP_URL
+    cd $REPO_GIT_URL_pp
     for i in `find . -name "*.git"`
     do
         BNAME=`basename $i`
@@ -173,8 +173,8 @@ remake_xz_pp ()
         echo $BNAME
         echo "<<< tar -cvvJf $BNAME.tar.xz $BNAME/ >>>"
         tar -cvvJf $BNAME.tar.xz $BNAME/
-        echo "<<< mv $BNAME.tar.xz $REPO_XZ_PP_URL/ >>>"
-        mv $BNAME.tar.xz $REPO_XZ_PP_URL/
+        echo "<<< mv $BNAME.tar.xz $REPO_XZ_URL_pp/ >>>"
+        mv $BNAME.tar.xz $REPO_XZ_URL_pp/
     done
 }
 
@@ -182,7 +182,7 @@ remake_xz_pz ()
 {
     remove_xz_pz   
     check_dir_xz_pz
-    cd $REPO_GIT_PZ_URL
+    cd $REPO_GIT_URL_pz
     for i in `find . -name "*.git"`
     do
         BNAME=`basename $i`
@@ -190,8 +190,8 @@ remake_xz_pz ()
         echo $BNAME
         echo "<<< tar -cvvJf $BNAME.tar.xz $BNAME/ >>>"
         tar -cvvJf $BNAME.tar.xz $BNAME/
-        echo "<<< mv $BNAME.tar.xz $REPO_XZ_PZ_URL/ >>>"
-        mv $BNAME.tar.xz $REPO_XZ_PZ_URL/
+        echo "<<< mv $BNAME.tar.xz $REPO_XZ_URL_pz/ >>>"
+        mv $BNAME.tar.xz $REPO_XZ_URL_pz/
     done
 }
 
@@ -255,8 +255,8 @@ remake_xz_pp_tar ()
     check_dir_public_html_clp_arch
     remake_xz_pp
 
-    echo "<<< cd ${REPO_XZ_PP_URL} >>>"
-    cd ${REPO_XZ_PP_URL}
+    echo "<<< cd ${REPO_XZ_URL_pp} >>>"
+    cd ${REPO_XZ_URL_pp}
     
     echo "<<< tar -cvvf ${REPO_XZ_PP_TAR} *.git.tar.xz >>>"
     tar -cvvf ${REPO_XZ_PP_TAR} *.git.tar.xz
@@ -273,8 +273,8 @@ remake_xz_pz_tar ()
     check_dir_public_html_clp_arch
     remake_xz_pz
 
-    echo "<<< cd ${REPO_XZ_PZ_URL} >>>"
-    cd ${REPO_XZ_PZ_URL}
+    echo "<<< cd ${REPO_XZ_URL_pz} >>>"
+    cd ${REPO_XZ_URL_pz}
     
     echo "<<< tar -cvvf ${REPO_XZ_PZ_TAR} *.git.tar.xz >>>"
     tar -cvvf ${REPO_XZ_PZ_TAR} *.git.tar.xz
@@ -296,9 +296,10 @@ NAME
 SYNOPSIS
         $(basename $0) [ pull | push | pullsh | all [<branch>]] 
                        | [commit | add]
-                       | [readd_pp | readd_pz | readd_pi | readd_or | readd_pb] 
-                       | [rm_pp | rm_pz | rm_pi | rm_or | rm_pb] 
-                       | [clone_pp | clone_pz | clone_pi | clone_or | clone_pb] 
+                       | [readd [pp | pz | pi | or | pb]]
+                       | [rm [pp | pz | pi | or | pb]]
+                       | [clone_pp | clone_pz | clone_pi | clone_or | clone_pb]
+                       | [clone [pp | pz | pi | or | pb]]
                        | [make_git_pp | make_git_pz] 
 
         $(basename $0) [remake_git_pp | remake_git_pz] 
@@ -331,20 +332,13 @@ COMMANDS
                     фиксация изменений, отправка изменений на сервер;
 
     Удаление и повторное добавление удаленного репозитория:
-        readd_pp      - pp;
-        readd_pz      - pz;
-        readd_pi      - pi;
-        readd_or      - or;
-        readd_pb      - pb;
+        readd         - [ pp | pz | pi | or | pb ];
 
     Удаление удаленного репозитория:
-        rm_pp         -  pp;
-        rm_pz         -  pz;
-        rm_pi         -  pi;
-        rm_or         -  or;
-        rm_pb         -  pb;
+        rm            -  [ pp | pz | pi | or | pb ];
 
     Клонирование дерева репозиториев:
+        clone         - в размещение [ pp | pz | pi | or | pb ];
         clone_pp      - в размещение pp;
         clone_pz      - в размещение pz;
         clone_pi      - в размещение pi;
@@ -352,41 +346,41 @@ COMMANDS
         clone_pb      - в размещение pb;
 
     Создание чистых репозиториев git:
-        make_git_pp - $REPO_GIT_PP_URL для удаленного репозитория pp;
-        make_git_pz - $REPO_GIT_PZ_URL для удаленного репозитория pz;
+        make_git_pp - $REPO_GIT_URL_pp для удаленного репозитория pp;
+        make_git_pz - $REPO_GIT_URL_pz для удаленного репозитория pz;
 
         remake_git_pp - удаляет и создает повтроно в каталоге
-            $REPO_GIT_PP_URL чистые репозитории git, находящиеся в
+            $REPO_GIT_URL_pp чистые репозитории git, находящиеся в
             каталогах:
             - ${HOME}/quicklisp/local-projects/;
             - ${HOME}/develop/;
             - ${HOME}/elisp/;
 
         remake_git_pz - удаляет и создает повтроно в каталоге
-            $REPO_GIT_PZ_URL чистые репозитории git, 
+            $REPO_GIT_URL_pz чистые репозитории git, 
             находящиеся в каталогах:
             - ${HOME}/quicklisp/local-projects/;
             - ${HOME}/develop/;
             - ${HOME}/elisp/;
 
         remake_xz_pp - удаляет и повторно создает в каталоге
-            $REPO_XZ_PP_URL 
+            $REPO_XZ_URL_pp 
             архивы .tar.xz репозиториев git, находящихся в каталоге 
-            $REPO_GIT_PP_URL;
+            $REPO_GIT_URL_pp;
     
         remake_xz_pz - удаляет и повторно создает в каталоге
-            $REPO_XZ_PZ_URL 
+            $REPO_XZ_URL_pz 
             архивы .tar.xz репозиториев git, находящихся в каталоге 
-            $REPO_GIT_PZ_URL;
+            $REPO_GIT_URL_pz;
     
         remake_xz_pp_tar - создает архив ${REPO_XZ_PP_TAR} из файлов 
             с расширением .git.tar.xz, находящихся в каталоге 
-            ${REPO_XZ_PP_URL}, и перемещает его в каталог 
+            ${REPO_XZ_URL_pp}, и перемещает его в каталог 
             ${PUB_HTML_CLP_ARH};
     
         remake_xz_pz_tar - создает архив ${REPO_XZ_PZ_TAR} из файлов 
             с расширением .git.tar.xz, находящихся в каталоге 
-            ${REPO_XZ_PZ_URL}, и перемещает его в каталог 
+            ${REPO_XZ_URL_pz}, и перемещает его в каталог 
             ${PUB_HTML_CLP_ARH};
 
 
@@ -450,123 +444,30 @@ func_git_tree_add ()
     echo_short
 }
 
-func_git_tree_readd_pp ()
+func_git_tree_readd ()
 {
     echo_short
+    REPO_NAME="REPO_NAME_${BRANCH}"
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
     
-    echo "<<< git remote remove ${REPO_NAME_PP} >>>"
-    git remote remove ${REPO_NAME_PP}
+    echo "<<< git remote remove ${!REPO_NAME} >>>"
+    git remote remove ${!REPO_NAME}
     
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
     
-    echo "<<< git remote add ${REPO_NAME_PP} ${REPO_GIT_PP_URL}/${REPO}.git >>>"
-    git remote add ${REPO_NAME_PP} ${REPO_GIT_PP_URL}/${REPO}.git
+    echo "<<< git remote add ${!REPO_NAME} ${!REPO_GIT_URL}/${REPO}.git >>>"
+    git remote add ${!REPO_NAME} ${!REPO_GIT_URL}/${REPO}.git
     
     echo_short
 }
 
-func_git_tree_readd_pz ()
+func_git_rm ()
 {
     echo_short
-    
-    echo "<<< git remote remove ${REPO_NAME_PZ} >>>"
-    git remote remove ${REPO_NAME_PZ}
-    
-    DIR_REPO=`pwd`
-    REPO=`basename ${DIR_REPO}`
-    
-    echo "<<< git remote add ${REPO_NAME_PZ} ${REPO_GIT_PZ_URL}/${REPO}.git >>>"
-    git remote add ${REPO_NAME_PZ} ${REPO_GIT_PZ_URL}/${REPO}.git
-    
-    echo_short
-}
-
-func_git_tree_readd_pi ()
-{
-    echo_short
-    
-    echo "<<< git remote remove ${REPO_NAME_PI} >>>"
-    git remote remove ${REPO_NAME_PI}
-    
-    DIR_REPO=`pwd`
-    REPO=`basename ${DIR_REPO}`
-    
-    echo "<<< git remote add ${REPO_NAME_PI} ${REPO_GIT_PI_URL}/${REPO}.git >>>"
-    git remote add ${REPO_NAME_PI} ${REPO_GIT_PI_URL}/${REPO}.git
-    
-    echo_short
-}
-
-func_git_tree_readd_or ()
-{
-    echo_short
-    
-    echo "<<< git remote remove ${REPO_NAME_OR} >>>"
-    git remote remove ${REPO_NAME_OR}
-    
-    DIR_REPO=`pwd`
-    REPO=`basename ${DIR_REPO}`
-    
-    echo "<<< git remote add ${REPO_NAME_OR} ${REPO_GIT_OR_URL}/${REPO}.git >>>"
-    git remote add ${REPO_NAME_OR} ${REPO_GIT_OR_URL}/${REPO}.git
-    
-    echo_short
-}
-
-func_git_tree_readd_pb ()
-{
-    echo_short
-    
-    echo "<<< git remote remove ${REPO_NAME_PB} >>>"
-    git remote remove ${REPO_NAME_PB}
-    
-    DIR_REPO=`pwd`
-    REPO=`basename ${DIR_REPO}`
-    
-    echo "<<< git remote add ${REPO_NAME_PB} ${REPO_GIT_PB_URL}/${REPO}.git >>>"
-    git remote add ${REPO_NAME_PB} ${REPO_GIT_PB_URL}/${REPO}.git
-    
-    echo_short
-}
-
-func_git_rm_pp ()
-{
-    echo_short
-    echo "<<< git remote remove ${REPO_NAME_PP} >>>"
-    git remote remove ${REPO_NAME_PP}
-    echo_short
-}
-
-func_git_rm_pz ()
-{
-    echo_short
-    echo "<<< git remote remove ${REPO_NAME_PZ} >>>"
-    git remote remove ${REPO_NAME_PZ}
-    echo_short
-}
-
-func_git_rm_pi ()
-{
-    echo_short
-    echo "<<< git remote remove ${REPO_NAME_PI} >>>"
-    git remote remove ${REPO_NAME_PI}
-    echo_short
-}
-
-func_git_rm_or ()
-{
-    echo_short
-    echo "<<< git remote remove ${REPO_NAME_OR} >>>"
-    git remote remove ${REPO_NAME_OR}
-    echo_short
-}
-
-func_git_rm_pb ()
-{
-    echo_short
-    echo "<<< git remote remove ${REPO_NAME_PB} >>>"
-    git remote remove ${REPO_NAME_PB}
+    REPO_NAME="REPO_NAME_${BRANCH}"
+    echo "<<< git remote remove ${!REPO_NAME} >>>"
+    git remote remove ${!REPO_NAME}
     echo_short
 }
 
@@ -576,8 +477,8 @@ func_git_clone_pp ()
     then
         NAME=`pwd`
         BNAME=`basename $NAME`
-        echo "<<< git clone --bare . ${REPO_GIT_PP_URL}/${BNAME}.git >>>"
-        git           clone --bare . ${REPO_GIT_PP_URL}/${BNAME}.git
+        echo "<<< git clone --bare . ${REPO_GIT_URL_pp}/${BNAME}.git >>>"
+        git           clone --bare . ${REPO_GIT_URL_pp}/${BNAME}.git
     fi
     echo_short
 }
@@ -588,8 +489,8 @@ func_git_clone_pz ()
     then
         NAME=`pwd`
         BNAME=`basename $NAME`
-        echo "<<< git clone --bare . ${REPO_GIT_PZ_URL}/${BNAME}.git >>>"
-        git           clone --bare . ${REPO_GIT_PZ_URL}/${BNAME}.git
+        echo "<<< git clone --bare . ${REPO_GIT_URL_pz}/${BNAME}.git >>>"
+        git           clone --bare . ${REPO_GIT_URL_pz}/${BNAME}.git
     fi
     echo_short
 }
@@ -600,8 +501,8 @@ func_git_clone_pi ()
     then
         NAME=`pwd`
         BNAME=`basename $NAME`
-        echo "<<< git clone --bare . ${REPO_GIT_PI_URL}/${BNAME}.git >>>"
-        git           clone --bare . ${REPO_GIT_PI_URL}/${BNAME}.git
+        echo "<<< git clone --bare . ${REPO_GIT_URL_pi}/${BNAME}.git >>>"
+        git           clone --bare . ${REPO_GIT_URL_pi}/${BNAME}.git
     fi
     echo_short
 }
@@ -612,8 +513,8 @@ func_git_clone_or ()
     then
         NAME=`pwd`
         BNAME=`basename $NAME`
-        echo "<<< git clone --bare . ${REPO_GIT_OR_URL}/${BNAME}.git >>>"
-        git           clone --bare . ${REPO_GIT_OR_URL}/${BNAME}.git
+        echo "<<< git clone --bare . ${REPO_GIT_URL_or}/${BNAME}.git >>>"
+        git           clone --bare . ${REPO_GIT_URL_or}/${BNAME}.git
     fi
     echo_short
 }
@@ -624,8 +525,8 @@ func_git_clone_pb ()
     then
         NAME=`pwd`
         BNAME=`basename $NAME`
-        echo "<<< git clone --bare . ${REPO_GIT_PB_URL}/${BNAME}.git >>>"
-        git           clone --bare . ${REPO_GIT_PB_URL}/${BNAME}.git
+        echo "<<< git clone --bare . ${REPO_GIT_URL_pb}/${BNAME}.git >>>"
+        git           clone --bare . ${REPO_GIT_URL_pb}/${BNAME}.git
     fi
     echo_short
 }
@@ -691,6 +592,12 @@ func_git_tree_command_branch ()
         func_git_tree_commit
         func_git_tree_push
     fi
+# readd         - удаление и повторное добавление удаленного
+#                 репозитория pp;
+    if [[ ${COMMAND} == "readd" ]]
+    then
+        func_git_tree_readd
+    fi
 # readd_pp      - удаление и повторное добавление удаленного
 #                 репозитория pp;
     if [[ ${COMMAND} == "readd_pp" ]]
@@ -721,30 +628,10 @@ func_git_tree_command_branch ()
     then
         func_git_tree_readd_pb
     fi    
-# rm_pp         - удаление удаленного репозитория pp;
-    if [[ ${COMMAND} == "rm_pp" ]]
+# rm         - удаление удаленного репозитория;
+    if [[ ${COMMAND} == "rm" ]]
     then
-        func_git_rm_pp
-    fi
-# rm_pz         - удаление удаленного репозитория pz;
-    if [[ ${COMMAND} == "rm_pz" ]]
-    then
-        func_git_rm_pz
-    fi
-# rm_pi         - удаление удаленного репозитория pi;    
-if [[ ${COMMAND} == "rm_pi" ]]
-    then
-        func_git_rm_pi
-    fi    
-# rm_or         - удаление удаленного репозитория origin;
-    if [[ ${COMMAND} == "rm_or" ]]
-    then
-        func_git_rm_or
-    fi
-# rm_pb         - удаление удаленного репозитория origin;
-    if [[ ${COMMAND} == "rm_pb" ]]
-    then
-        func_git_rm_pb
+        func_git_rm
     fi
 # clone_pp - клонирование дерева репозиториев в расположение pp;    
     if [[ ${COMMAND} == "clone_pp" ]]
@@ -842,14 +729,14 @@ func_rs_dot_emacs_d_public ()
 
 cd_git_pp_url ()
 {
-    echo "<<< cd $REPO_GIT_PP_URL >>>"
-    cd $REPO_GIT_PP_URL
+    echo "<<< cd $REPO_GIT_URL_pp >>>"
+    cd $REPO_GIT_URL_pp
 }
 
 cd_git_pz_url ()
 {
-    echo "<<< cd $REPO_GIT_PZ_URL >>>"
-    cd $REPO_GIT_PZ_URL
+    echo "<<< cd $REPO_GIT_URL_pz >>>"
+    cd $REPO_GIT_URL_pz
 }
 
 rm_rf_git ()
@@ -865,10 +752,10 @@ xz_pp_git ()
     
     check_dir_git_pp
     cd_git_pp_url
-    if [[ `pwd` == "$REPO_GIT_PP_URL" ]]
+    if [[ `pwd` == "$REPO_GIT_URL_pp" ]]
     then rm_rf_git
     fi
-    for i in `ls ${REPO_XZ_PP_URL}/*.git.tar.xz`
+    for i in `ls ${REPO_XZ_URL_pp}/*.git.tar.xz`
     do tar -xvf $i
     done
 }
@@ -880,10 +767,10 @@ xz_pz_git ()
     
     check_dir_git_pz
     cd_git_pz_url
-    if [[ `pwd` == "$REPO_GIT_PZ_URL" ]]
+    if [[ `pwd` == "$REPO_GIT_URL_pz" ]]
     then rm_rf_git
     fi
-    for i in `ls ${REPO_XZ_PZ_URL}/*.git.tar.xz`
+    for i in `ls ${REPO_XZ_URL_pz}/*.git.tar.xz`
     do tar -xvf $i
     done
 }
@@ -916,15 +803,15 @@ CDIR=`pwd`
 
 REPO_PI=`git remote | grep pi`
 
-if [[ ${REPO_PI} ==  ${REPO_NAME_PI} ]]
+if [[ ${REPO_PI} ==  ${REPO_NAME_pi} ]]
 then
     B_NAME=`basename $CDIR`
     echo $B_NAME
     cd ../
     rm -rf $B_NAME
-    git clone $REPO_GIT_PI_URL/$B_NAME.git
+    git clone $REPO_GIT_URL_pi/$B_NAME.git
     cd $B_NAME
-    git remote rename origin ${REPO_NAME_PI}
+    git remote rename origin ${REPO_NAME_pi}
 fi
 }
 
@@ -963,16 +850,13 @@ func_git_tree ()
                   ${COMMAND} == "add"       || \
                   ${COMMAND} == "commit"    || \
                   ${COMMAND} == "all"       || \
+                  ${COMMAND} == "readd"     || \
                   ${COMMAND} == "readd_pp"  || \
                   ${COMMAND} == "readd_pz"  || \
                   ${COMMAND} == "readd_pi"  || \
                   ${COMMAND} == "readd_or"  || \
                   ${COMMAND} == "readd_pb"  || \
-                  ${COMMAND} == "rm_pp"     || \
-                  ${COMMAND} == "rm_pz"     || \
-                  ${COMMAND} == "rm_pi"     || \
-                  ${COMMAND} == "rm_or"     || \
-                  ${COMMAND} == "rm_pb"     || \
+                  ${COMMAND} == "rm"        || \
                   ${COMMAND} == "clone_pp"  || \
                   ${COMMAND} == "clone_pz"  || \
                   ${COMMAND} == "clone_pi"  || \
@@ -1052,4 +936,4 @@ func_git_tree ()
 #### Main 
 ####################################################################################################
 
-func_git_tree ${1} ${2} 
+func_git_tree ${1} ${2}
