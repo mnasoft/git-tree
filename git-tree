@@ -5,13 +5,15 @@ REPO_NAME_pz="pz"
 REPO_NAME_pi="pi"
 REPO_NAME_or="origin"
 REPO_NAME_pb="pb"
+REPO_NAME_gh="gh"
 # 
 REPO_GIT_URL_pp="$HOME/git"
 REPO_GIT_URL_pz="$HOME/git-big"
 REPO_GIT_URL_pi="git@mnasoft.ddns.mksat.net:/opt/git"
 REPO_GIT_URL_or="//n000325/home/_namatv/_git"
 REPO_GIT_URL_pb="//n133905/home/_namatv/git_pb"
-# 
+REPO_GIT_URL_gh="git@github.com:mnasoft"
+#
 REPO_XZ_URL_pp="$HOME/xz"
 REPO_XZ_URL_pz="$HOME/xz-big"
 # 
