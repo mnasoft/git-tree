@@ -1,0 +1,34 @@
+#!/bin/bash
+a_flag=''
+b_flag=''
+files=''
+vesbose='false'
+
+print_usage ()
+{
+   printf "Usage: ..."
+ 
+}
+
+func_1 ()
+{
+    while getopts 'a:bf:v' flag
+    do
+        case "${flag}" in
+            a) a_flag="${OPTARG}" ;;
+            b) b_flag='true' ;;
+            f) files="${OPTARG}" ;;
+            v) vesbose='true' ;;
+            *) print_usage
+               exit 1 ;;
+        esac
+    done
+    
+
+    echo "a_flag=${a_flag}"
+    echo "b_flag=${b_flag}"
+    echo "files=${files}"
+    echo "vesbose=${vesbose}"
+}
+
+func_1 "$@"

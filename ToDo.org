@@ -30,10 +30,10 @@
 #+latex_header:
 
 * ToDo
-1. [ ] Объкдинить команды
-   - [ ] make_git_pp make_git_pz;
-   - [ ] remake_git_pp remake_git_pz;
-   - [ ] remake_tar_xz_pp remake_tar_xz_pz.
+1. [ ] Добавить ключевой параметр -b (branch) (см. [[file:bash-example/bash-example]])
+2. [ ] Добавить ключевой параметр -l (location) pp pz pi pb (см. [[file:bash-example/bash-example]])
+3. [ ] Добавить ключевой параметр -v (verbose) 
+   
 * DoNe
 1. [X] Добавить эхо-вывод для каждой, выполняемой команды из
      git-tree-all;
@@ -45,3 +45,7 @@
    - [X] rm_pp rm_pz rm_or rm_pb в rm с аргументом pp|pz|or|pb.
    - [X] readd_pp readd_pz readd_r readd_pb в readd с аргументом pp|pz|or|pb.
    - [X] clone_pp clone_pz clone_r clone_pb в clone с аргументом pp|pz|or|pb.
+7. [X] Объединить команды
+   - [X] make_git_pp make_git_pz;
+   - [X] remake_git_pp remake_git_pz;
+   - [X] remake_tar_xz_pp remake_tar_xz_pz.
