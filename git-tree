@@ -261,6 +261,16 @@ COMMANDS
               ${REPO_XZ_URL_pz}, и перемещает его в каталог
               ${PUB_HTML_CLP_ARH};
 
+        rs_local_pi : Выполняет синхронизацию папки ~/public_html/ с
+	     mnasoft.ddns.mksat.net;
+
+        rs_pi_local : Синхронизация mnasoft.ddns.mksat.net с папкой
+             ~/public_html;
+
+        rs_pi_html : Синхронизация папки
+             ~/public_html/Common-Lisp-Programs/ с сервером
+             mnasoft.ddns.mksat.net;
+
     Распаковка архивов git.tar.xz в каталоги с чистыми репозиториями
     для расположения:
         xz_git - pp и pp;
@@ -630,16 +640,12 @@ func_git_tree ()
 	    xz_git
 	elif [[ ${COMMAND} == "rs_local_pi" ]]
 	then
-	    # Выполняет синхронизацию папки ~/public_html/ с
-	    # mnasoft.ddns.mksat.net.
 	    rsync -Pavzhe ssh --delete ${HOME}/public_html/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html	    
 	elif [[ ${COMMAND} == "rs_pi_local" ]]
 	then
-	    # Синхронизация mnasoft.ddns.mksat.net с папкой ~/public_html.
 	    rsync -Pavzhe ssh --delete namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/ ${HOME}/public_html
 	elif [[ ${COMMAND} == "rs_pi_html" ]]
 	then
-	    # Синхронизация папки ~/public_html/Common-Lisp-Programs/ с сервером mnasoft.ddns.mksat.net
 	    rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/
 	elif [[ ${COMMAND} == "reclone" ]]
 	then
