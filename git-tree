@@ -589,7 +589,6 @@ func_git_tree ()
     if ! [[ -z "$2" ]]
     then
         BRANCH=$2
-        echo ${BRANCH}
     fi
 
     if [ -z "$1" ]
