@@ -57,30 +57,38 @@ check_dir_public_html_clp_arch ()
     mkdir -p ${PUB_HTML_CLP_ARH}
 }
 
+make_repo_vars ()
+{
+    REPO_NAME="REPO_NAME_${BRANCH}"
+    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
+    REPO_XZ_TAR="REPO_XZ_TAR_${BRANCH}"
+}
+
 check_dir_git ()
 {
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    make_repo_vars
     echo "<<< mkdir -p ${!REPO_GIT_URL} >>>"
     mkdir -p ${!REPO_GIT_URL}
 }
 
 check_dir_xz ()
 {
-    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
+    make_repo_vars
     echo "<<< mkdir -p ${!REPO_XZ_URL} >>>"    
     mkdir -p ${!REPO_XZ_URL}
 }
 
 rm_git ()
 {
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    make_repo_vars
     echo "<<< rm -rf ${!REPO_GIT_URL}/*.git >>>"    
     rm -rf ${!REPO_GIT_URL}/*.git
 }
 
 remove_xz ()
 {
-    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
+    make_repo_vars     make_repo_vars
     echo "<<< rm -f ${!REPO_XZ_URL}/*.git.tar.xz >>>"
     rm -f ${!REPO_XZ_URL}/*.git.tar.xz
 }
@@ -88,7 +96,7 @@ remove_xz ()
 make_git ()
 {
     CDIR=`pwd`
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    make_repo_vars
     
     for i in `find . -name "*.git"`
     do
@@ -114,7 +122,7 @@ remake_xz ()
 {
     remove_xz
     check_dir_xz
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    make_repo_vars
     cd ${!REPO_GIT_URL}
     for i in `find . -name "*.git"`
     do
@@ -160,12 +168,11 @@ remake_tar_xz ()
     
     check_dir_public_html_clp_arch
     remake_xz
+    make_repo_vars
 
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
     echo "<<< cd ${!REPO_XZ_URL} >>>"
     cd ${!REPO_XZ_URL}
 
-    REPO_XZ_TAR="REPO_XZ_TAR_${BRANCH}"
     echo "<<< tar -cvvf ${!REPO_XZ_TAR} *.git.tar.xz >>>"
     tar -cvvf ${!REPO_XZ_TAR} *.git.tar.xz
     
@@ -322,8 +329,7 @@ func_git_tree_add ()
 func_git_tree_readd ()
 {
     echo_short
-    REPO_NAME="REPO_NAME_${BRANCH}"
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    make_repo_vars
     
     echo "<<< git remote remove ${!REPO_NAME} >>>"
     git remote remove ${!REPO_NAME}
@@ -340,7 +346,8 @@ func_git_tree_readd ()
 func_git_rm ()
 {
     echo_short
-    REPO_NAME="REPO_NAME_${BRANCH}"
+    make_repo_vars
+
     echo "<<< git remote remove ${!REPO_NAME} >>>"
     git remote remove ${!REPO_NAME}
     echo_short
@@ -350,8 +357,7 @@ func_git_clone ()
 {
     if [[ `git remote | grep ${BRANCH}` ]]
     then
-        REPO_NAME="REPO_NAME_${BRANCH}"
-        REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+        make_repo_vars
         
         NAME=`pwd`
         BNAME=`basename $NAME`
@@ -509,7 +515,7 @@ func_rs_dot_emacs_d_public ()
 
 cd_git_url ()
 {
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    make_repo_vars
     echo "<<< cd ${!REPO_GIT_URL} >>>"
     cd ${!REPO_GIT_URL}
 }
@@ -527,8 +533,8 @@ xz_git ()
     
     check_dir_git
     cd_git_url
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
-    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
+    make_repo_vars
+    
     if [[ `pwd` == "${!REPO_GIT_URL}" ]]
     then rm_rf_git
     fi
@@ -551,7 +557,7 @@ func_reclone ()
 ### ToDo
 ### Добавить второй параметр - имя репозитория (вместо pi).
 ### Добавить проверку, на то что удаленный репозиторий существует.
-
+### !!!!!!!!!!
 
 CDIR=`pwd`
 

@@ -30,6 +30,7 @@
 #+latex_header:
 
 * ToDo
+1. func_reclone разобраться что делает и делает ли вообще.
 1. [ ] Объкдинить команды
    - [ ] make_git_pp make_git_pz;
    - [ ] remake_git_pp remake_git_pz;
