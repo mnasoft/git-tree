@@ -528,6 +528,7 @@ xz_git ()
     check_dir_git
     cd_git_url
     REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
+    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
     if [[ `pwd` == "${!REPO_GIT_URL}" ]]
     then rm_rf_git
     fi
