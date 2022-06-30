@@ -61,7 +61,7 @@
   чистыми репозиториями. Поиск репозиротиев ведется в каталогах:
   ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 
-- func_remake_xz_pp_all - Создает архивы git.tar.xz для мест
+- fgt_remake_xz_pp_all - Создает архивы git.tar.xz для мест
   расположения чистых репозиториев pp и pz
 - rs-pacman - Выполняет перенос в папку ~/public_html/ пакетов и
   файлов синхронизации, необходимях для обновления msys2.
@@ -119,81 +119,69 @@
 
 * Граф вызовов
   #+name:dot-eg-table
-  | func_remake_git_pp_all       | func_remove_git_pp            |
-  | func_remake_git_pp_all       | func_remake_git_pp            |
-  | func_remake_xz_pp_all        | func_remove_repo_xz_pp        |
-  | func_remake_xz_pp_all        | func_remake_xz_pp             |
-  | func_remake_xz_pz_all        | func_remove_repo_xz_pz        |
-  | func_remake_xz_pz_all        | func_remake_xz_pz             |
-  | func_clp_xz_pp_public        | func_remake_git_pp_all        |
-  | func_clp_xz_pp_public        | func_remake_xz_pp_all         |
-  | func_git_tree_push           | func_git_tree_echo_short      |
-  | func_git_tree_pull           | func_git_tree_echo_short      |
-  | func_git_tree_add            | func_git_tree_echo_short      |
-  | func_git_tree_readd_pp       | func_git_tree_echo_short      |
-  | func_git_tree_readd_pz       | func_git_tree_echo_short      |
-  | func_git_tree_readd_pi       | func_git_tree_echo_short      |
-  | func_git_tree_readd_or       | func_git_tree_echo_short      |
-  | func_git_rm_pp               | func_git_tree_echo_short      |
-  | func_git_rm_pz               | func_git_tree_echo_short      |
-  | func_git_rm_pi               | func_git_tree_echo_short      |
-  | func_git_rm_or               | func_git_tree_echo_short      |
-  | func_git_clone_pp            | func_git_tree_echo_short      |
-  | func_git_clone_pz            | func_git_tree_echo_short      |
-  | func_git_clone_pi            | func_git_tree_echo_short      |
-  | func_git_clone_or            | func_git_tree_echo_short      |
-  | func_git_tree_commit         | func_git_tree_echo_short      |
-  | func_git_tree_push_or_pull   | func_git_tree_echo_short      |
-  | func_git_tree_command_branch | func_git_tree_push_or_pull    |
-  | func_git_tree_command_branch | func_git_tree_pull            |
-  | func_git_tree_command_branch | func_git_tree_push            |
-  | func_git_tree_command_branch | func_git_tree_add             |
-  | func_git_tree_command_branch | func_git_tree_commit          |
-  | func_git_tree_command_branch | func_git_tree_pull            |
-  | func_git_tree_command_branch | func_git_tree_add             |
-  | func_git_tree_command_branch | func_git_tree_commit          |
-  | func_git_tree_command_branch | func_git_tree_push            |
-  | func_git_tree_command_branch | func_git_tree_readd_pp        |
-  | func_git_tree_command_branch | func_git_tree_readd_pz        |
-  | func_git_tree_command_branch | func_git_tree_readd_pi        |
-  | func_git_tree_command_branch | func_git_tree_readd_or        |
-  | func_git_tree_command_branch | func_git_rm_pp                |
-  | func_git_tree_command_branch | func_git_rm_pz                |
-  | func_git_tree_command_branch | func_git_rm_pi                |
-  | func_git_tree_command_branch | func_git_rm_or                |
-  | func_git_tree_command_branch | func_git_clone_pp             |
-  | func_git_tree_command_branch | func_git_clone_pz             |
-  | func_git_tree_command_branch | func_git_clone_pi             |
-  | func_git_tree_command_branch | func_git_clone_or             |
-  | func_git_tree_command        | func_git_tree_echo_long_equal |
-  | func_git_tree_command        | func_git_tree_echo_long       |
-  | func_git_tree_command        | func_git_tree_command_branch  |
-  | func_git_tree_command        | func_git_tree_echo_long_plus  |
-  | func_git_tree                | func_git_tree_usage_show      |
-  | func_git_tree                | func_git_tree_command         |
-  | func_rs_pacman               | func_clp_check_public         |
-  | func_rs_dot_emacs_d_public   | func_clp_check_public         |
-  | func_rs_quicklisp            | func_clp_check_public         |
-  | clp-dot-emacs-d-pi           | clp-dot-emacs-public          |
-  | clp-dot-emacs-d-pi           | rs-local-pi                   |
-  | clp-xz-pi                    | clp-xz-public                 |
-  | clp-xz-pi                    | rs-local-pi                   |
-  | clp-xz-public                | func_clp_check_public         |
-  | clp-xz-public                | func_clp_xz_pp_public         |
-  | git-tree                     | func_git_tree                 |
-  | remake-git-pp                | func_remake_git_pp_all        |
-  | remake-xz-pp                 | func_remake_xz_pp_all         |
-  | remake-xz-pz                 | func_remake_xz_pz_all         |
-  | rs-emacs-d                   | func_rs_dot_emacs_d_public    |
-  | rs-pacman                    | func_rs_pacman                |
-  | rs-quicklisp                 | func_rs_quicklisp             |
-
-   xz-git
-git-reclone
-git-tree-repo
-rs-local-pi
-rs-pi-html
-rs-pi-local
+  | check_dir_git         | make_repo_vars                 |
+  | check_dir_xz          | make_repo_vars                 |
+  | rm_git                | make_repo_vars                 |
+  | remove_xz             | make_repo_vars                 |
+  | make_git              | make_repo_vars                 |
+  | remake_xz             | remove_xz                      |
+  | remake_xz             | check_dir_xz                   |
+  | remake_xz             | make_repo_vars                 |
+  | remake_git            | rm_git                         |
+  | remake_git            | make_git                       |
+  | remake_tar_xz         | check_dir_public_html_clp_arch |
+  | remake_tar_xz         | remake_xz                      |
+  | remake_tar_xz         | make_repo_vars                 |
+  | fgt_push              | echo_short                     |
+  | fgt_pull              | echo_short                     |
+  | fgt_add               | echo_short                     |
+  | fgt_readd             | echo_short                     |
+  | fgt_readd             | make_repo_vars                 |
+  | fgt_git_rm           | echo_short                     |
+  | fgt_git_rm           | make_repo_vars                 |
+  | fgt_git_clone        | make_repo_vars                 |
+  | fgt_git_clone        | echo_short                     |
+  | fgt_commit            | echo_short                     |
+  | fgt_push_or_pull      | echo_short                     |
+  | fgt_command_branch    | fgt_current_branch             |
+  | fgt_command_branch    | fgt_push_or_pull               |
+  | fgt_command_branch    | fgt_pull                       |
+  | fgt_command_branch    | fgt_push                       |
+  | fgt_command_branch    | fgt_add                        |
+  | fgt_command_branch    | fgt_commit                     |
+  | fgt_command_branch    | fgt_pull                       |
+  | fgt_command_branch    | fgt_add                        |
+  | fgt_command_branch    | fgt_commit                     |
+  | fgt_command_branch    | fgt_push                       |
+  | fgt_command_branch    | fgt_readd                      |
+  | fgt_command_branch    | fgt_git_rm                    |
+  | fgt_command_branch    | fgt_git_clone                 |
+  | fgt_command           | echo_long_equal                |
+  | fgt_command           | echo_long                      |
+  | fgt_command           | fgt_command_branch             |
+  | fgt_command           | echo_long_plus                 |
+  | rs_quicklisp          | check_dir_public_html_clp_arch |
+  | rs_pacman             | check_dir_public_html_clp_arch |
+  | rs_dot_emacs_d_public | check_dir_public_html_clp_arch |
+  | cd_git_url            | make_repo_vars                 |
+  | xz_git                | check_dir_git                  |
+  | xz_git                | cd_git_url                     |
+  | xz_git                | make_repo_vars                 |
+  | fgt_usage_location    | fgt_usage_show                 |
+  | fgt                   | fgt_usage_show                 |
+  | fgt                   | fgt_usage_location             |
+  | fgt                   | fgt_command                    |
+  | fgt                   | remake_xz                      |
+  | fgt                   | remake_tar_xz                  |
+  | fgt                   | xz_git                         |
+  | fgt                   | remake_git                     |
+  | fgt                   | make_git                       |
+  | fgt                   | rs_quicklisp                   |
+  | fgt                   | rs_pacman                      |
+  | fgt                   | rs_dot_emacs_d_public          |
+  | fgt                   | fgt_reclone                   |
+  | fgt                   | add_aliases                    |
+  | fgt                   | fgt_usage_show                 |
 
   #+name: make-dot
   #+begin_src lisp :var table=dot-eg-table :results output :exports none
@@ -207,9 +195,27 @@ rs-pi-local
     (format t "~{~{~S~^ -> ~};~%~}" table)
   #+end_src
 
+  #+RESULTS: make-dot
+  #+begin_example
+  rankdir=LR;
+  "check_dir_git" [label ="check_dir_git", shape = "box"];
+  "make_repo_vars" [label ="make_repo_vars", shape = "box"];
+  "check_dir_xz" [label ="check_dir_xz", shape = "box"];
+  "make_repo_vars" [label ="make_repo_vars", shape = "box"];
+  "rm_git" [label ="rm_git", shape = "box"];
+  "make_repo_vars" [label ="make_repo_vars", shape = "box"];
+  "remove_xz" [label ="remove_xz", shape = "box"];
+  "make_repo_vars" [label ="make_repo_vars", shape = "box"];
+  "make_git" [label ="make_git", shape = "box"];
+  "make_repo_vars" [label ="make_repo_vars", shape = "box"];
+  "check_dir_git" -> "make_repo_vars";
+  "check_dir_xz" -> "make_repo_vars";
+  "rm_git" -> "make_repo_vars";
+  "remove_xz" -> "make_repo_vars";
+  "make_git" -> "make_repo_vars";
+  #+end_example
 
-
-  #+begin_src dot :file ~/test-dot.png :var input=make-dot :exports results
+  #+begin_src dot :file ./test-dot.png :var input=make-dot :exports results
     digraph
     {
     $input
@@ -217,4 +223,4 @@ rs-pi-local
     #+end_src
 
     #+RESULTS:
-    [[file:~/test-dot.png]]
+    [[file:./test-dot.png]]
