@@ -30,9 +30,11 @@
 #+latex_header:
 
 * ToDo
-1. [ ] Добавить ключевой параметр -b (branch) (см. [[file:bash-example/bash-example]])
-2. [ ] Добавить ключевой параметр -l (location) pp pz pi pb (см. [[file:bash-example/bash-example]])
-3. [ ] Добавить ключевой параметр -v (verbose) 
+1. [ ] Добавить ключевой параметр -b (branch)
+   (см. [[file:bash-example/bash-example]])
+2. [ ] Добавить ключевой параметр -l (location) pp pz pi pb
+   (см. [[file:bash-example/bash-example]])
+3. [ ] Добавить ключевой параметр -v (verbose)
    
 * DoNe
 1. [X] Добавить эхо-вывод для каждой, выполняемой команды из
@@ -50,3 +52,5 @@
    - [X] remake_git_pp remake_git_pz;
    - [X] remake_tar_xz_pp remake_tar_xz_pz.
 8. [X] Переименовать BRAHCH в LOCATION проверить работу pull и push
+9. [X] Сделать проверку на наличие второго параметра более
+   читабельной.

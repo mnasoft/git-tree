@@ -47,9 +47,6 @@ echo_long_equal ()
 {
     echo '================================================================================'
 }
-####################################################################################################
-#### check_dir
-####################################################################################################
 
 check_dir_public_html_clp_arch ()
 {
@@ -138,10 +135,6 @@ remake_xz ()
 
 remake_git ()
 {
-    # Выполняет пересоздание каталога ~/git, наполняя его чистыми
-    # репозиториями. Поиск репозиротиев ведется в каталогах:
-    # ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
-
     rm_git
 
     echo "<<< cd ${HOME}/quicklisp/local-projects/ >>>"
@@ -157,15 +150,8 @@ remake_git ()
     make_git
 }
 
-####################################################################################################
-# remake_tar_xz
-####################################################################################################
-
 remake_tar_xz ()
 {
-    # Выполняет перенос в каталог ${PUB_HTML_CLP_ARH}/ архивов
-    # git.tar.xz
-    
     check_dir_public_html_clp_arch
     remake_xz
     make_repo_vars
@@ -180,10 +166,6 @@ remake_tar_xz ()
     mv -f ${!REPO_XZ_TAR} ${PUB_HTML_CLP_ARH}
 }
 
-####################################################################################################
-#### git_tree
-####################################################################################################
-
 GIT_TREE_USAGE="
 NAME
 
@@ -191,19 +173,19 @@ NAME
             git, расположенными в дереве каталогов.
 
 SYNOPSIS
-        $(basename $0) [ pull | push | pullsh | all [<branch>]] 
-                       | [commit | add]
-                       | [readd         [ pp | pz | pi | or | pb]]
-                       | [rm            [ pp | pz | pi | or | pb]]
-                       | [clone         [ pp | pz | pi | or | pb]]
-                       | [make_git      [ pp | pz ]]
-                       | [xz_git        [ pp | pz ]]
-                       | [remake_git    [ pp | pz ]]
-                       | [remake_tar_xz [ pp | pz ]]
+        $(basename $0) [ pull | push | pullsh | all [<branch>]]   |
+                 [ commit | add]                            |
+                 [ readd         [ pp | pz | pi | or | pb]] |
+                 [ rm            [ pp | pz | pi | or | pb]] |
+                 [ clone         [ pp | pz | pi | or | pb]] |
+                 [ make_git      [ pp | pz ]]               |
+                 [ xz_git        [ pp | pz ]]               |
+                 [ remake_git    [ pp | pz ]]               |
+                 [ remake_tar_xz [ pp | pz ]]    
 
-        $(basename $0) [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases]
-                       | [rs_local_pi | rs_pi_local | rs_pi_html]
-                       | [reclone]
+        $(basename $0) [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases] |
+                 [rs_local_pi | rs_pi_local | rs_pi_html] |
+                 [reclone]
 
 DESCRIPTION
     Форма 1:
@@ -294,7 +276,7 @@ COMMANDS
         add_aliases - добавляет аббревиатуры для запуска команд git.
 "
 
-func_git_tree_usage_show ()
+git_tree_usage_show ()
 {
     echo "${GIT_TREE_USAGE}"
 }
@@ -466,12 +448,8 @@ func_git_tree_command ()
     cd ${CDIR}
 }
 
-####################################################################################################
-
 func_rs_quicklisp ()
 {
-#   Выполняет перенос в каталог public файлов, необходимях для
-#   обновления quicklisp.
     check_dir_public_html_clp_arch
 
     cd $HOME/quicklisp/dists
@@ -481,9 +459,6 @@ func_rs_quicklisp ()
 
 func_rs_pacman ()
 {
-    # Выполняет копирование в какалог ${PUB_HTML_CLP_ARH} пакетов и
-    # файлов синхронизации, необходимях для обновления msys2.
-    
     check_dir_public_html_clp_arch
 
     if [[ -d "${VAR_CACHE_PACMAN}" ]]
@@ -503,9 +478,6 @@ func_rs_pacman ()
 
 func_rs_dot_emacs_d_public ()
 {
-    # Выполняет копирование в какалог ${PUB_HTML_CLP_ARH} файлов из
-    # каталога .emacs.d.
-
     check_dir_public_html_clp_arch
 
     echo "<<< cd ${HOME} >>>"
@@ -533,9 +505,6 @@ rm_rf_git ()
 
 xz_git ()
 {
-    # Распаковывает архивы git.tar.xz, содержащие репозитории git, в
-    # каталоги с чистыми репозиториями для pp расположения.
-    
     check_dir_git
     cd_git_url
     make_repo_vars
@@ -594,19 +563,40 @@ add_aliases ()
 
 func_git_tree_usage_location ()
 {
-    func_git_tree_usage_show
-    echo "Add location: [${REPO_NAME_pp} | ${REPO_NAME_pz} | ${REPO_NAME_pi} | ${REPO_NAME_or} | ${REPO_NAME_pb} | ${REPO_NAME_gh}]"
+    git_tree_usage_show
+    echo "Расположение должно быть одним из следующего: [ pp | pz | pi | or | pb | gh ]"
 }
 
 func_git_tree ()
 {
+# Проверка переметров начало
     if [ -z "$1" ]
     then
-        func_git_tree_usage_show
+        git_tree_usage_show
         exit 1
     else
         COMMAND=$1
+        if [[ ${COMMAND} == "readd"     || \
+                ${COMMAND} == "rm"    || \
+                ${COMMAND} == "clone" ]]
+        then
+            if ! [[ -z "$2" ]]
+            then
+                LOCATION=$2
+                if ! [[ ${LOCATION} == "pp" || \
+                            ${LOCATION} == "pz" || \
+                            ${LOCATION} == "pi" || \
+                            ${LOCATION} == "or" || \
+                            ${LOCATION} == "pb" || \
+                            ${LOCATION} == "gh" ]]
+                then
+                    func_git_tree_usage_location
+                    exit 1
+                fi
+            fi 
+        fi
     fi
+# Проверка переметров конец
     if [[ ${COMMAND} == "push"          || \
               ${COMMAND} == "pull"      || \
               ${COMMAND} == "pullsh"    || \
@@ -619,13 +609,22 @@ func_git_tree ()
                 ${COMMAND} == "rm"    || \
                 ${COMMAND} == "clone" ]]
     then
-        if ! [[ -z "$2" ]]
-        then
-            LOCATION=$2
-            func_git_tree_command
-        else
-            func_git_tree_usage_location
-        fi
+        func_git_tree_command
+    elif [[ ${COMMAND} == "remake_xz" ]]
+    then
+        remake_xz
+    elif [[ ${COMMAND} == "remake_tar_xz" ]]
+    then
+        remake_tar_xz
+    elif [[ ${COMMAND} == "xz_git" ]]
+    then
+        xz_git
+    elif [[ ${COMMAND} == "remake_git" ]]
+    then
+        remake_git
+    elif [[ ${COMMAND} == "make_git" ]]
+    then
+        make_git
     elif [[ ${COMMAND} == "quicklisp" ]]
     then
         func_rs_quicklisp
@@ -635,36 +634,6 @@ func_git_tree ()
     elif [[ ${COMMAND} == "dot_emacs_d" ]]
     then
         func_rs_dot_emacs_d_public
-    elif [[ ${COMMAND} == "remake_git" ]]
-    then
-        remake_git
-    elif [[ ${COMMAND} == "remake_xz" ]]
-    then
-        if ! [[ -z "$2" ]]
-        then
-            LOCATION=$2
-            remake_xz
-        else
-            func_git_tree_usage_location
-        fi
-    elif [[ ${COMMAND} == "remake_tar_xz" ]]
-    then
-        if ! [[ -z "$2" ]]
-        then
-            LOCATION=$2
-            remake_tar_xz
-        else
-            func_git_tree_usage_location
-        fi
-    elif [[ ${COMMAND} == "xz_git" ]]
-    then
-        if ! [[ -z "$2" ]]
-        then
-            LOCATION=$2
-            xz_git
-        else
-            func_git_tree_usage_location
-        fi
     elif [[ ${COMMAND} == "rs_local_pi" ]]
     then
         rsync -Pavzhe ssh --delete ${HOME}/public_html/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html
@@ -677,26 +646,13 @@ func_git_tree ()
     elif [[ ${COMMAND} == "reclone" ]]
     then
         func_reclone
-    elif [[ ${COMMAND} == "make_git" ]]
-    then
-        if ! [[ -z "$2" ]]
-        then
-            LOCATION=$2
-            make_git
-        else
-            func_git_tree_usage_location
-        fi
     elif [[ ${COMMAND} == "add_aliases" ]]
     then
         add_aliases
     else
         echo "Unknown command: ${COMMAND}"
-        func_git_tree_usage_show
+        git_tree_usage_show
     fi
 }
-
-####################################################################################################
-#### Main 
-####################################################################################################
 
 func_git_tree "$@"
