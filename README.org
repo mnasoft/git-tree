@@ -61,7 +61,7 @@
   чистыми репозиториями. Поиск репозиротиев ведется в каталогах:
   ~/quicklisp/local-projects/; ~/develop/; ~/elisp/.
 
-- fgt_remake_xz_pp_all - Создает архивы git.tar.xz для мест
+- remake_xz_pp_all - Создает архивы git.tar.xz для мест
   расположения чистых репозиториев pp и pz
 - rs-pacman - Выполняет перенос в папку ~/public_html/ пакетов и
   файлов синхронизации, необходимях для обновления msys2.
@@ -132,34 +132,34 @@
   | remake_tar_xz         | check_dir_public_html_clp_arch |
   | remake_tar_xz         | remake_xz                      |
   | remake_tar_xz         | make_repo_vars                 |
-  | fgt_push              | echo_short                     |
-  | fgt_pull              | echo_short                     |
-  | fgt_add               | echo_short                     |
-  | fgt_readd             | echo_short                     |
-  | fgt_readd             | make_repo_vars                 |
-  | fgt_git_rm           | echo_short                     |
-  | fgt_git_rm           | make_repo_vars                 |
-  | fgt_git_clone        | make_repo_vars                 |
-  | fgt_git_clone        | echo_short                     |
-  | fgt_commit            | echo_short                     |
-  | fgt_push_or_pull      | echo_short                     |
-  | fgt_command_branch    | fgt_current_branch             |
-  | fgt_command_branch    | fgt_push_or_pull               |
-  | fgt_command_branch    | fgt_pull                       |
-  | fgt_command_branch    | fgt_push                       |
-  | fgt_command_branch    | fgt_add                        |
-  | fgt_command_branch    | fgt_commit                     |
-  | fgt_command_branch    | fgt_pull                       |
-  | fgt_command_branch    | fgt_add                        |
-  | fgt_command_branch    | fgt_commit                     |
-  | fgt_command_branch    | fgt_push                       |
-  | fgt_command_branch    | fgt_readd                      |
-  | fgt_command_branch    | fgt_git_rm                    |
-  | fgt_command_branch    | fgt_git_clone                 |
-  | fgt_command           | echo_long_equal                |
-  | fgt_command           | echo_long                      |
-  | fgt_command           | fgt_command_branch             |
-  | fgt_command           | echo_long_plus                 |
+  | push                  | echo_short                     |
+  | pull                  | echo_short                     |
+  | add                   | echo_short                     |
+  | readd                 | echo_short                     |
+  | readd                 | make_repo_vars                 |
+  | git_rm                | echo_short                     |
+  | git_rm                | make_repo_vars                 |
+  | git_clone             | make_repo_vars                 |
+  | git_clone             | echo_short                     |
+  | commit                | echo_short                     |
+  | push_or_pull          | echo_short                     |
+  | command_branch        | current_branch                 |
+  | command_branch        | push_or_pull                   |
+  | command_branch        | pull                           |
+  | command_branch        | push                           |
+  | command_branch        | add                            |
+  | command_branch        | commit                         |
+  | command_branch        | pull                           |
+  | command_branch        | add                            |
+  | command_branch        | commit                         |
+  | command_branch        | push                           |
+  | command_branch        | readd                          |
+  | command_branch        | git_rm                         |
+  | command_branch        | git_clone                      |
+  | command               | echo_long_equal                |
+  | command               | echo_long                      |
+  | command               | command_branch                 |
+  | command               | echo_long_plus                 |
   | rs_quicklisp          | check_dir_public_html_clp_arch |
   | rs_pacman             | check_dir_public_html_clp_arch |
   | rs_dot_emacs_d_public | check_dir_public_html_clp_arch |
@@ -167,10 +167,10 @@
   | xz_git                | check_dir_git                  |
   | xz_git                | cd_git_url                     |
   | xz_git                | make_repo_vars                 |
-  | fgt_usage_location    | fgt_usage_show                 |
-  | fgt                   | fgt_usage_show                 |
-  | fgt                   | fgt_usage_location             |
-  | fgt                   | fgt_command                    |
+  | show_location_usage   | show_usage                     |
+  | fgt                   | show_usage                     |
+  | fgt                   | show_location_usage            |
+  | fgt                   | command                        |
   | fgt                   | remake_xz                      |
   | fgt                   | remake_tar_xz                  |
   | fgt                   | xz_git                         |
@@ -179,9 +179,8 @@
   | fgt                   | rs_quicklisp                   |
   | fgt                   | rs_pacman                      |
   | fgt                   | rs_dot_emacs_d_public          |
-  | fgt                   | fgt_reclone                   |
+  | fgt                   | reclone                        |
   | fgt                   | add_aliases                    |
-  | fgt                   | fgt_usage_show                 |
 
   #+name: make-dot
   #+begin_src lisp :var table=dot-eg-table :results output :exports none

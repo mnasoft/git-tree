@@ -275,12 +275,12 @@ COMMANDS
         add_aliases - добавляет аббревиатуры для запуска команд git.
 "
 
-fgt_usage_show ()
+show_usage ()
 {
     echo "${GIT_TREE_USAGE}"
 }
 
-fgt_push ()
+push ()
 {
     for rpo in `git remote`
     do
@@ -293,7 +293,7 @@ fgt_push ()
     done
 }
 
-fgt_pull ()
+pull ()
 {
     for rpo in `git remote`
     do
@@ -306,7 +306,7 @@ fgt_pull ()
     done
 }
 
-fgt_add ()
+add ()
 {
     echo_short
 
@@ -317,7 +317,7 @@ fgt_add ()
     echo_short
 }
 
-fgt_readd ()
+readd ()
 {
     echo_short
     make_repo_vars
@@ -334,7 +334,7 @@ fgt_readd ()
     echo_short
 }
 
-fgt_git_rm ()
+git_rm ()
 {
     echo_short
     make_repo_vars
@@ -344,7 +344,7 @@ fgt_git_rm ()
     echo_short
 }
 
-fgt_git_clone ()
+git_clone ()
 {
     if [[ `git remote | grep ${LOCATION}` ]]
     then
@@ -358,7 +358,7 @@ fgt_git_clone ()
     echo_short
 }
 
-fgt_commit ()
+commit ()
 {
     echo_short
     echo "<<< git commit -a -m \"`date -u`\" >>>"
@@ -366,7 +366,7 @@ fgt_commit ()
     echo_short
 }
 
-fgt_push_or_pull ()
+push_or_pull ()
 {
     for rpo in `git remote`
     do
@@ -379,14 +379,14 @@ fgt_push_or_pull ()
     done
 }
 
-fgt_current_branch ()
+current_branch ()
 {
     CURRENT_BRANCH=`git branch --no-color | grep \*  | cut -d ' ' -f 2`
 }
 
-fgt_command_branch ()
+command_branch ()
 {
-    fgt_current_branch
+    current_branch
     DO_BRANCH="${CURRENT_BRANCH}"
 #    if ! [[ -z "${BRANCH}" ]]
 #    then
@@ -396,43 +396,43 @@ fgt_command_branch ()
 #    fi
     if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" ]]
     then
-        fgt_push_or_pull
+        push_or_pull
     fi
     if [[ ${COMMAND} == "pullsh" ]]
     then
-        fgt_pull
-        fgt_push
+        pull
+        push
     fi
     if [[ ${COMMAND} == "add" ]]
     then
-        fgt_add
+        add
     fi
     if [[ ${COMMAND} == "commit" ]]
     then
-        fgt_commit
+        commit
     fi
     if [[ ${COMMAND} == "all" ]]
     then
-        fgt_pull
-        fgt_add
-        fgt_commit
-        fgt_push
+        pull
+        add
+        commit
+        push
     fi
     if [[ ${COMMAND} == "readd" ]]
     then
-        fgt_readd
+        readd
     fi
     if [[ ${COMMAND} == "rm" ]]
     then
-        fgt_git_rm
+        git_rm
     fi
     if [[ ${COMMAND} == "clone" ]]
     then
-        fgt_git_clone
+        git_clone
     fi    
 }
 
-fgt_command ()
+command ()
 {
     CDIR=`pwd`
     for i in `find . -name ".git"`
@@ -441,7 +441,7 @@ fgt_command ()
         cd ${CDIR}/${i}/../
         echo "`pwd`"
         echo_long
-        fgt_command_branch
+        command_branch
         echo_long_plus
     done
     cd ${CDIR}
@@ -516,7 +516,7 @@ xz_git ()
     done
 }
 
-fgt_reclone ()
+reclone ()
 {
 # Для каталога, содержащего git-репозиторий выполняет:
 #
@@ -560,9 +560,9 @@ add_aliases ()
     git config --global core.editor emacs
 }
 
-fgt_usage_location ()
+usage_location ()
 {
-    fgt_usage_show
+    show_usage
     echo "Расположение должно быть одним из следующего: [ pp | pz | pi | or | pb | gh ]"
 }
 
@@ -571,7 +571,7 @@ fgt ()
 # Проверка переметров начало
     if [ -z "$1" ]
     then
-        fgt_usage_show
+        show_usage
         exit 1
     else
         COMMAND=$1
@@ -589,7 +589,7 @@ fgt ()
                             ${LOCATION} == "pb" || \
                             ${LOCATION} == "gh" ]]
                 then
-                    fgt_usage_location
+                    usage_location
                     exit 1
                 fi
             fi 
@@ -606,7 +606,7 @@ fgt ()
               ${COMMAND} == "rm"     || \
               ${COMMAND} == "clone" ]]
     then
-        fgt_command
+        command
     elif [[ ${COMMAND} == "remake_xz" ]]
     then
         remake_xz
@@ -642,13 +642,13 @@ fgt ()
         rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/
     elif [[ ${COMMAND} == "reclone" ]]
     then
-        fgt_reclone
+        reclone
     elif [[ ${COMMAND} == "add_aliases" ]]
     then
         add_aliases
     else
         echo "Unknown command: ${COMMAND}"
-        fgt_usage_show
+        show_usage
     fi
 }
 
