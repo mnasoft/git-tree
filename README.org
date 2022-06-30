@@ -169,10 +169,10 @@
   | command_branch        | readd                          |
   | command_branch        | git_rm                         |
   | command_branch        | git_clone                      |
-  | command               | echo_long_equal                |
-  | command               | echo_long                      |
-  | command               | command_branch                 |
-  | command               | echo_long_plus                 |
+  | tree_command          | echo_long_equal                |
+  | tree_command          | echo_long                      |
+  | tree_command          | command_branch                 |
+  | tree_command          | echo_long_plus                 |
   | rs_quicklisp          | check_dir_public_html_clp_arch |
   | rs_pacman             | check_dir_public_html_clp_arch |
   | rs_dot_emacs_d_public | check_dir_public_html_clp_arch |
@@ -183,7 +183,7 @@
   | show_location_usage   | show_usage                     |
   | fgt                   | show_usage                     |
   | fgt                   | show_location_usage            |
-  | fgt                   | command                        |
+  | fgt                   | tree_command                   |
   | fgt                   | remake_xz                      |
   | fgt                   | remake_tar_xz                  |
   | fgt                   | xz_git                         |

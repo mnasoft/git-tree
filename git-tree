@@ -432,7 +432,7 @@ command_branch ()
     fi    
 }
 
-command ()
+tree_command ()
 {
     CDIR=`pwd`
     for i in `find . -name ".git"`
@@ -575,9 +575,12 @@ fgt ()
         exit 1
     else
         COMMAND=$1
-        if [[ ${COMMAND} == "readd"     || \
-                ${COMMAND} == "rm"    || \
-                ${COMMAND} == "clone" ]]
+        if [[ ${COMMAND} == "readd"             || \
+                  ${COMMAND} == "rm"            || \
+                  ${COMMAND} == "clone"         || \
+                  ${COMMAND} == "remake_xz"     || \
+                  ${COMMAND} == "remake_tar_xz" || \
+                  ${COMMAND} == "make_git"      ]]
         then
             if ! [[ -z "$2" ]]
             then
@@ -606,7 +609,7 @@ fgt ()
               ${COMMAND} == "rm"     || \
               ${COMMAND} == "clone" ]]
     then
-        command
+        tree_command
     elif [[ ${COMMAND} == "remake_xz" ]]
     then
         remake_xz
