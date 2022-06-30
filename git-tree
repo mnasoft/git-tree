@@ -168,9 +168,8 @@ remake_tar_xz ()
 
 GIT_TREE_USAGE="
 NAME
-
         $(basename $0) выполняет однотипные операции над репозиториями
-            git, расположенными в дереве каталогов.
+                 git, расположенными в дереве каталогов.
 
 SYNOPSIS
         $(basename $0) [ pull | push | pullsh | all [<branch>]]   |
