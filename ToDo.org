@@ -49,3 +49,4 @@
    - [X] make_git_pp make_git_pz;
    - [X] remake_git_pp remake_git_pz;
    - [X] remake_tar_xz_pp remake_tar_xz_pz.
+8. [X] Переименовать BRAHCH в LOCATION проверить работу pull и push

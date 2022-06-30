@@ -59,10 +59,10 @@ check_dir_public_html_clp_arch ()
 
 make_repo_vars ()
 {
-    REPO_NAME="REPO_NAME_${BRANCH}"
-    REPO_GIT_URL="REPO_GIT_URL_${BRANCH}"
-    REPO_XZ_URL="REPO_XZ_URL_${BRANCH}"
-    REPO_XZ_TAR="REPO_XZ_TAR_${BRANCH}"
+    REPO_NAME="REPO_NAME_${LOCATION}"
+    REPO_GIT_URL="REPO_GIT_URL_${LOCATION}"
+    REPO_XZ_URL="REPO_XZ_URL_${LOCATION}"
+    REPO_XZ_TAR="REPO_XZ_TAR_${LOCATION}"
 }
 
 check_dir_git ()
@@ -101,20 +101,20 @@ make_git ()
     for i in `find . -name "*.git"`
     do
         cd $i/..
-        if [[ `git remote | grep ${BRANCH}` ]]
+        if [[ `git remote | grep ${LOCATION}` ]]
         then
             NAME=`pwd`
             BNAME=`basename $NAME`
             echo $i
             echo $NAME
-            echo $BNAME
+            echo ${BNAME}
             cd ..
-            echo "<<< git clone --bare $BNAME ${!REPO_GIT_URL}/$BNAME.git >>>"
-            git clone --bare $BNAME ${!REPO_GIT_URL}/$BNAME.git
+            echo "<<< git clone --bare ${BNAME} ${!REPO_GIT_URL}/${BNAME}.git >>>"
+            git clone --bare ${BNAME} ${!REPO_GIT_URL}/${BNAME}.git
         else
             cd ..
         fi
-        cd $CDIR
+        cd ${CDIR}
     done
 }
 
@@ -128,11 +128,11 @@ remake_xz ()
     do
         BNAME=`basename $i`
         echo $i
-        echo $BNAME
-        echo "<<< tar -cvvJf $BNAME.tar.xz $BNAME/ >>>"
-        tar -cvvJf $BNAME.tar.xz $BNAME/
-        echo "<<< mv $BNAME.tar.xz ${!REPO_XZ_URL}/ >>>"
-        mv $BNAME.tar.xz ${!REPO_XZ_URL}/
+        echo ${BNAME}
+        echo "<<< tar -cvvJf ${BNAME}.tar.xz ${BNAME}/ >>>"
+        tar -cvvJf ${BNAME}.tar.xz ${BNAME}/
+        echo "<<< mv ${BNAME}.tar.xz ${!REPO_XZ_URL}/ >>>"
+        mv ${BNAME}.tar.xz ${!REPO_XZ_URL}/
     done
 }
 
@@ -365,7 +365,7 @@ func_git_rm ()
 
 func_git_clone ()
 {
-    if [[ `git remote | grep ${BRANCH}` ]]
+    if [[ `git remote | grep ${LOCATION}` ]]
     then
         make_repo_vars
         
@@ -398,39 +398,38 @@ func_git_tree_push_or_pull ()
     done
 }
 
-func_git_tree_command_branch ()
+func_git_tree_current_branch ()
 {
     CURRENT_BRANCH=`git branch --no-color | grep \*  | cut -d ' ' -f 2`
-    if ! [[ -z "${BRANCH}" ]]
-    then
-        DO_BRANCH="${BRANCH}"
-    else
-        DO_BRANCH="${CURRENT_BRANCH}"
-    fi
-# pull          - получение изменений с сервера;
-# push          - отправка изменений на сервер;
+}
+
+func_git_tree_command_branch ()
+{
+    func_git_tree_current_branch
+    DO_BRANCH="${CURRENT_BRANCH}"
+#    if ! [[ -z "${BRANCH}" ]]
+#    then
+#        DO_BRANCH="${BRANCH}"
+#    else
+#        DO_BRANCH="${CURRENT_BRANCH}"
+#    fi
     if [[ ${COMMAND} == "push" || ${COMMAND} == "pull" ]]
     then
         func_git_tree_push_or_pull
     fi
-# pullsh        - получение и отправка изменений;    
     if [[ ${COMMAND} == "pullsh" ]]
     then
         func_git_tree_pull
         func_git_tree_push
     fi
-# add - добавление изменений;    
     if [[ ${COMMAND} == "add" ]]
     then
         func_git_tree_add
     fi
-# commit        - фиксация изменений;    
     if [[ ${COMMAND} == "commit" ]]
     then
         func_git_tree_commit
     fi
-# all           - получение изменений с сервера, добавление изменений,
-#                 фиксация изменений, отправка изменений на сервер;
     if [[ ${COMMAND} == "all" ]]
     then
         func_git_tree_pull
@@ -438,18 +437,14 @@ func_git_tree_command_branch ()
         func_git_tree_commit
         func_git_tree_push
     fi
-# readd         - удаление и повторное добавление удаленного
-#                 репозитория;
     if [[ ${COMMAND} == "readd" ]]
     then
         func_git_tree_readd
     fi
-# rm            - удаление удаленного репозитория;
     if [[ ${COMMAND} == "rm" ]]
     then
         func_git_rm
     fi
-# clone          - клонирование дерева репозиториев;
     if [[ ${COMMAND} == "clone" ]]
     then
         func_git_clone
@@ -575,12 +570,12 @@ REPO_PI=`git remote | grep pi`
 
 if [[ ${REPO_PI} ==  ${REPO_NAME_pi} ]]
 then
-    B_NAME=`basename $CDIR`
-    echo $B_NAME
+    BNAME=`basename ${CDIR}`
+    echo ${BNAME}
     cd ../
-    rm -rf $B_NAME
-    git clone $REPO_GIT_URL_pi/$B_NAME.git
-    cd $B_NAME
+    rm -rf ${BNAME}
+    git clone $REPO_GIT_URL_pi/${BNAME}.git
+    cd ${BNAME}
     git remote rename origin ${REPO_NAME_pi}
 fi
 }
@@ -597,76 +592,106 @@ add_aliases ()
     git config --global core.editor emacs
 }
 
-####################################################################################################
-#### func_git_tree
-####################################################################################################
+func_git_tree_usage_location ()
+{
+    func_git_tree_usage_show
+    echo "Add location: [${REPO_NAME_pp} | ${REPO_NAME_pz} | ${REPO_NAME_pi} | ${REPO_NAME_or} | ${REPO_NAME_pb} | ${REPO_NAME_gh}]"
+}
 
 func_git_tree ()
 {
-    if ! [[ -z "$2" ]]
-    then
-        BRANCH=$2
-    fi
-
     if [ -z "$1" ]
     then
         func_git_tree_usage_show
+        exit 1
     else
         COMMAND=$1
-        if [[ ${COMMAND} == "push"          || \
-                  ${COMMAND} == "pull"      || \
-                  ${COMMAND} == "pullsh"    || \
-                  ${COMMAND} == "add"       || \
-                  ${COMMAND} == "commit"    || \
-                  ${COMMAND} == "all"       || \
-                  ${COMMAND} == "readd"     || \
-                  ${COMMAND} == "rm"        || \
-                  ${COMMAND} == "clone" ]]
+    fi
+    if [[ ${COMMAND} == "push"          || \
+              ${COMMAND} == "pull"      || \
+              ${COMMAND} == "pullsh"    || \
+              ${COMMAND} == "add"       || \
+              ${COMMAND} == "commit"    || \
+              ${COMMAND} == "all" ]]
+    then
+        func_git_tree_command
+    elif [[ ${COMMAND} == "readd"     || \
+                ${COMMAND} == "rm"    || \
+                ${COMMAND} == "clone" ]]
+    then
+        if ! [[ -z "$2" ]]
         then
+            LOCATION=$2
             func_git_tree_command
-	elif [[ ${COMMAND} == "quicklisp" ]]
-	then
-	    func_rs_quicklisp
-	elif [[ ${COMMAND} == "pacman" ]]
-	then
-	    func_rs_pacman
-	elif [[ ${COMMAND} == "dot_emacs_d" ]]
-	then
-	    func_rs_dot_emacs_d_public
-	elif [[ ${COMMAND} == "remake_git" ]]
-	then
-	    remake_git
-	elif [[ ${COMMAND} == "remake_xz" ]]
-	then
-	    remake_xz
-	elif [[ ${COMMAND} == "remake_tar_xz" ]]
-	then
-	    remake_tar_xz
-        elif [[ ${COMMAND} == "xz_git" ]]
-	then
-	    xz_git
-	elif [[ ${COMMAND} == "rs_local_pi" ]]
-	then
-	    rsync -Pavzhe ssh --delete ${HOME}/public_html/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html	    
-	elif [[ ${COMMAND} == "rs_pi_local" ]]
-	then
-	    rsync -Pavzhe ssh --delete namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/ ${HOME}/public_html
-	elif [[ ${COMMAND} == "rs_pi_html" ]]
-	then
-	    rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/
-	elif [[ ${COMMAND} == "reclone" ]]
-	then
-            func_reclone
-	elif [[ ${COMMAND} == "make_git" ]]
-	then
-            make_git
-        elif [[ ${COMMAND} == "add_aliases" ]]
-	then
-            add_aliases
         else
-            echo "Unknown command: ${COMMAND}"
-            func_git_tree_usage_show
+            func_git_tree_usage_location
         fi
+    elif [[ ${COMMAND} == "quicklisp" ]]
+    then
+        func_rs_quicklisp
+    elif [[ ${COMMAND} == "pacman" ]]
+    then
+        func_rs_pacman
+    elif [[ ${COMMAND} == "dot_emacs_d" ]]
+    then
+        func_rs_dot_emacs_d_public
+    elif [[ ${COMMAND} == "remake_git" ]]
+    then
+        remake_git
+    elif [[ ${COMMAND} == "remake_xz" ]]
+    then
+        if ! [[ -z "$2" ]]
+        then
+            LOCATION=$2
+            remake_xz
+        else
+            func_git_tree_usage_location
+        fi
+    elif [[ ${COMMAND} == "remake_tar_xz" ]]
+    then
+        if ! [[ -z "$2" ]]
+        then
+            LOCATION=$2
+            remake_tar_xz
+        else
+            func_git_tree_usage_location
+        fi
+    elif [[ ${COMMAND} == "xz_git" ]]
+    then
+        if ! [[ -z "$2" ]]
+        then
+            LOCATION=$2
+            xz_git
+        else
+            func_git_tree_usage_location
+        fi
+    elif [[ ${COMMAND} == "rs_local_pi" ]]
+    then
+        rsync -Pavzhe ssh --delete ${HOME}/public_html/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html
+    elif [[ ${COMMAND} == "rs_pi_local" ]]
+    then
+        rsync -Pavzhe ssh --delete namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/ ${HOME}/public_html
+    elif [[ ${COMMAND} == "rs_pi_html" ]]
+    then
+        rsync -Pavzhe ssh --delete ~/public_html/Common-Lisp-Programs/ namatv@mnasoft.ddns.mksat.net:/usr/share/nginx/html/Common-Lisp-Programs/
+    elif [[ ${COMMAND} == "reclone" ]]
+    then
+        func_reclone
+    elif [[ ${COMMAND} == "make_git" ]]
+    then
+        if ! [[ -z "$2" ]]
+        then
+            LOCATION=$2
+            make_git
+        else
+            func_git_tree_usage_location
+        fi
+    elif [[ ${COMMAND} == "add_aliases" ]]
+    then
+        add_aliases
+    else
+        echo "Unknown command: ${COMMAND}"
+        func_git_tree_usage_show
     fi
 }
 
