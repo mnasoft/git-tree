@@ -560,7 +560,7 @@ add_aliases ()
     git config --global core.editor emacs
 }
 
-usage_location ()
+show_location_usage ()
 {
     show_usage
     echo "Расположение должно быть одним из следующего: [ pp | pz | pi | or | pb | gh ]"
@@ -589,7 +589,7 @@ fgt ()
                             ${LOCATION} == "pb" || \
                             ${LOCATION} == "gh" ]]
                 then
-                    usage_location
+                    show_location_usage
                     exit 1
                 fi
             fi 
