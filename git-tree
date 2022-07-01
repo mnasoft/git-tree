@@ -580,6 +580,8 @@ fgt ()
                   ${COMMAND} == "clone"         || \
                   ${COMMAND} == "remake_xz"     || \
                   ${COMMAND} == "remake_tar_xz" || \
+                  ${COMMAND} == "xz_git"        || \
+                  ${COMMAND} == "remake_git"   || \
                   ${COMMAND} == "make_git"      ]]
         then
             if ! [[ -z "$2" ]]
