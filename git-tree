@@ -574,7 +574,12 @@ fgt ()
                   ${COMMAND} == "make_git"      || \
                   ${COMMAND} == "info" ]]
         then
-            if ! [[ -z "$2" ]]
+            if  [[ -z "$2" ]]
+            then
+                show_location_usage
+                echo "Расположение не указано."
+                exit 1
+            elif ! [[ -z "$2" ]]
             then
                 LOCATION=$2
                 GOOD_LOCATION='NO'
