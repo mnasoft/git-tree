@@ -5,12 +5,23 @@ echo "" > UNINSTALL.run
 
 mkdir -p /usr/local/bin/
 git clean -fx
-for i in `find . -name "git-*" -o -name "slynk-*"`
+for i in `find . -name "git-tree" -o -name "slynk-*"`
 do
     echo "${i}"
     cp -f ${i} /usr/local/bin/
     chmod +x /usr/local/bin/${i}
     echo "/usr/local/bin/${i}" >> INSTALL.log
     echo "rm -f /usr/local/bin/${i}" >> UNINSTALL.run
+    chmod +x UNINSTALL.run
+done
+
+mkdir -p /etc/git-tree/
+for i in `find . -name "git-tree.conf"`
+do
+    echo "${i}"
+    cp -f ${i} /etc/git-tree/
+    chmod +x /etc/git-tree/${i}
+    echo "/etc/git-tree/${i}" >> INSTALL.log
+    echo "rm -f /etc/git-tree/${i}" >> UNINSTALL.run
     chmod +x UNINSTALL.run
 done
