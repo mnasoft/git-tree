@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /etc/git-tree/git-tree.conf
+
 echo_short ()
 {
     # echo '--------------------'
@@ -159,10 +161,10 @@ NAME
 SYNOPSIS
         $(basename $0) [ pull | push | pullsh | all [<branch>]]   |
                  [ commit | add]                            |
-                 [ readd         [ ${LOCATIONS[*]}]] |
-                 [ rm            [ ${LOCATIONS[*]}]] |
-                 [ clone         [ ${LOCATIONS[*]}]] |
-                 [ info          [ ${LOCATIONS[*]}]] |
+                 [ readd         [ ${LOCATIONS[*]} ] |
+                 [ rm            [ ${LOCATIONS[*]} ] |
+                 [ clone         [ ${LOCATIONS[*]} ] |
+                 [ info          [ ${LOCATIONS[*]} ] |
                  [ make_git      [ pp | pz ]]               |
                  [ xz_git        [ pp | pz ]]               |
                  [ remake_git    [ pp | pz ]]               |
@@ -171,6 +173,7 @@ SYNOPSIS
         $(basename $0) [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases] |
                  [rs_local_pi | rs_pi_local | rs_pi_html] |
                  [reclone]
+
 
 DESCRIPTION
     Форма 1:
@@ -554,7 +557,6 @@ show_location_usage ()
 
 fgt ()
 {
-    . /etc/git-tree/git-tree.conf
 # Проверка переметров начало
     if [ -z "$1" ]
     then
