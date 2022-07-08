@@ -1,29 +1,4 @@
 #!/bin/bash
-# 
-# REPO_NAME_pp="pp"
-# REPO_NAME_pz="pz"
-# REPO_NAME_pi="pi"
-# REPO_NAME_or="origin"
-# REPO_NAME_pb="pb"
-# REPO_NAME_gh="gh"
-# 
-# REPO_GIT_URL_pp="$HOME/git"
-# REPO_GIT_URL_pz="$HOME/git-big"
-# REPO_GIT_URL_pi="git@mnasoft.ddns.mksat.net:/opt/git"
-# REPO_GIT_URL_or="//n000325/home/_namatv/_git"
-# REPO_GIT_URL_pb="//n133905/home/_namatv/git_pb"
-# REPO_GIT_URL_gh="git@github.com:mnasoft"
-#
-# REPO_XZ_URL_pp="$HOME/xz"
-# REPO_XZ_URL_pz="$HOME/xz-big"
-# 
-# REPO_XZ_TAR_pp="xz.tar"
-# REPO_XZ_TAR_pz="xz-big.tar"
-#
-# PUB_HTML_CLP_ARH="$HOME/public_html/Common-Lisp-Programs/Archive"
-#
-# VAR_CACHE_PACMAN="/var/cache/pacman"
-# VAR_LIB_PACMAN="/var/lib/pacman"
 
 echo_short ()
 {
@@ -588,16 +563,30 @@ fgt ()
             if ! [[ -z "$2" ]]
             then
                 LOCATION=$2
-                if ! [[ ${LOCATION} == "pp" || \
-                            ${LOCATION} == "pz" || \
-                            ${LOCATION} == "pi" || \
-                            ${LOCATION} == "or" || \
-                            ${LOCATION} == "pb" || \
-                            ${LOCATION} == "gh" ]]
+                GOOD_LOCATION='NO'
+                for i in ${LOCATIONS[@]}
+                do
+                    if [[ ${LOCATION} == ${i} ]]
+                    then
+                        GOOD_LOCATION='YES'
+                    fi
+                done
+                if ! [[ ${GOOD_LOCATION} == 'YES' ]]
                 then
                     show_location_usage
                     exit 1
-                fi
+                fi                            
+                
+#                if ! [[ ${LOCATION} == "pp" || \
+#                            ${LOCATION} == "pz" || \
+#                            ${LOCATION} == "pi" || \
+#                            ${LOCATION} == "or" || \
+#                            ${LOCATION} == "pb" || \
+#                            ${LOCATION} == "gh" ]]
+#                then
+#                    show_location_usage
+#                    exit 1
+#                fi
             fi 
         fi
     fi
