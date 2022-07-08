@@ -90,6 +90,16 @@ make_git ()
     done
 }
 
+info ()
+{
+    make_repo_vars
+    echo LOCATION=${LOCATION}
+    echo "REPO_NAME_${LOCATION}=${!REPO_NAME}"
+    echo "REPO_GIT_URL_${LOCATION}=${!REPO_GIT_URL}"
+    echo "REPO_XZ_URL_${LOCATION}=${!REPO_XZ_URL}"
+    echo "REPO_XZ_TAR_${LOCATION}=${!REPO_XZ_TAR}"    
+}
+
 remake_xz ()
 {
     remove_xz
@@ -538,7 +548,7 @@ add_aliases ()
 show_location_usage ()
 {
     show_usage
-    echo "Расположение должно быть одним из следующего: [ pp | pz | pi | or | pb | gh ]"
+    echo "Расположение должно быть одним из следующего: [ ${LOCATIONS[*]} ]"
 }
 
 fgt ()
@@ -558,7 +568,8 @@ fgt ()
                   ${COMMAND} == "remake_tar_xz" || \
                   ${COMMAND} == "xz_git"        || \
                   ${COMMAND} == "remake_git"    || \
-                  ${COMMAND} == "make_git"      ]]
+                  ${COMMAND} == "make_git"      || \
+                  ${COMMAND} == "info" ]]
         then
             if ! [[ -z "$2" ]]
             then
@@ -576,17 +587,6 @@ fgt ()
                     show_location_usage
                     exit 1
                 fi                            
-                
-#                if ! [[ ${LOCATION} == "pp" || \
-#                            ${LOCATION} == "pz" || \
-#                            ${LOCATION} == "pi" || \
-#                            ${LOCATION} == "or" || \
-#                            ${LOCATION} == "pb" || \
-#                            ${LOCATION} == "gh" ]]
-#                then
-#                    show_location_usage
-#                    exit 1
-#                fi
             fi 
         fi
     fi
@@ -617,6 +617,9 @@ fgt ()
     elif [[ ${COMMAND} == "make_git" ]]
     then
         make_git
+    elif [[ ${COMMAND} == "info" ]]
+    then
+        info
     elif [[ ${COMMAND} == "quicklisp" ]]
     then
         rs_quicklisp
