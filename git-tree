@@ -159,9 +159,10 @@ NAME
 SYNOPSIS
         $(basename $0) [ pull | push | pullsh | all [<branch>]]   |
                  [ commit | add]                            |
-                 [ readd         [ pp | pz | pi | or | pb]] |
-                 [ rm            [ pp | pz | pi | or | pb]] |
-                 [ clone         [ pp | pz | pi | or | pb]] |
+                 [ readd         [ ${LOCATIONS[*]}]] |
+                 [ rm            [ ${LOCATIONS[*]}]] |
+                 [ clone         [ ${LOCATIONS[*]}]] |
+                 [ info          [ ${LOCATIONS[*]}]] |
                  [ make_git      [ pp | pz ]]               |
                  [ xz_git        [ pp | pz ]]               |
                  [ remake_git    [ pp | pz ]]               |
