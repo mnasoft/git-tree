@@ -1,0 +1,9 @@
+#!/bin/bash
+cd ~/xz
+dropbox_uploader.sh download xz.tar .
+tar -xf xz.tar
+git tree xz_git pp
+cd
+cd
+cd quicklisp/local-projects/
+git tree pullsh
