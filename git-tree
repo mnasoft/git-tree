@@ -33,38 +33,38 @@ check_dir_public_html_clp_arch ()
 
 make_repo_vars ()
 {
-    REPO_NAME="REPO_NAME_${LOCATION}"
-    REPO_GIT_URL="REPO_GIT_URL_${LOCATION}"
-    REPO_XZ_URL="REPO_XZ_URL_${LOCATION}"
-    REPO_XZ_TAR="REPO_XZ_TAR_${LOCATION}"
+    NAME="NAME_${LOCATION}"
+    URL_GIT="URL_GIT_${LOCATION}"
+    URL_XZ="URL_XZ_${LOCATION}"
+    TAR="TAR_${LOCATION}"
 }
 
 check_dir_git ()
 {
     make_repo_vars
-    echo "<<< mkdir -p ${!REPO_GIT_URL} >>>"
-    mkdir -p ${!REPO_GIT_URL}
+    echo "<<< mkdir -p ${!URL_GIT} >>>"
+    mkdir -p ${!URL_GIT}
 }
 
 check_dir_xz ()
 {
     make_repo_vars
-    echo "<<< mkdir -p ${!REPO_XZ_URL} >>>"    
-    mkdir -p ${!REPO_XZ_URL}
+    echo "<<< mkdir -p ${!URL_XZ} >>>"    
+    mkdir -p ${!URL_XZ}
 }
 
 rm_git ()
 {
     make_repo_vars
-    echo "<<< rm -rf ${!REPO_GIT_URL}/*.git >>>"    
-    rm -rf ${!REPO_GIT_URL}/*.git
+    echo "<<< rm -rf ${!URL_GIT}/*.git >>>"    
+    rm -rf ${!URL_GIT}/*.git
 }
 
 remove_xz ()
 {
     make_repo_vars 
-    echo "<<< rm -f ${!REPO_XZ_URL}/*.git.tar.xz >>>"
-    rm -f ${!REPO_XZ_URL}/*.git.tar.xz
+    echo "<<< rm -f ${!URL_XZ}/*.git.tar.xz >>>"
+    rm -f ${!URL_XZ}/*.git.tar.xz
 }
 
 make_git ()
@@ -83,8 +83,8 @@ make_git ()
             echo $NAME
             echo ${BNAME}
             cd ..
-            echo "<<< git clone --bare ${BNAME} ${!REPO_GIT_URL}/${BNAME}.git >>>"
-            git clone --bare ${BNAME} ${!REPO_GIT_URL}/${BNAME}.git
+            echo "<<< git clone --bare ${BNAME} ${!URL_GIT}/${BNAME}.git >>>"
+            git clone --bare ${BNAME} ${!URL_GIT}/${BNAME}.git
         else
             cd ..
         fi
@@ -96,10 +96,10 @@ info ()
 {
     make_repo_vars
     echo LOCATION=${LOCATION}
-    echo "REPO_NAME_${LOCATION}=${!REPO_NAME}"
-    echo "REPO_GIT_URL_${LOCATION}=${!REPO_GIT_URL}"
-    echo "REPO_XZ_URL_${LOCATION}=${!REPO_XZ_URL}"
-    echo "REPO_XZ_TAR_${LOCATION}=${!REPO_XZ_TAR}"    
+    echo "NAME_${LOCATION}=${!NAME}"
+    echo "URL_GIT_${LOCATION}=${!URL_GIT}"
+    echo "URL_XZ_${LOCATION}=${!URL_XZ}"
+    echo "TAR_${LOCATION}=${!TAR}"    
 }
 
 remake_xz ()
@@ -107,7 +107,7 @@ remake_xz ()
     remove_xz
     check_dir_xz
     make_repo_vars
-    cd ${!REPO_GIT_URL}
+    cd ${!URL_GIT}
     for i in `find . -name "*.git"`
     do
         BNAME=`basename $i`
@@ -115,8 +115,8 @@ remake_xz ()
         echo ${BNAME}
         echo "<<< tar -cvvJf ${BNAME}.tar.xz ${BNAME}/ >>>"
         tar -cvvJf ${BNAME}.tar.xz ${BNAME}/
-        echo "<<< mv ${BNAME}.tar.xz ${!REPO_XZ_URL}/ >>>"
-        mv ${BNAME}.tar.xz ${!REPO_XZ_URL}/
+        echo "<<< mv ${BNAME}.tar.xz ${!URL_XZ}/ >>>"
+        mv ${BNAME}.tar.xz ${!URL_XZ}/
     done
 }
 
@@ -143,14 +143,14 @@ remake_tar_xz ()
     remake_xz
     make_repo_vars
 
-    echo "<<< cd ${!REPO_XZ_URL} >>>"
-    cd ${!REPO_XZ_URL}
+    echo "<<< cd ${!URL_XZ} >>>"
+    cd ${!URL_XZ}
 
-    echo "<<< tar -cvvf ${!REPO_XZ_TAR} *.git.tar.xz >>>"
-    tar -cvvf ${!REPO_XZ_TAR} *.git.tar.xz
+    echo "<<< tar -cvvf ${!TAR} *.git.tar.xz >>>"
+    tar -cvvf ${!TAR} *.git.tar.xz
     
-    echo "<<< mv -f ${!REPO_XZ_TAR} ${PUB_HTML_CLP_ARH} >>>"
-    mv -f ${!REPO_XZ_TAR} ${PUB_HTML_CLP_ARH}
+    echo "<<< mv -f ${!TAR} ${PUB_HTML_CLP_ARH} >>>"
+    mv -f ${!TAR} ${PUB_HTML_CLP_ARH}
 }
 
 GIT_TREE_USAGE="
@@ -208,12 +208,12 @@ COMMANDS
 
     Создание чистых репозиториев git:
         make_git :
-            $REPO_GIT_URL_pp для расположения pp;
-            $REPO_GIT_URL_pz для расположения pz;
+            $URL_GIT_pp для расположения pp;
+            $URL_GIT_pz для расположения pz;
 
         remake_git - удаляет и создает повтроно для: расположения pp в
-            каталоге $REPO_GIT_URL_pp; расположения pz в каталоге
-            $REPO_GIT_URL_pz чистые репозитории git, находящиеся в
+            каталоге $URL_GIT_pp; расположения pz в каталоге
+            $URL_GIT_pz чистые репозитории git, находящиеся в
             каталогах:
             - ${HOME}/quicklisp/local-projects/;
             - ${HOME}/develop/;
@@ -221,21 +221,21 @@ COMMANDS
 
         remake_xz - удаляет и повторно создает:
             - для расположения pp в каталоге
-            $REPO_XZ_URL_pp
+            $URL_XZ_pp
             - для расположения pz в каталоге
-            $REPO_XZ_URL_pz 
+            $URL_XZ_pz 
             архивы .tar.xz репозиториев git, находящихся в каталоге 
-            $REPO_GIT_URL_pp;
-            $REPO_GIT_URL_pz
+            $URL_GIT_pp;
+            $URL_GIT_pz
             соответственно;
 
         remake_tar_xz :
-            - для расположения pp создает архив ${REPO_XZ_TAR_pp} из
+            - для расположения pp создает архив ${TAR_pp} из
               файлов с расширением .git.tar.xz, находящихся в каталоге
-              ${REPO_XZ_URL_pp};
-            - для расположения pz создает архив ${REPO_XZ_TAR_pz} из
+              ${URL_XZ_pp};
+            - для расположения pz создает архив ${TAR_pz} из
               файлов с расширением .git.tar.xz, находящихся в каталоге
-              ${REPO_XZ_URL_pz}, и перемещает его в каталог
+              ${URL_XZ_pz}, и перемещает его в каталог
               ${PUB_HTML_CLP_ARH};
 
         rs_local_pi : Выполняет синхронизацию папки ~/public_html/ с
@@ -311,14 +311,14 @@ readd ()
     echo_short
     make_repo_vars
     
-    echo "<<< git remote remove ${!REPO_NAME} >>>"
-    git remote remove ${!REPO_NAME}
+    echo "<<< git remote remove ${!NAME} >>>"
+    git remote remove ${!NAME}
     
     DIR_REPO=`pwd`
     REPO=`basename ${DIR_REPO}`
     
-    echo "<<< git remote add ${!REPO_NAME} ${!REPO_GIT_URL}/${REPO}.git >>>"
-    git remote add ${!REPO_NAME} ${!REPO_GIT_URL}/${REPO}.git
+    echo "<<< git remote add ${!NAME} ${!URL_GIT}/${REPO}.git >>>"
+    git remote add ${!NAME} ${!URL_GIT}/${REPO}.git
 
     echo_short
 }
@@ -328,8 +328,8 @@ git_rm ()
     echo_short
     make_repo_vars
 
-    echo "<<< git remote remove ${!REPO_NAME} >>>"
-    git remote remove ${!REPO_NAME}
+    echo "<<< git remote remove ${!NAME} >>>"
+    git remote remove ${!NAME}
     echo_short
 }
 
@@ -341,8 +341,8 @@ git_clone ()
         
         NAME=`pwd`
         BNAME=`basename $NAME`
-        echo "<<< git clone --bare . ${!REPO_GIT_URL}/${BNAME}.git >>>"
-        git           clone --bare . ${!REPO_GIT_URL}/${BNAME}.git
+        echo "<<< git clone --bare . ${!URL_GIT}/${BNAME}.git >>>"
+        git           clone --bare . ${!URL_GIT}/${BNAME}.git
     fi
     echo_short
 }
@@ -481,8 +481,8 @@ rs_dot_emacs_d_public ()
 cd_git_url ()
 {
     make_repo_vars
-    echo "<<< cd ${!REPO_GIT_URL} >>>"
-    cd ${!REPO_GIT_URL}
+    echo "<<< cd ${!URL_GIT} >>>"
+    cd ${!URL_GIT}
 }
 
 rm_rf_git ()
@@ -497,10 +497,10 @@ xz_git ()
     cd_git_url
     make_repo_vars
     
-    if [[ `pwd` == "${!REPO_GIT_URL}" ]]
+    if [[ `pwd` == "${!URL_GIT}" ]]
     then rm_rf_git
     fi
-    for i in `ls ${!REPO_XZ_URL}/*.git.tar.xz`
+    for i in `ls ${!URL_XZ}/*.git.tar.xz`
     do tar -xvf $i
     done
 }
@@ -523,17 +523,17 @@ reclone ()
 
 CDIR=`pwd`
 
-REPO_PI=`git remote | grep pi`
+PI=`git remote | grep pi`
 
-if [[ ${REPO_PI} ==  ${REPO_NAME_pi} ]]
+if [[ ${PI} ==  ${NAME_pi} ]]
 then
     BNAME=`basename ${CDIR}`
     echo ${BNAME}
     cd ../
     rm -rf ${BNAME}
-    git clone $REPO_GIT_URL_pi/${BNAME}.git
+    git clone $URL_GIT_pi/${BNAME}.git
     cd ${BNAME}
-    git remote rename origin ${REPO_NAME_pi}
+    git remote rename origin ${NAME_pi}
 fi
 }
 

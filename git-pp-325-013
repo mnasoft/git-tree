@@ -2,9 +2,9 @@
 
 . /etc/git-tree/git-tree.conf
 
-cd ${REPO_XZ_URL_pp}
-cp //n000325/home/_namatv/xz.tar .
-tar -xf xz.tar
+cd ${URL_XZ_pp}
+cp //n000325/home/_namatv/${XZ_TAR_pp} .
+tar -xf ${XZ_TAR_pp}
 cd
 cd quicklisp/local-projects/
 git tree pull
