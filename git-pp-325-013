@@ -1,0 +1,13 @@
+#!/bin/bash
+
+. /etc/git-tree/git-tree.conf
+
+cd ${URL_XZ_pp}
+cp //n000325/home/_namatv/${XZ_TAR_pp} .
+tar -xf ${XZ_TAR_pp}
+cd
+cd quicklisp/local-projects/
+git tree pull
+cd
+cd devel
+git tree pull

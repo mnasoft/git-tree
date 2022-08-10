@@ -32,37 +32,46 @@
 * ToDo
 1. [ ] Добавить проверки и завпрет на выполнение для команд переменные
    которых связанные с расположеним не определены.
-3. [ ] Добавить ключевой параметр -b (branch)
+2. [ ] Добавить ключевой параметр -b (branch)
    (см. [[file:bash-example/bash-example]])
-4. [ ] Добавить ключевой параметр -l (location) pp pz pi pb
+3. [ ] Добавить ключевой параметр -l (location) pp pz pi pb
    (см. [[file:bash-example/bash-example]])
-5. [ ] Добавить ключевой параметр -v (verbose)
+4. [ ] Добавить ключевой параметр -v (verbose)
    
 * DoNe
-1. [X] Добавить эхо-вывод для каждой, выполняемой команды из
-     git-tree-all;
-2. [X] Переименовать git-tree-all -> git-tree;
-3. [X] Переименовать git-tree -> git-tree-repo;
-4. [X] Добавить эхо-вывод для каждой, выполняемой команды из git-tree-repo;
-5. [X] Добавлены  rs-local-pi rs-pi-local.   
-6. [X] Объединить команды:
-   - [X] rm_pp rm_pz rm_or rm_pb в rm с аргументом pp|pz|or|pb.
-   - [X] readd_pp readd_pz readd_r readd_pb в readd с аргументом pp|pz|or|pb.
-   - [X] clone_pp clone_pz clone_r clone_pb в clone с аргументом pp|pz|or|pb.
-7. [X] Объединить команды
-   - [X] make_git_pp make_git_pz;
-   - [X] remake_git_pp remake_git_pz;
-   - [X] remake_tar_xz_pp remake_tar_xz_pz.
-8. [X] Переименовать BRAHCH в LOCATION проверить работу pull и push
-9. [X] Сделать проверку на наличие второго параметра более
-   читабельной.
-10. [X] pb n133905 -> n133906 сервер переехал.
-11. [X] Отделить конфигурационные данные в отдельный файл
+1. [X] Отделить запуск сервера slynk-start-server в отдельный проект.
+2. [X] GIT_URL_... -> URL_GIT_...
+3. [X] XZ_TAR_pp="xz.tar" -> XZ_TAR_pp="pp.tar"
+4. [X] XZ_TAR_pz="xz-big.tar" -> XZ_TAR_pz="pz.tar"
+5. [X] XZ_URL_pp="$HOME/xz"
+6. [X] XZ_URL_pz="$HOME/xz-big"
+7. [X] GIT_URL_pp="$HOME/git" -> GIT_URL_pp="$HOME/.git-tree/git/pp"
+8. [X] GIT_URL_pz="$HOME/git-big" -> GIT_URL_pz="$HOME/.git-tree/git/pz"
+9. [X] Выполнить переименование REPO_... -> ...
+10. [X] Добавить эхо-вывод для каждой, выполняемой команды из
+      git-tree-all;
+11. [X] Переименовать git-tree-all -> git-tree;
+12. [X] Переименовать git-tree -> git-tree-repo;
+13. [X] Добавить эхо-вывод для каждой, выполняемой команды из git-tree-repo;
+14. [X] Добавлены  rs-local-pi rs-pi-local.   
+15. [X] Объединить команды:
+    - [X] rm_pp rm_pz rm_or rm_pb в rm с аргументом pp|pz|or|pb.
+    - [X] readd_pp readd_pz readd_r readd_pb в readd с аргументом pp|pz|or|pb.
+    - [X] clone_pp clone_pz clone_r clone_pb в clone с аргументом pp|pz|or|pb.
+16. [X] Объединить команды
+    - [X] make_git_pp make_git_pz;
+    - [X] remake_git_pp remake_git_pz;
+    - [X] remake_tar_xz_pp remake_tar_xz_pz.
+17. [X] Переименовать BRAHCH в LOCATION проверить работу pull и push
+18. [X] Сделать проверку на наличие второго параметра более
+    читабельной.
+19. [X] pb n133905 -> n133906 сервер переехал.
+20. [X] Отделить конфигурационные данные в отдельный файл
     ~/git-tree.conf с местом установки в /etc/git-tree/git-tree.conf.
     - [X] Исправить установочный сценарий.
     - [X] Исправить работу скрипта git-tree с учетом наличия файла
       git-tree.conf.
-12. [X] Участок кода является проблемным т.к. не позволяет автоматически
+21. [X] Участок кода является проблемным т.к. не позволяет автоматически
     добавить проверку для иного расположения, добавленного в
     конфигурационный файл.
     #+begin_src
@@ -74,7 +83,7 @@
                 ${LOCATION} == "gh" ]]
 
     #+end_src
-13. [X] Добавить команду info для вывода настроек для конкретного
+22. [X] Добавить команду info для вывода настроек для конкретного
     расположения.
-14. [X] Добавить проверку на то, что для определенных команд трубуется
+23. [X] Добавить проверку на то, что для определенных команд трубуется
     указание расположения.
