@@ -1,42 +1,15 @@
-#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
-#+options: author:t broken-links:nil c:nil creator:nil
-#+options: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
-#+options: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
-#+options: timestamp:t title:t toc:t todo:t |:t
-#+title: README
-#+date: <2021-05-02 Вс>
-#+author:
-#+email: mnasoft@gmail.com
-#+language: en
-#+select_tags: export
-#+exclude_tags: noexport
-#+creator: Emacs 27.2 (Org mode 9.4.4)
-#+options: html-link-use-abs-url:nil html-postamble:auto
-#+options: html-preamble:t html-scripts:t html-style:t
-#+options: html5-fancy:nil tex:t
-#+html_doctype: xhtml-strict
-#+html_container: div
-#+description:
-#+keywords:
-#+html_link_home:
-#+html_link_up:
-#+html_mathjax:
-#+html_equation_reference_format: \eqref{%s}
-#+html_head:
-#+html_head_extra:
-#+subtitle:
-#+infojs_opt:
-#+creator: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.2 (<a href="https://orgmode.org">Org</a> mode 9.4.4)
-#+latex_header:
-
-* ToDo
-1. [ ] Добавить проверки и завпрет на выполнение для команд переменные
+* ToDο
+1. [ ] Удалить переменные
+   + [ ] PUB_HTML_CLP_ARH="$HOME/public_html/Common-Lisp-Programs/Archive"
+   + [ ] VAR_CACHE_PACMAN="/var/cache/pacman"
+   + [ ] VAR_LIB_PACMAN="/var/lib/pacman"
+2. [ ] Добавить проверки и завпрет на выполнение для команд переменные
    которых связанные с расположеним не определены.
-2. [ ] Добавить ключевой параметр -b (branch)
+3. [ ] Добавить ключевой параметр -b (branch)
    (см. [[file:bash-example/bash-example]])
-3. [ ] Добавить ключевой параметр -l (location) pp pz pi pb
+4. [ ] Добавить ключевой параметр -l (location) pp pz pi pb
    (см. [[file:bash-example/bash-example]])
-4. [ ] Добавить ключевой параметр -v (verbose)
+5. [ ] Добавить ключевой параметр -v (verbose)
    
 * DoNe
 1. [X] Отделить запуск сервера slynk-start-server в отдельный проект.

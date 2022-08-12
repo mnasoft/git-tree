@@ -149,8 +149,8 @@ remake_tar_xz ()
     echo "<<< tar -cvvf ${!TAR} *.git.tar.xz >>>"
     tar -cvvf ${!TAR} *.git.tar.xz
     
-    echo "<<< mv -f ${!TAR} ${PUB_HTML_CLP_ARH} >>>"
-    mv -f ${!TAR} ${PUB_HTML_CLP_ARH}
+    echo "<<< mv -f ${!TAR} ${URL_GIT_TREE} >>>"
+    mv -f ${!TAR} ${URL_GIT_TREE}
 }
 
 GIT_TREE_USAGE="
