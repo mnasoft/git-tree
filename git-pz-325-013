@@ -2,9 +2,9 @@
 
 . /etc/git-tree/git-tree.conf
 
-cd ${URL_XZ_pp}
-cp //n000325/home/_namatv/${TAR_pp} .
-tar -xf ${TAR_pp}
-git tree xz_git pp
+cd ${URL_XZ_pz}
+cp //n000325/home/_namatv/${TAR_pz} .
+tar -xf ${TAR_pz}
+git tree xz_git pz
 cd; cd quicklisp/local-projects/; git tree pull
 cd; cd devel; git tree pull
