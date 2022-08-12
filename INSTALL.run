@@ -5,7 +5,7 @@ echo "" > UNINSTALL.run
 
 mkdir -p /usr/local/bin/
 git clean -fx
-for i in `find . -name "git-tree" -o -name "git-pp-325-013"`
+for i in `find . -name "git-tree" -o -name "git-pp-325-013" -o -name "git-pz-325-013"`
 do
     echo "${i}"
     cp -f ${i} /usr/local/bin/
