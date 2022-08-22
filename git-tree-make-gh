@@ -4,3 +4,4 @@
 
 RNAME=`basename $PWD`
 gh repo create ${RNAME} --public --source=. --remote=gh
+git push -u gh master
