@@ -1,0 +1,6 @@
+#!/bin/bash
+
+. /etc/git-tree/git-tree.conf
+
+RNAME=`basename $PWD`
+gh repo create ${RNAME} --public --source=. --remote=gh
