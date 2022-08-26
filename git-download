@@ -1,9 +1,15 @@
 #!/bin/bash
-cd ~/xz
-dropbox_uploader.sh download xz.tar .
-tar -xf xz.tar
-git tree xz_git pp
-cd
+
+. /etc/git-tree/git-tree.conf
+
+cd ${URL_XZ_pp}
+dropbox_uploader.sh download ${TAR_pp} .
+tar -xf ${TAR_pp}
+
+cd ${URL_XZ_pz}
+dropbox_uploader.sh download ${TAR_pz} .
+tar -xf ${TAR_pz}
+
 cd
 cd quicklisp/local-projects/
-git tree pullsh
+git tree pull
