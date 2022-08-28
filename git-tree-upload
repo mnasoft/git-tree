@@ -1,0 +1,12 @@
+#!/bin/bash
+
+. /etc/git-tree/git-tree.conf
+
+cd
+
+git tree remake_tar_xz ${NAME_pp}
+git tree remake_tar_xz ${NAME_pz}
+
+dropbox_uploader.sh upload ${URL_GIT_TREE}/${TAR_pp} /
+dropbox_uploader.sh upload ${URL_GIT_TREE}/${TAR_pz} /
+
