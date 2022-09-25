@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . /etc/git-tree/git-tree.conf
+. /etc/git-tree/git-tree
 
 rm_update ()
 {
