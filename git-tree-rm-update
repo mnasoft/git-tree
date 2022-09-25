@@ -1,0 +1,29 @@
+#!/bin/bash
+
+. /etc/git-tree/git-tree.conf
+
+rm_update ()
+{
+    CDIR=`pwd`
+    make_repo_vars
+    
+    for i in `find . -name "*.git"`
+    do
+        cd $i/..
+        if [[ `git remote | grep ${LOCATION}` ]]
+        then
+            NAME=`pwd`
+            BNAME=`basename $NAME`
+            echo $i
+            echo $NAME
+            echo ${BNAME}
+            cd ..
+            for i in `git remote`; do git tree readd ${i}; done
+        else
+            cd ..
+        fi
+        cd ${CDIR}
+    done
+}
+
+rm_update
