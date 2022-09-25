@@ -18,7 +18,7 @@ rm_update ()
             echo $NAME
             echo ${BNAME}
             cd ..
-            for i in `git remote`; do git tree readd ${i}; done
+            for j in `git remote`; do git tree readd ${j}; done
         else
             cd ..
         fi
