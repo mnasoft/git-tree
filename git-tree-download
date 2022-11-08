@@ -11,5 +11,9 @@ dropbox_uploader.sh download ${TAR_pz} .
 tar -xf ${TAR_pz}
 
 cd
+git tree xz_git pp
+git tree xz_git pz
+
+cd
 cd quicklisp/local-projects/
 git tree pull
