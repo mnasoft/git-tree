@@ -1,6 +1,10 @@
 #!/bin/bash
 
-cd ~/quicklisp/local-projects/ZM/cfx/n70-base
-git tree all
-cd ~/quicklisp/local-projects/ANSYS/mnas-ansys
-git tree all
+for i in "~/quicklisp/local-projects/ZM/cfx/n70-base
+~/quicklisp/local-projects/ANSYS/mnas-ansys"
+do
+    cd $i
+    git tree all
+done
+
+    
