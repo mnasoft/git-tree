@@ -6,3 +6,5 @@ cd ~/quicklisp/local-projects/ANSYS/mnas-ansys
 git tree all
 cd ~/quicklisp/local-projects/clisp/math
 git tree all
+cd ~/quicklisp/local-projects/mnas/mnas-string
+git tree all
