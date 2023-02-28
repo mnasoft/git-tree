@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. /etc/git-tree/git-tree.conf
+
+cd ${URL_XZ_pp}
+cp //n000330/home/_namatv/${TAR_pp} .
+tar -xvf ${TAR_pp}
+git tree xz_git pp
+
+cd ${URL_XZ_pz}
+cp //n000330/home/_namatv/${TAR_pz} .
+tar -xvf ${TAR_pz}
+git tree xz_git pz
+
+for i in ${TREE_PATH}
+do
+    cd $i; git tree pull
+done
