@@ -1,0 +1,22 @@
+#!/bin/bash
+
+rm_update ()
+{
+    CDIR=`pwd`
+    for i in `find . -name "*.git"`
+    do
+        cd $i/..
+        NAME=`pwd`
+        BNAME=`basename $NAME`
+        echo $i
+        echo $NAME
+        echo ${BNAME}
+        for j in `git remote`
+        do
+            git tree readd ${j}
+        done
+        cd ${CDIR}
+    done
+}
+
+rm_update
