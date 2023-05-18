@@ -330,6 +330,7 @@ readd ()
 
 update ()
 {
+    make_repo_vars
     for i in `git remote`
     do
         if [[ ${!NAME} == $i ]]
