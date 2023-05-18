@@ -162,6 +162,7 @@ SYNOPSIS
         $(basename $0) [ pull | push | pullsh | all [<branch>]]   |
                  [ commit | add]                            |
                  [ readd         [ ${LOCATIONS[*]} ] |
+                 [ update        [ ${LOCATIONS[*]} ] |
                  [ rm            [ ${LOCATIONS[*]} ] |
                  [ clone         [ ${LOCATIONS[*]} ] |
                  [ info          [ ${LOCATIONS[*]} ] |
@@ -199,6 +200,10 @@ COMMANDS
 
     Удаление и повторное добавление удаленного репозитория:
         readd     - в размещение [ ${LOCATIONS[*]} ];
+
+    Удаление и повторное добавление удаленного репозитория если он
+    существует:
+        update - в размещение [ ${LOCATIONS[*]} ];
 
     Удаление удаленного репозитория:
         rm        -  в размещение [ ${LOCATIONS[*]} ];
@@ -323,6 +328,17 @@ readd ()
     echo_short
 }
 
+update ()
+{
+    for i in `git remote`
+    do
+        if [[ ${!NAME} == $i ]]
+        then
+            git tree readd $i
+        fi
+    done
+}
+
 git_rm ()
 {
     echo_short
@@ -410,6 +426,10 @@ command_branch ()
     if [[ ${COMMAND} == "readd" ]]
     then
         readd
+    fi
+    if [[ ${COMMAND} == "update" ]]
+    then
+        update
     fi
     if [[ ${COMMAND} == "rm" ]]
     then
@@ -565,6 +585,7 @@ fgt ()
     else
         COMMAND=$1
         if [[ ${COMMAND} == "readd"             || \
+                  ${COMMAND} == "update"        || \
                   ${COMMAND} == "rm"            || \
                   ${COMMAND} == "clone"         || \
                   ${COMMAND} == "remake_xz"     || \
@@ -606,6 +627,7 @@ fgt ()
               ${COMMAND} == "commit" || \
               ${COMMAND} == "all"    || \
               ${COMMAND} == "readd"  || \
+              ${COMMAND} == "update" || \
               ${COMMAND} == "rm"     || \
               ${COMMAND} == "clone" ]]
     then
