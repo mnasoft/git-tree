@@ -19,3 +19,7 @@ git tree xz_git pz
 cd
 cd quicklisp/local-projects/
 git tree pull
+
+cd
+cd devel/tcl/
+git tree pull
