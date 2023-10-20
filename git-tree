@@ -304,7 +304,7 @@ add ()
 {
     echo_short
 
-    echo "<<< git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.asd" -o -name "*.c*" -o -name "*.h*"` >>>"
+    echo "<<< git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.asd" -o -name "*.c*" -o -name "*.h*" -o -name "*.tcl*"` >>>"
     git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.asd" -o -name "*.c*" -o -name "*.h*"`
 # -o -name "*.scr" 
     
