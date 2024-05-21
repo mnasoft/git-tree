@@ -1,0 +1,10 @@
+#!/bin/bash
+
+. /etc/git-tree/git-tree.conf
+
+cd `git rev-parse --show-toplevel`
+TOPLEVEL=`pwd`
+BASE_NAME=`basename ${TOPLEVEL}`
+git clone --bare . ../${BASE_NAME}.git 
+tar -cJf ${URL_db}/${BASE_NAME}.git.tar.xz ../${BASE_NAME}.git/
+rm -rf ../${BASE_NAME}.git
