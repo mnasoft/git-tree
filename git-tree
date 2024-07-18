@@ -372,15 +372,6 @@ commit ()
     echo_short
 }
 
-command ()
-{
-    echo_short
-    echo "<<< $2 >>>"
-    $2
-    echo_short
-}
-
-
 push_or_pull ()
 {
     for rpo in `git remote`
@@ -639,7 +630,6 @@ fgt ()
               ${COMMAND} == "pullsh"  || \
               ${COMMAND} == "add"     || \
               ${COMMAND} == "commit"  || \
-              ${COMMAND} == "command" || \
               ${COMMAND} == "all"     || \
               ${COMMAND} == "readd"   || \
               ${COMMAND} == "update"  || \
@@ -647,6 +637,12 @@ fgt ()
               ${COMMAND} == "clone" ]]
     then
         tree_command
+    elif [[ ${COMMAND} == "command" ]]
+    then
+        echo_short
+        echo "<<< $2 >>>"
+        $2
+        echo_short
     elif [[ ${COMMAND} == "remake_xz" ]]
     then
         remake_xz
