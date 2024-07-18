@@ -372,6 +372,15 @@ commit ()
     echo_short
 }
 
+command ()
+{
+    echo_short
+    echo "<<< $2 >>>"
+    $2
+    echo_short
+}
+
+
 push_or_pull ()
 {
     for rpo in `git remote`
@@ -416,6 +425,10 @@ command_branch ()
     if [[ ${COMMAND} == "commit" ]]
     then
         commit
+    fi
+    if [[ ${COMMAND} == "command" ]]
+    then
+        command
     fi
     if [[ ${COMMAND} == "all" ]]
     then
