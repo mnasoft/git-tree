@@ -6,4 +6,4 @@ CDIR=`pwd`
 BNAME=`basename $CDIR`
 
 git remote remove n142013-pp
-git remote add n142013-pp //n142013/home/_namatv/PRG/msys64/home/namatv/.git-tree/git/pz/${BNAME}.git
+git remote add n142013-pp //n142013/home/_namatv/PRG/msys64/home/namatv/.git-tree/git/pp/${BNAME}.git
