@@ -372,6 +372,14 @@ commit ()
     echo_short
 }
 
+command_1 ()
+{
+    echo_short
+    echo "<<< $1 >>>"
+    $1
+    echo_short
+}
+
 push_or_pull ()
 {
     for rpo in `git remote`
@@ -456,6 +464,21 @@ tree_command ()
         echo "`pwd`"
         echo_long
         command_branch
+        echo_long_plus
+    done
+    cd ${CDIR}
+}
+
+tree_command_1 ()
+{
+    CDIR=`pwd`
+    for i in `find . -name ".git"`
+    do
+        echo_long_equal
+        cd ${CDIR}/${i}/../
+        echo "`pwd`"
+        echo_long
+        command_1 $1
         echo_long_plus
     done
     cd ${CDIR}
@@ -639,10 +662,7 @@ fgt ()
         tree_command
     elif [[ ${COMMAND} == "command" ]]
     then
-        echo_short
-        echo "<<< $2 >>>"
-        $2
-        echo_short
+        tree_command_1 $2
     elif [[ ${COMMAND} == "remake_xz" ]]
     then
         remake_xz
