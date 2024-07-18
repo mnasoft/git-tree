@@ -633,16 +633,17 @@ fgt ()
             fi 
         fi
     fi
-# Проверка переметров конец
-    if [[ ${COMMAND} == "push"       || \
-              ${COMMAND} == "pull"   || \
-              ${COMMAND} == "pullsh" || \
-              ${COMMAND} == "add"    || \
-              ${COMMAND} == "commit" || \
-              ${COMMAND} == "all"    || \
-              ${COMMAND} == "readd"  || \
-              ${COMMAND} == "update" || \
-              ${COMMAND} == "rm"     || \
+# Проверка параметров конец
+    if [[ ${COMMAND} == "push"        || \
+              ${COMMAND} == "pull"    || \
+              ${COMMAND} == "pullsh"  || \
+              ${COMMAND} == "add"     || \
+              ${COMMAND} == "commit"  || \
+              ${COMMAND} == "command" || \
+              ${COMMAND} == "all"     || \
+              ${COMMAND} == "readd"   || \
+              ${COMMAND} == "update"  || \
+              ${COMMAND} == "rm"      || \
               ${COMMAND} == "clone" ]]
     then
         tree_command
