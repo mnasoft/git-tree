@@ -375,8 +375,8 @@ commit ()
 command_1 ()
 {
     echo_short
-    echo "<<< $1 >>>"
-    $1
+    echo "<<< $1 $2 $3 $4 $4 $6 $7 $8 $9 >>>"
+    $1 $2 $3 $4 $4 $6 $7 $8 $9
     echo_short
 }
 
@@ -478,7 +478,7 @@ tree_command_1 ()
         cd ${CDIR}/${i}/../
         echo "`pwd`"
         echo_long
-        command_1 $1
+        command_1 $1 $2 $3 $4 $4 $6 $7 $8 $9
         echo_long_plus
     done
     cd ${CDIR}
