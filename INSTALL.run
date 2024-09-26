@@ -3,8 +3,6 @@
 echo "" > INSTALL.log
 echo "" > UNINSTALL.run
 
-mkdir -p /usr/local/bin/
-git clean -fx
 for i in `find . -name "git-tree" -o -name "git-tree-*"`
 do
     echo "${i}"
