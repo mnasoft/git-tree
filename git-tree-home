@@ -3,12 +3,12 @@
 . /etc/git-tree/git-tree.conf
 
 cd ${URL_XZ_pp}
-cp ~/.git-tree/${TAR_pp} .
+cp ~/${TAR_pp} .
 tar -xvf ${TAR_pp}
 git tree xz_git pp
 
 cd ${URL_XZ_pz}
-cp ~/.git-tree/${TAR_pz} .
+cp ~/${TAR_pz} .
 tar -xvf ${TAR_pz}
 git tree xz_git pz
 
