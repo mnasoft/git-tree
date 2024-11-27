@@ -237,3 +237,19 @@
 
     #+RESULTS:
     [[file:./git-tree-graph.png]]
+
+* Добавление удаленных репозиториев n142013-pp и n142013-pz
+#+begin_src sh
+  # cd ~/quicklisp/local-projects
+  # cd ~/dev/
+  cd ~/elisp
+  git tree command git-tree-readd-n142013 
+#+end_src
+
+#+RESULTS:
+| ================================================================================ |                        |     |
+| /home/namatv/elisp                                                               |                        |     |
+| <<<                                                                              | git-tree-readd-n142013 | >>> |
+
+
+
