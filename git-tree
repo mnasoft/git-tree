@@ -662,7 +662,7 @@ fgt ()
         tree_command
     elif [[ ${COMMAND} == "command" ]]
     then
-        tree_command_1 $2
+        tree_command_1 $2 $3 $4 $5 $6 $7 $8 $9
     elif [[ ${COMMAND} == "remake_xz" ]]
     then
         remake_xz
