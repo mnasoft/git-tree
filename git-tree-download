@@ -2,24 +2,85 @@
 
 . /etc/git-tree/git-tree.conf
 
-cd ${URL_XZ_pp}
-dropbox_uploader.sh download ${TAR_pp} .
-tar -xf ${TAR_pp}
-git tree xz_git pp
+GIT_TREE_DOWNLOAD_USAGE="
+NAME
 
-cd ${URL_XZ_pz}
-dropbox_uploader.sh download ${TAR_pz} .
-tar -xf ${TAR_pz}
-git tree xz_git pz
+        $(basename $0) выполняет
+            копирование файлов:
+              ${TAR_pp} в каталог ${URL_XZ_pp}
+              ${TAR_pz} в каталог ${URL_XZ_pz}
+            распаковку файлов:
+              ${TAR_pp}
+              ${TAR_pz}
+            выполняет команду:
+              git tree pull
+            для следующщих каталогов:
+              ${TREE_PATH}
+    
+SYNOPSIS
+        $(basename $0) dir
 
-cd
-git tree xz_git pp
-git tree xz_git pz
+PARAMETERS
+        dir - каталог, в котором должны присутствовать файлы:
+          ${TAR_pp}
+          ${TAR_pz}
+"
 
-cd
-cd quicklisp/local-projects/
-git tree pull
+show_usage ()
+{
+    echo "${GIT_TREE_DOWNLOAD_USAGE}"
+}
 
-cd
-cd devel/tcl/
-git tree pull
+
+main ()
+{
+# Проверка переметров начало
+    if [ -z "$1" ]
+    then
+        show_usage
+        exit 1
+    else
+        DIR_TAR=$1
+        if [ -f ${DIR_TAR}/${TAR_pp} ]
+        then
+            cd ${URL_XZ_pp}
+            cp ${DIR_TAR}/${TAR_pp} .
+            tar -xvf ${TAR_pp}
+            git tree xz_git pp
+        else
+            echo "Укажите каталог, в котором расположен файл с именем ${TAR_pp}"
+        fi
+        
+        if [ -f ${DIR_TAR}/${TAR_pz} ]
+        then
+            cd ${URL_XZ_pz}
+            cp ${DIR_TAR}/${TAR_pz} .
+            tar -xvf ${TAR_pz}
+            git tree xz_git pz
+        else
+            echo "Укажите каталог, в котором расположен файл с именем ${TAR_pz}"
+        fi        
+    fi
+
+    for i in ${TREE_PATH}
+    do
+        cd $i; git tree pull
+    done
+}   
+
+# cd ${URL_XZ_pp}
+# cp ${DIR_TAR}/${TAR_pp} .
+# tar -xvf ${TAR_pp}
+# git tree xz_git pp
+
+# cd ${URL_XZ_pz}
+# cp ${DIR_TAR}/${TAR_pz} .
+# tar -xvf ${TAR_pz}
+# git tree xz_git pz
+
+# for i in ${TREE_PATH}
+# do
+#    cd $i; git tree pull
+# done
+
+main "$@"            
