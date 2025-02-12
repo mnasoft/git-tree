@@ -4,18 +4,7 @@
 
 GIT_TREE_DOWNLOAD_USAGE="
 NAME
-
-        $(basename $0) выполняет
-            копирование файлов:
-              ${TAR_pp} в каталог ${URL_XZ_pp}
-              ${TAR_pz} в каталог ${URL_XZ_pz}
-            распаковку файлов:
-              ${TAR_pp}
-              ${TAR_pz}
-            выполняет команду:
-              git tree pull
-            для следующщих каталогов:
-              ${TREE_PATH}
+        $(basename $0)
     
 SYNOPSIS
         $(basename $0) dir
@@ -24,6 +13,19 @@ PARAMETERS
         dir - каталог, в котором должны присутствовать файлы:
           ${TAR_pp}
           ${TAR_pz}
+
+DESCROPTION
+            Выполняет:
+              копирование файлов:
+                ${TAR_pp} в каталог ${URL_XZ_pp}
+                ${TAR_pz} в каталог ${URL_XZ_pz}
+              распаковку файлов:
+                ${TAR_pp}
+                ${TAR_pz}
+              выполняет команду:
+                git tree pull
+              для следующщих каталогов:
+                ${TREE_PATH}
 "
 
 show_usage ()
