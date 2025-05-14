@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. /etc/git-tree/git-tree.conf
+
+git rev-parse --show-toplevel @>/dev/null
+exit_code=$?
+if [ $exit_code -eq 0 ]
+then
+    echo "Создаем файл ${OUTPUT_TAR}"
+    REPO_ROOT=$(git rev-parse --show-toplevel)
+    REPO_NAME=$(basename $REPO_ROOT)
+    OUTPUT_TAR="$HOME/${REPO_NAME}.git.tar"
+    cd ${REPO_ROOT}
+    git clone --bare . ../$REPO_NAME.git
+    tar -cvvf ${OUTPUT_TAR} ../$REPO_NAME.git/
+    rm -rf ../$REPO_NAME.git/
+else
+    echo "Репозиторй GIT отсутствует"
+fi
