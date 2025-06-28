@@ -5,6 +5,60 @@
 # DEBUG="Yes"
 # DEEP="No"
 
+load_git_tree_config() {
+  # Определяем домашнюю директорию настоящего пользователя (поддержка sudo)
+  if [[ -n "$SUDO_USER" ]]; then
+    USER_HOME=$(eval echo "~$SUDO_USER")
+  else
+    USER_HOME="$HOME"
+  fi
+
+  CONFIG_DIR="$USER_HOME/.git-tree"
+  CONFIG_FILE="$CONFIG_DIR/locations.conf"
+
+  # Если конфиг отсутствует — создаём с шаблоном
+  if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "📄 Конфигурационный файл не найден. Создаю шаблон: $CONFIG_FILE"
+    mkdir -p "$CONFIG_DIR"
+    cat > "$CONFIG_FILE" <<EOF
+# ~/.git-tree/locations.conf
+# 🗂️ Список локаций для системы git-tree
+
+LOCATIONS=()
+
+# 💡 Примеры:
+# LOCATIONS+=('gh')
+# NAME_gh='GitHub'
+# CUSTOM_URL_GIT[gh]="git@github.com:username/repo.git"
+EOF
+  fi
+
+  # Подключаем файл
+  source "$CONFIG_FILE"
+}
+
+init_location_vars () {
+  for loc in "${LOCATIONS[@]}"; do
+
+    # 🏷️ Имя: если переменная NAME_<loc> уже определена — сохраняем; иначе присваиваем id
+    if ! declare -p "NAME_${loc}" &>/dev/null; then
+      eval "NAME_${loc}='${loc}'"
+    fi
+
+    # 🔗 GIT URL: если есть кастом — используем, иначе стандарт
+    if [[ -n "${CUSTOM_URL_GIT[$loc]}" ]]; then
+      eval "URL_GIT_${loc}='${CUSTOM_URL_GIT[$loc]}'"
+    elif ! declare -p "URL_GIT_${loc}" &>/dev/null; then
+      eval "URL_GIT_${loc}=\"\${URL_GIT_TREE}/git/${loc}\""
+    fi
+
+    # 📦 XZ URL: всегда по шаблону, если нет
+    if ! declare -p "URL_XZ_${loc}" &>/dev/null; then
+      eval "URL_XZ_${loc}=\"\${URL_GIT_TREE}/xz/${loc}\""
+    fi
+  done
+}
+
 log_full_trace() {
   if [[ "$DEBUG" != "Yes" ]]; then return; fi
 
@@ -743,5 +797,6 @@ fgt ()
         show_usage
     fi
 }
-
+load_git_tree_config
+init_location_vars
 fgt "$@"

@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# Определяем домашнюю директорию пользователя (в т. ч. при sudo)
+if [[ -n "$SUDO_USER" ]]; then
+  USER_HOME=$(eval echo "~$SUDO_USER")
+else
+  USER_HOME="$HOME"
+fi
+
+CONFIG_DIR="$USER_HOME/.git-tree"
+CONFIG_FILE="$CONFIG_DIR/locations.conf"
+
+load_config() {
+  mkdir -p "$CONFIG_DIR"
+
+  if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "🧾 Создаю конфигурацию: $CONFIG_FILE"
+    cat > "$CONFIG_FILE" <<EOF
+# ~/.git-tree/locations.conf
+LOCATIONS=()
+# NAME_<id> — отображаемое имя
+# CUSTOM_URL_GIT[<id>] — необязательный путь к Git-репозиторию
+EOF
+  fi
+
+  source "$CONFIG_FILE"
+}
+
+write_config_line() {
+  echo "$1" >> "$CONFIG_FILE"
+}
+
+# ============ ПОДКОМАНДЫ ============
+cmd="$1"
+loc="$2"
+shift 2
+
+# Парсим опции
+for arg in "$@"; do
+  case "$arg" in
+    --name=*) custom_name="${arg#--name=}" ;;
+    --url=*)  custom_url="${arg#--url=}" ;;
+    *) echo "⚠️ Неизвестный параметр: $arg" && exit 1 ;;
+  esac
+done
+
+load_config
+
+case "$cmd" in
+  add)
+    if [[ -z "$loc" ]]; then echo "❗ Использование: git-tree-location add <id> [--name=...] [--url=...]" && exit 1; fi
+    for existing in "${LOCATIONS[@]}"; do
+      [[ "$existing" == "$loc" ]] && echo "⚠️ '$loc' уже существует" && exit 1
+    done
+
+    echo "✅ Добавляю локацию: $loc"
+    {
+      echo ""
+      echo "# Добавлено: $(date '+%F %T')"
+      echo "LOCATIONS+=('$loc')"
+      [[ -n "$custom_name" && "$custom_name" != "$loc" ]] && echo "NAME_${loc}='${custom_name}'"
+      [[ -n "$custom_url" ]] && echo "CUSTOM_URL_GIT[$loc]=\"$custom_url\""
+    } >> "$CONFIG_FILE"
+    echo "💾 Обновлено: $CONFIG_FILE"
+    ;;
+
+  list)
+    echo "📜 Локации:"
+    for loc in "${LOCATIONS[@]}"; do
+      name_var="NAME_${loc}"
+      name="${!name_var:-$loc}"
+      url="${CUSTOM_URL_GIT[$loc]:-"(по шаблону)"}"
+      printf "🔸 %-10s | 📛 %-15s | 🌐 %s\n" "$loc" "$name" "$url"
+    done
+    ;;
+
+  show)
+    if [[ -z "$loc" ]]; then echo "❗ Использование: git-tree-location show <id>" && exit 1; fi
+    in_list=false
+    for entry in "${LOCATIONS[@]}"; do
+      [[ "$entry" == "$loc" ]] && in_list=true && break
+    done
+    if ! $in_list; then echo "❌ Локация '$loc' не найдена"; exit 1; fi
+
+    name_var="NAME_${loc}"
+    echo "ℹ️ Конфигурация для '$loc':"
+    echo "  name = ${!name_var:-$loc}"
+    echo "  url  = ${CUSTOM_URL_GIT[$loc]:-(по шаблону)}"
+    ;;
+
+  remove)
+    if [[ -z "$loc" ]]; then echo "❗ Использование: git-tree-location remove <id>" && exit 1; fi
+    grep -v -E "LOCATIONS\+\=\('$loc'\)|^NAME_${loc}=|^CUSTOM_URL_GIT
+
+\[${loc}\]
+
+=" "$CONFIG_FILE" > "$CONFIG_FILE.tmp"
+    mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+    echo "🗑️ Удалено '$loc' из конфигурации"
+    ;;
+
+  *)
+    echo "❗ Использование:"
+    echo "  git-tree-location add <id> [--name=...] [--url=...]"
+    echo "  git-tree-location list"
+    echo "  git-tree-location show <id>"
+    echo "  git-tree-location remove <id>"
+    ;;
+esac
