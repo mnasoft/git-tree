@@ -37,25 +37,42 @@ EOF
   source "$CONFIG_FILE"
 }
 
+# 📚 Инициализация переменных NAME_*, URL_GIT_*, URL_XZ_*, TAR_* 
 init_location_vars () {
+    for loc in "${LOCATIONS[@]}"
+    do
+        # 🏷️ NAME_<loc>: если не задано — по умолчанию имя как id
+        if ! declare -p "NAME_${loc}" &>/dev/null; then
+            eval "NAME_${loc}='${loc}'"
+        fi
+        
+        # 🔗 URL_GIT_<loc>: кастом или шаблон
+        if [[ -n "${CUSTOM_URL_GIT[$loc]}" ]]; then
+            eval "URL_GIT_${loc}='${CUSTOM_URL_GIT[$loc]}'"
+        elif ! declare -p "URL_GIT_${loc}" &>/dev/null; then
+            eval "URL_GIT_${loc}=\"\${URL_GIT_TREE}/git/${loc}\""
+        fi
+        
+        # 📦 URL_XZ_<loc>: всегда по шаблону, если не задано
+        if ! declare -p "URL_XZ_${loc}" &>/dev/null; then
+            eval "URL_XZ_${loc}=\"\${URL_GIT_TREE}/xz/${loc}\""
+        fi
+
+        # 🎁 TAR_<loc>: формируем имя архива — <name>.tar
+        if ! declare -p "TAR_${loc}" &>/dev/null; then
+            name_var="NAME_${loc}"
+            eval "TAR_${loc}=\"\${${name_var}}.tar\""
+        fi
+    done
+}
+
+# 🛠️ Создание необходимых директорий
+init_git_tree_structure () {
+  mkdir -p "${URL_GIT_TREE}/git" "${URL_GIT_TREE}/xz"
+
   for loc in "${LOCATIONS[@]}"; do
-
-    # 🏷️ Имя: если переменная NAME_<loc> уже определена — сохраняем; иначе присваиваем id
-    if ! declare -p "NAME_${loc}" &>/dev/null; then
-      eval "NAME_${loc}='${loc}'"
-    fi
-
-    # 🔗 GIT URL: если есть кастом — используем, иначе стандарт
-    if [[ -n "${CUSTOM_URL_GIT[$loc]}" ]]; then
-      eval "URL_GIT_${loc}='${CUSTOM_URL_GIT[$loc]}'"
-    elif ! declare -p "URL_GIT_${loc}" &>/dev/null; then
-      eval "URL_GIT_${loc}=\"\${URL_GIT_TREE}/git/${loc}\""
-    fi
-
-    # 📦 XZ URL: всегда по шаблону, если нет
-    if ! declare -p "URL_XZ_${loc}" &>/dev/null; then
-      eval "URL_XZ_${loc}=\"\${URL_GIT_TREE}/xz/${loc}\""
-    fi
+    mkdir -p "$(eval echo "\${URL_GIT_${loc}}")"
+    mkdir -p "$(eval echo "\${URL_XZ_${loc}}")"
   done
 }
 
@@ -799,4 +816,5 @@ fgt ()
 }
 load_git_tree_config
 init_location_vars
+init_git_tree_structure
 fgt "$@"

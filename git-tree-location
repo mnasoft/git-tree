@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Определяем домашнюю директорию пользователя (в т. ч. при sudo)
+# Определяем домашнюю директорию пользователя (в т.ч. под sudo)
 if [[ -n "$SUDO_USER" ]]; then
   USER_HOME=$(eval echo "~$SUDO_USER")
 else
@@ -10,100 +10,135 @@ fi
 CONFIG_DIR="$USER_HOME/.git-tree"
 CONFIG_FILE="$CONFIG_DIR/locations.conf"
 
+# Подключаем или создаём конфиг
 load_config() {
   mkdir -p "$CONFIG_DIR"
-
   if [[ ! -f "$CONFIG_FILE" ]]; then
-    echo "🧾 Создаю конфигурацию: $CONFIG_FILE"
+    echo "🧾 Создаю конфиг: $CONFIG_FILE"
     cat > "$CONFIG_FILE" <<EOF
 # ~/.git-tree/locations.conf
 LOCATIONS=()
+
 # NAME_<id> — отображаемое имя
-# CUSTOM_URL_GIT[<id>] — необязательный путь к Git-репозиторию
+# CUSTOM_URL_GIT[<id>] — при необходимости указать нестандартный путь
 EOF
   fi
-
   source "$CONFIG_FILE"
 }
 
-write_config_line() {
-  echo "$1" >> "$CONFIG_FILE"
+# 🔍 usage
+print_usage() {
+    echo "🧩 Использование:"
+    echo "  git-tree-location add <id> [--name=имя] [--url=URL]"
+    echo "  git-tree-location list"
+    echo "  git-tree-location show <id>"
+    echo "  git-tree-location remove <id>"
 }
 
-# ============ ПОДКОМАНДЫ ============
+# ===========================
+# 🎬 Начало
+# ===========================
 cmd="$1"
-loc="$2"
-shift 2
+shift || true  # предотвращает ошибку если пусто
 
-# Парсим опции
-for arg in "$@"; do
-  case "$arg" in
-    --name=*) custom_name="${arg#--name=}" ;;
-    --url=*)  custom_url="${arg#--url=}" ;;
-    *) echo "⚠️ Неизвестный параметр: $arg" && exit 1 ;;
+# Переменные
+loc=""
+custom_name=""
+custom_url=""
+
+# Опции с парсингом
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --name=*) custom_name="${1#--name=}" ;;
+    --url=*)  custom_url="${1#--url=}" ;;
+    add|remove|show) loc="$2"; shift ;;
+    *) [[ -z "$loc" ]] && loc="$1" ;;
   esac
+  shift
 done
 
 load_config
 
 case "$cmd" in
-  add)
-    if [[ -z "$loc" ]]; then echo "❗ Использование: git-tree-location add <id> [--name=...] [--url=...]" && exit 1; fi
-    for existing in "${LOCATIONS[@]}"; do
-      [[ "$existing" == "$loc" ]] && echo "⚠️ '$loc' уже существует" && exit 1
-    done
+    add)
+        [[ -z "$loc" ]] && { echo "❗ Требуется идентификатор: git-tree-location add <id>"; exit 1; }
+        for x in "${LOCATIONS[@]}"; do
+            [[ "$x" == "$loc" ]] && echo "⚠️ Локация '$loc' уже существует" && exit 1
+        done
+        echo "✅ Добавляю локацию: $loc"
+        {
+            echo ""
+            echo "LOCATIONS+=('$loc') # Добавлено: $(date '+%F %T')"
+            [[ -n "$custom_name" && "$custom_name" != "$loc" ]] && echo "NAME_${loc}='${custom_name}'"
+            [[ -n "$custom_url" ]] && echo "CUSTOM_URL_GIT[$loc]=\"$custom_url\""
+        } >> "$CONFIG_FILE"
+        echo "💾 Обновлено: $CONFIG_FILE"
+        ;;
+    list)
+        echo "📜 Зарегистрированные локации:"
+        for x in "${LOCATIONS[@]}"; do
+            name_var="NAME_${x}"
+            name="${!name_var:-$x}"
+            url="${CUSTOM_URL_GIT[$x]:-(по шаблону)}"
+            printf "🔸 %-10s | 📛 %-15s | 🌐 %s\n" "$x" "$name" "$url"
+        done
+        ;;
+    show)
+        [[ -z "$loc" ]] && { echo "❗ Укажите ID: git-tree-location show <id>"; exit 1; }
+        found=false
+        for x in "${LOCATIONS[@]}"; do
+            [[ "$x" == "$loc" ]] && found=true && break
+        done
+        if ! $found; then echo "❌ Локация '$loc' не найдена"; exit 1; fi
 
-    echo "✅ Добавляю локацию: $loc"
-    {
-      echo ""
-      echo "# Добавлено: $(date '+%F %T')"
-      echo "LOCATIONS+=('$loc')"
-      [[ -n "$custom_name" && "$custom_name" != "$loc" ]] && echo "NAME_${loc}='${custom_name}'"
-      [[ -n "$custom_url" ]] && echo "CUSTOM_URL_GIT[$loc]=\"$custom_url\""
-    } >> "$CONFIG_FILE"
-    echo "💾 Обновлено: $CONFIG_FILE"
-    ;;
+        name_var="NAME_${loc}"
+        name="${!name_var:-$loc}"
+        
+        # GIT URL
+        if [[ -n "${CUSTOM_URL_GIT[$loc]}" ]]; then
+            git_url="${CUSTOM_URL_GIT[$loc]}"
+            git_note="(указан вручную)"
+        else
+            git_base="${URL_GIT_TREE:-$HOME/.git-tree}"
+            git_url="${git_base}/git/${loc}"
+            git_note="(по шаблону)"
+        fi
+        
+        # XZ путь
+        xz_url="${URL_GIT_TREE:-$HOME/.git-tree}/xz/${loc}"
 
-  list)
-    echo "📜 Локации:"
-    for loc in "${LOCATIONS[@]}"; do
-      name_var="NAME_${loc}"
-      name="${!name_var:-$loc}"
-      url="${CUSTOM_URL_GIT[$loc]:-"(по шаблону)"}"
-      printf "🔸 %-10s | 📛 %-15s | 🌐 %s\n" "$loc" "$name" "$url"
-    done
-    ;;
+        # TAR архив
+        tar_name="${name}.tar"
 
-  show)
-    if [[ -z "$loc" ]]; then echo "❗ Использование: git-tree-location show <id>" && exit 1; fi
-    in_list=false
-    for entry in "${LOCATIONS[@]}"; do
-      [[ "$entry" == "$loc" ]] && in_list=true && break
-    done
-    if ! $in_list; then echo "❌ Локация '$loc' не найдена"; exit 1; fi
+        echo "ℹ️ Конфигурация '$loc':"
+        echo "  ID         : $loc"
+        echo "  NAME       : $name"
+        echo "  GIT URL    : $git_url $git_note"
+        echo "  XZ  PATH   : $xz_url (по шаблону)"
+        echo "  TAR FILE   : $tar_name (по шаблону)"
+        ;;
 
-    name_var="NAME_${loc}"
-    echo "ℹ️ Конфигурация для '$loc':"
-    echo "  name = ${!name_var:-$loc}"
-    echo "  url  = ${CUSTOM_URL_GIT[$loc]:-(по шаблону)}"
-    ;;
+    remove)
+        [[ -z "$loc" ]] && { echo "❗ Укажите ID: git-tree-location remove <id>"; exit 1; }
 
-  remove)
-    if [[ -z "$loc" ]]; then echo "❗ Использование: git-tree-location remove <id>" && exit 1; fi
-    grep -v -E "LOCATIONS\+\=\('$loc'\)|^NAME_${loc}=|^CUSTOM_URL_GIT
+        if ! grep -q "^LOCATIONS+=('${loc}')" "$CONFIG_FILE"; then
+            echo "❌ Локация '$loc' не найдена в конфиге"
+            exit 1
+        fi
+        echo "🗑️ Удаляю блок '$loc' из $CONFIG_FILE..."
+        # Удаляем блок от строки LOCATIONS+=('loc') до первой пустой строки включительно
 
-\[${loc}\]
-
-=" "$CONFIG_FILE" > "$CONFIG_FILE.tmp"
-    mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
-    echo "🗑️ Удалено '$loc' из конфигурации"
-    ;;
-
-  *)
-    echo "❗ Использование:"
-    echo "  git-tree-location add <id> [--name=...] [--url=...]"
-    echo "  git-tree-location list"
-    echo "  git-tree-location show <id>"
-    echo "  git-tree-location remove <id>"
-    ;;
+        awk -v id="$loc" '
+BEGIN { drop = 0 }
+{
+ if ($0 ~ ("^LOCATIONS\\+=\\(\x27" id "\x27\\)")) { drop = 1; next }
+      if (drop && NF == 0) { drop = 0; next }
+      if (!drop) print
+}
+' "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+        echo "✅ Блок '$loc' удалён"
+        ;;
+    *)
+        print_usage
+        ;;
 esac
