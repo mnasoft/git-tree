@@ -2,6 +2,34 @@
 
 . /etc/git-tree/git-tree.conf
 
+# DEBUG="Yes"
+# DEEP="No"
+
+log_full_trace() {
+  if [[ "$DEBUG" != "Yes" ]]; then return; fi
+
+  local stack_size=${#FUNCNAME[@]}
+  local argv_index=0
+  local depth
+  if [[ "$DEEP" == "Yes" ]]
+  then depth=$stack_size
+  else depth=2
+  fi
+  echo "📊 Лог вызова функций (глубина: $((depth - 1))):"
+
+  for (( level = 1; level < depth; level++ )); do
+    local func="${FUNCNAME[level]}"
+    local argc="${BASH_ARGC[level-1]:-0}"
+
+    echo "🔹 Уровень $level: функция '$func' с $argc аргументами:"
+
+    for (( i = 0; i < argc; i++ )); do
+      echo "    ➤ \$${i} = '${BASH_ARGV[argv_index]}'"
+      ((argv_index++))
+    done
+  done
+}
+
 echo_short ()
 {
     # echo '--------------------'
@@ -166,9 +194,9 @@ SYNOPSIS
                  [ rm            [ ${LOCATIONS[*]} ] |
                  [ clone         [ ${LOCATIONS[*]} ] |
                  [ info          [ ${LOCATIONS[*]} ] |
-                 [ make_git      [ pp | pz ]]               |
-                 [ xz_git        [ pp | pz ]]               |
-                 [ remake_git    [ pp | pz ]]               |
+                 [ make_git      [ pp | pz ]]   |
+                 [ xz_git        [ pp | pz ]]   |
+                 [ remake_git    [ pp | pz ]]   |
                  [ remake_tar_xz [ pp | pz ]]    
 
         $(basename $0) [quicklisp] | [pacman] | [dot_emacs_d] | [add_aliases] |
@@ -213,6 +241,7 @@ COMMANDS
 
     Создание чистых репозиториев git:
         make_git :
+            $URL_GIT_pw для расположения pw;
             $URL_GIT_pp для расположения pp;
             $URL_GIT_pz для расположения pz;
 
@@ -302,6 +331,8 @@ pull ()
 
 add ()
 {
+    log_full_trace
+    
     echo_short
 
     echo "<<< git add `find . -name "*.lisp" -o -name "*.org" -o -name "*.asd" -o -name "*.c*" -o -name "*.h*" -o -name "*.tcl*" -o -name ".gitignore"` >>>"
@@ -313,6 +344,8 @@ add ()
 
 readd ()
 {
+    log_full_trace
+    
     echo_short
     make_repo_vars
     

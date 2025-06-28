@@ -1,25 +1,31 @@
 #!/bin/bash
 
-echo "" > INSTALL.log
-echo "" > UNINSTALL.run
+# Подписи в начале логов
+echo "### 🔧 Установленные файлы" > INSTALL.log
+echo "#!/bin/bash" > UNINSTALL.run
+echo "### 🧹 Скрипт удаления установленных файлов" >> UNINSTALL.run
+echo "" >> UNINSTALL.run
 
-for i in `find . -name "git-tree" -o -name "git-tree-*"`
-do
-    echo "${i}"
-    cp -f ${i} /usr/local/bin/
-    chmod +x /usr/local/bin/${i}
-    echo "/usr/local/bin/${i}" >> INSTALL.log
-    echo "rm -f /usr/local/bin/${i}" >> UNINSTALL.run
-    chmod +x UNINSTALL.run
+echo "🚀 Установка бинарников..."
+for i in $(find . -name "git-tree" -o -name "git-tree-*"); do
+    name=$(basename "$i")
+    cp -f "$i" /usr/local/bin/
+    chmod +x "/usr/local/bin/$name"
+    echo "🧭 $name → /usr/local/bin/"
+    echo "/usr/local/bin/$name" >> INSTALL.log
+    echo "rm -f /usr/local/bin/$name" >> UNINSTALL.run
 done
 
+echo "⚙️ Установка конфигурации..."
 mkdir -p /etc/git-tree/
-for i in `find . -name "git-tree.conf"`
-do
-    echo "${i}"
-    cp -f ${i} /etc/git-tree/
-    chmod +x /etc/git-tree/${i}
-    echo "/etc/git-tree/${i}" >> INSTALL.log
-    echo "rm -f /etc/git-tree/${i}" >> UNINSTALL.run
-    chmod +x UNINSTALL.run
+for i in $(find . -name "git-tree.conf"); do
+    name=$(basename "$i")
+    cp -f "$i" /etc/git-tree/
+    chmod +x "/etc/git-tree/$name"
+    echo "⚙️ $name → /etc/git-tree/"
+    echo "/etc/git-tree/$name" >> INSTALL.log
+    echo "rm -f /etc/git-tree/$name" >> UNINSTALL.run
 done
+
+chmod +x UNINSTALL.run
+echo "✅ Установка завершена. Логи — INSTALL.log, UNINSTALL.run"

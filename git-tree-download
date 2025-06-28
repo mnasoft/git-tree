@@ -43,6 +43,17 @@ main ()
         exit 1
     else
         DIR_TAR=$1
+
+        if [ -f ${DIR_TAR}/${TAR_pw} ]
+        then
+            cd ${URL_XZ_pw}
+            cp ${DIR_TAR}/${TAR_pw} .
+            tar -xvf ${TAR_pw}
+            git tree xz_git pw
+        else
+            echo "Укажите каталог, в котором расположен файл с именем ${TAR_pw}"
+        fi        
+        
         if [ -f ${DIR_TAR}/${TAR_pp} ]
         then
             cd ${URL_XZ_pp}
