@@ -60,20 +60,53 @@ done
 load_config
 
 case "$cmd" in
+#    add)
+#        [[ -z "$loc" ]] && { echo "❗ Требуется идентификатор: git-tree-location add <id>"; exit 1; }
+#        for x in "${LOCATIONS[@]}"; do
+#            [[ "$x" == "$loc" ]] && echo "⚠️ Локация '$loc' уже существует" && exit 1
+#        done
+#        echo "✅ Добавляю локацию: $loc"
+#        {
+#            echo ""
+#            echo "LOCATIONS+=('$loc') # Добавлено: $(date '+%F %T')"
+#            [[ -n "$custom_name" && "$custom_name" != "$loc" ]] && echo "NAME_${loc}='${custom_name}'"
+#            [[ -n "$custom_url" ]] && echo "CUSTOM_URL_GIT[$loc]=\"$custom_url\""
+#        } >> "$CONFIG_FILE"
+#        echo "💾 Обновлено: $CONFIG_FILE"
+#        ;;
+
     add)
-        [[ -z "$loc" ]] && { echo "❗ Требуется идентификатор: git-tree-location add <id>"; exit 1; }
+        # проверки
+        if [[ -z "$loc" ]]
+        then echo "❗ Требуется идентификатор: git-tree-location add <id>"
+             exit 1
+        fi
         for x in "${LOCATIONS[@]}"; do
             [[ "$x" == "$loc" ]] && echo "⚠️ Локация '$loc' уже существует" && exit 1
         done
-        echo "✅ Добавляю локацию: $loc"
+
+        # дефолты
+        [[ -z "$name" ]] && name="$loc"
+        [[ -z "$custom_url" ]] && \
+            custom_url="${URL_GIT_TREE:-$HOME/.git-tree}/git/${loc}"
+
+        # пушим в конфиг
+        cfg="$HOME/.git-tree/locations.conf"
         {
-            echo ""
-            echo "LOCATIONS+=('$loc') # Добавлено: $(date '+%F %T')"
-            [[ -n "$custom_name" && "$custom_name" != "$loc" ]] && echo "NAME_${loc}='${custom_name}'"
-            [[ -n "$custom_url" ]] && echo "CUSTOM_URL_GIT[$loc]=\"$custom_url\""
-        } >> "$CONFIG_FILE"
-        echo "💾 Обновлено: $CONFIG_FILE"
+            echo "# Добавлено: $(date +'%F %T')"
+            echo "LOCATIONS+=('$loc')"
+            echo "NAME_${loc}='${name}'"
+            echo "CUSTOM_URL_GIT[${loc}]=\"${custom_url}\""
+            echo
+        } >> "$cfg"
+
+        echo "✅ Добавлена локация '$loc':"
+        echo "   ID   : $loc"
+        echo "   NAME : $name"
+        echo "   URL  : $custom_url"
+        echo "💾 Обновлено: $cfg"
         ;;
+
     list)
         echo "📜 Зарегистрированные локации:"
         for x in "${LOCATIONS[@]}"; do

@@ -5,7 +5,21 @@
 # DEBUG="Yes"
 # DEEP="No"
 
-load_git_tree_config() {
+log_colors () {
+  BOLD=$(tput bold)
+  RESET=$(tput sgr0)
+  BLACK=$(tput setaf 0)
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  MAGENTA=$(tput setaf 5)
+  CYAN=$(tput setaf 6)
+  WHITE=$(tput setaf 7)
+  GRAY=$(tput setaf 8)
+}
+
+load_git_tree_config () {
   # Определяем домашнюю директорию настоящего пользователя (поддержка sudo)
   if [[ -n "$SUDO_USER" ]]; then
     USER_HOME=$(eval echo "~$SUDO_USER")
@@ -39,6 +53,8 @@ EOF
 
 # 📚 Инициализация переменных NAME_*, URL_GIT_*, URL_XZ_*, TAR_* 
 init_location_vars () {
+    log_full_trace
+    
     for loc in "${LOCATIONS[@]}"
     do
         # 🏷️ NAME_<loc>: если не задано — по умолчанию имя как id
@@ -47,12 +63,15 @@ init_location_vars () {
         fi
         
         # 🔗 URL_GIT_<loc>: кастом или шаблон
-        if [[ -n "${CUSTOM_URL_GIT[$loc]}" ]]; then
+        if [[ -n "${CUSTOM_URL_GIT[$loc]:-}" ]]
+        then
+            # кастомный URL из массива есть и непустой
             eval "URL_GIT_${loc}='${CUSTOM_URL_GIT[$loc]}'"
-        elif ! declare -p "URL_GIT_${loc}" &>/dev/null; then
+        else
+            # кастомного нет — используем шаблон
             eval "URL_GIT_${loc}=\"\${URL_GIT_TREE}/git/${loc}\""
         fi
-        
+
         # 📦 URL_XZ_<loc>: всегда по шаблону, если не задано
         if ! declare -p "URL_XZ_${loc}" &>/dev/null; then
             eval "URL_XZ_${loc}=\"\${URL_GIT_TREE}/xz/${loc}\""
@@ -63,6 +82,9 @@ init_location_vars () {
             name_var="NAME_${loc}"
             eval "TAR_${loc}=\"\${${name_var}}.tar\""
         fi
+        var="URL_GIT_${loc}"
+        echo "${!var}"  # 👍 корректный способ
+
     done
 }
 
@@ -76,7 +98,7 @@ init_git_tree_structure () {
   done
 }
 
-log_full_trace() {
+log_full_trace () {
   if [[ "$DEBUG" != "Yes" ]]; then return; fi
 
   local stack_size=${#FUNCNAME[@]}
@@ -432,6 +454,33 @@ readd ()
     echo_short
 }
 
+readd () {
+    log_full_trace
+    echo_short
+    make_repo_vars
+    log_colors
+
+    name="${!NAME}"
+    dir_repo=$(pwd)
+    repo=$(basename "$dir_repo")
+    remote_url="${!URL_GIT}/${repo}.git"
+
+    echo "${CYAN}🔍 Проверка внешнего репозитория: ${BOLD}${name}${RESET}"
+    if git remote get-url "$name" &>/dev/null; then
+        echo "${YELLOW}🗑  Удаление внешнего репозитория:${RESET} ${name}"
+        git remote remove "$name"
+    else
+        echo "${GRAY}⚠  Внешний '${name}' не подключён — пропускаем удаление${RESET}"
+    fi
+
+    echo "${GREEN}➕ Добавление внешнего репозитория:${RESET} ${name}"
+    echo "   ${CYAN}→ $remote_url${RESET}"
+    git remote add "$name" "$remote_url"
+
+    echo_short
+}
+
+
 update ()
 {
     make_repo_vars
@@ -444,29 +493,47 @@ update ()
     done
 }
 
-git_rm ()
-{
-    echo_short
+git_rm () {
     make_repo_vars
+    log_colors
 
-    echo "<<< git remote remove ${!NAME} >>>"
-    git remote remove ${!NAME}
-    echo_short
-}
+    name="${!NAME}"
 
-git_clone ()
-{
-    if [[ `git remote | grep ${LOCATION}` ]]
-    then
-        make_repo_vars
-        
-        NAME=`pwd`
-        BNAME=`basename $NAME`
-        echo "<<< git clone --bare . ${!URL_GIT}/${BNAME}.git >>>"
-        git           clone --bare . ${!URL_GIT}/${BNAME}.git
+    echo "${CYAN}🔍 Проверка внешнего репозитория: ${BOLD}${name}${RESET}"
+    if git remote get-url "$name" &>/dev/null; then
+        echo "${YELLOW}🗑️ Удаление внешнего репозитория:${RESET} ${name}"
+        git remote remove "$name"
+    else
+        echo "${GRAY}⚠ Внешний репозиторий '${name}' не найден — удаление не требуется${RESET}"
     fi
     echo_short
 }
+
+git_clone () {
+    log_colors
+    echo_short
+    make_repo_vars
+
+    if git remote | grep -q "${LOCATION}"; then
+        dir_path=$(pwd)
+        repo_name=$(basename "$dir_path")
+        clone_url="${!URL_GIT}/${repo_name}.git"
+
+        echo "${CYAN}📤 Клонирование bare-репозитория → ${clone_url}${RESET}"
+        echo "${GRAY}↳ Команда: git clone --bare . ${clone_url}${RESET}"
+        if git clone --bare . "${clone_url}"; then
+            echo "${GREEN}✅ Репозиторий '${repo_name}' склонирован как bare в внешнее хранилище${RESET}"
+        else
+            echo "${RED}❌ Ошибка: не удалось клонировать bare-репозиторий в '${clone_url}'${RESET}"
+        fi
+    else
+        echo "${YELLOW}⚠ Внешний '${LOCATION}' не найден в списке remotes — операция пропущена${RESET}"
+    fi
+
+    echo_short
+}
+
+
 
 commit ()
 {
@@ -475,6 +542,23 @@ commit ()
     git commit -a -m "`date -u`"
     echo_short
 }
+
+commit () {
+    log_colors
+
+    timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+    echo "${CYAN}📦 Фиксация всех изменений с меткой:${RESET} ${BOLD}${timestamp}${RESET}"
+    echo "${GRAY}↳ Команда: git commit -a -m \"${timestamp}\"${RESET}"
+
+    if git commit -a -m "${timestamp}"; then
+        echo "${GREEN}✅ Изменения зафиксированы успешно${RESET}"
+    else
+        echo "${YELLOW}⚠ Нечего фиксировать — рабочее дерево чистое${RESET}"
+    fi
+
+    echo_short
+}
+
 
 command_1 ()
 {
@@ -492,6 +576,25 @@ push_or_pull ()
 
         echo "<<< git ${COMMAND} ${rpo} ${DO_BRANCH} >>>"
         git ${COMMAND} ${rpo} ${DO_BRANCH}
+
+        echo_short
+    done
+}
+
+push_or_pull () {
+    log_colors
+
+    for rpo in $(git remote); do
+        echo_short
+
+        echo "${CYAN}🔁 Выполнение: ${BOLD}git ${COMMAND} ${rpo} ${DO_BRANCH}${RESET}"
+        echo "${GRAY}↳ ${COMMAND^^} → удалённый '${rpo}' ветка '${DO_BRANCH}'${RESET}"
+
+        if git ${COMMAND} "${rpo}" "${DO_BRANCH}"; then
+            echo "${GREEN}✅ ${COMMAND^} для '${rpo}' выполнен успешно${RESET}"
+        else
+            echo "${RED}❌ ${COMMAND^} для '${rpo}' завершился с ошибкой${RESET}"
+        fi
 
         echo_short
     done
@@ -573,6 +676,32 @@ tree_command ()
     cd ${CDIR}
 }
 
+tree_command () {
+    log_colors
+    echo_short
+
+    local CDIR=$(pwd)
+    local git_dirs
+    mapfile -t git_dirs < <(find . -type d -name ".git")
+
+    for git_dir in "${git_dirs[@]}"; do
+        echo_long_equal
+
+        repo_dir=$(realpath "${CDIR}/${git_dir}/..")
+        cd "$repo_dir" || continue
+
+        echo "${CYAN}${BOLD}${repo_dir}${RESET}"
+        echo_long
+
+        command_branch
+
+        echo_long_plus
+    done
+
+    cd "$CDIR" || return
+    echo_short
+}
+
 tree_command_1 ()
 {
     CDIR=`pwd`
@@ -586,6 +715,32 @@ tree_command_1 ()
         echo_long_plus
     done
     cd ${CDIR}
+}
+
+tree_command_1 () {
+    log_colors
+    echo_short
+
+    local CDIR=$(pwd)
+    local git_dirs
+    mapfile -t git_dirs < <(find . -type d -name ".git")
+
+    for git_dir in "${git_dirs[@]}"; do
+        echo_long_equal
+
+        repo_dir=$(realpath "${CDIR}/${git_dir}/..")
+        cd "$repo_dir" || continue
+
+        echo "${CYAN}${BOLD}${repo_dir}${RESET}"
+        echo_long
+
+        command_1 "$@"
+
+        echo_long_plus
+    done
+
+    cd "$CDIR" || return
+    echo_short
 }
 
 rs_quicklisp ()
@@ -635,6 +790,27 @@ cd_git_url ()
     make_repo_vars
     echo "<<< cd ${!URL_GIT} >>>"
     cd ${!URL_GIT}
+}
+
+cd_git_url () {
+    log_colors
+    make_repo_vars
+
+    path="${!URL_GIT}"
+
+    echo "${CYAN}📁 Переход в директорию git-репозитория:${RESET}"
+    echo "${GRAY}↳ cd ${path}${RESET}"
+
+    if [[ -d "$path" ]]; then
+        cd "$path" || {
+            echo "${RED}❌ Не удалось перейти в ${path}${RESET}"
+            return 1
+        }
+        echo "${GREEN}✅ Перешли в: ${BOLD}$(pwd)${RESET}"
+    else
+        echo "${YELLOW}⚠️ Путь '${path}' не существует${RESET}"
+        return 2
+    fi
 }
 
 rm_rf_git ()
@@ -814,6 +990,7 @@ fgt ()
         show_usage
     fi
 }
+
 load_git_tree_config
 init_location_vars
 init_git_tree_structure
