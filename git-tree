@@ -409,6 +409,30 @@ push ()
     done
 }
 
+push () {
+    log_colors
+    echo_short
+
+    local remotes
+    mapfile -t remotes < <(git remote)
+
+    for rpo in "${remotes[@]}"; do
+        echo_long
+
+        echo "${CYAN}🚀 Отправка в '${BOLD}${rpo}${RESET}${CYAN}' → ветка '${BOLD}${DO_BRANCH}${RESET}${CYAN}'${RESET}"
+        echo "${GRAY}↳ Команда: git push ${rpo} ${DO_BRANCH}${RESET}"
+
+        if git push "${rpo}" "${DO_BRANCH}"; then
+            echo "${GREEN}✅ push на '${rpo}' выполнен успешно${RESET}"
+        else
+            echo "${RED}❌ Ошибка при push на '${rpo}'${RESET}"
+        fi
+
+        echo_short
+    done
+}
+
+
 pull ()
 {
     for rpo in `git remote`
@@ -421,6 +445,32 @@ pull ()
         echo_short
     done
 }
+
+
+pull () {
+    log_colors
+    echo_short
+
+    local remotes
+    mapfile -t remotes < <(git remote) > /dev/null  2>/dev/null
+
+    for rpo in "${remotes[@]}"; do
+        echo_long
+
+        echo "${CYAN}⬇️ Получение из '${BOLD}${rpo}${RESET}${CYAN}' → ветка '${BOLD}${DO_BRANCH}${RESET}${CYAN}'${RESET}"
+        echo "${GRAY}↳ Команда: git pull ${rpo} ${DO_BRANCH}${RESET}"
+
+        if git pull "${rpo}" "${DO_BRANCH}" > /dev/null  2>/dev/null
+        then
+            echo "${GREEN}✅ pull от '${rpo}' завершился успешно${RESET}"
+        else
+            echo "${RED}❌ Ошибка при pull от '${rpo}'${RESET}"
+        fi
+
+        echo_short
+    done
+}
+
 
 add ()
 {
