@@ -1,31 +1,15 @@
 #!/bin/bash
 
-hostname_readd ()
-{
-    if [[ "N142013" == `hostname` ]]
-    then
-        echo "git tree readd pb"
-        git tree readd pb
-    fi
-}
-cd ~/devel/git-tree
-hostname_readd
-git tree all
-sh ./INSTALL.run
+# Пройтись по всем подкаталогам, содержащим .git
+find . -type d -name ".git" | while read gitdir
+do
+    repo_dir=$(dirname "$gitdir")
+    cd "$repo_dir" || continue
 
-cd ~/quicklisp/local-projects/ZM/cfx/n70-base
-hostname_readd
-git tree all
+    # Получить дату последнего коммита
+    last_commit_date=$(git log -1 --format="%ci")
 
-cd ~/quicklisp/local-projects/ANSYS/mnas-ansys
-hostname_readd
-git tree all
+    echo "📁 $repo_dir → 🕒 Последний коммит: $last_commit_date"
 
-cd ~/quicklisp/local-projects/clisp/math
-hostname_readd
-git tree all
-
-cd ~/quicklisp/local-projects/mnas/mnas-string
-hostname_readd
-git tree all
-
+    cd - > /dev/null
+done
