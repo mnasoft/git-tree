@@ -1,99 +1,110 @@
 #!/bin/bash
 
-. /etc/git-tree/git-tree.conf
-
-GIT_TREE_DOWNLOAD_USAGE="
-NAME
-        $(basename $0)
+# 👉 Функция справки
+usage() {
+    echo -e "\n🧰 USAGE: $0 <каталог_с_архивами> <корень_рабочих_репо> [--branch <ветка>] [--dry-run]"
     
-SYNOPSIS
-        $(basename $0) dir
+    echo -e "\n🔍 Описание:"
+    echo "  Скрипт синхронизирует рабочие Git-репозитории с подготовленными bare-архивами (*.git.tar.xz)."
+    echo "  Для каждого архива:"
+    echo "    1) разархивирует bare-репозиторий во временный каталог"
+    echo "    2) определяет имя репозитория"
+    echo "    3) ищет рабочий репозиторий с таким именем в указанном дереве"
+    echo "    4) подключает bare-репозиторий как remote 'wk'"
+    echo "    5) делает pull из 'wk' в указанную ветку (по умолчанию master)"
+    echo "  Все действия логируются в файл sync.log."
 
-PARAMETERS
-        dir - каталог, в котором должны присутствовать файлы:
-          ${TAR_pp}
-          ${TAR_pz}
+    echo -e "\n📌 Параметры:"
+    echo "  <каталог_с_архивами>   — путь к каталогу, где лежат *.git.tar.xz"
+    echo "  <корень_рабочих_репо>  — путь к каталогу, где находятся рабочие репозитории"
+    echo "  --branch <ветка>       — ветка для синхронизации (по умолчанию master)"
+    echo "  --dry-run              — симуляция действий без их выполнения"
+    echo "  --help                 — показать это сообщение"
 
-DESCROPTION
-            Выполняет:
-              копирование файлов:
-                ${TAR_pp} в каталог ${URL_XZ_pp}
-                ${TAR_pz} в каталог ${URL_XZ_pz}
-              распаковку файлов:
-                ${TAR_pp}
-                ${TAR_pz}
-              выполняет команду:
-                git tree pull
-              для следующщих каталогов:
-                ${TREE_PATH}
-"
-
-show_usage ()
-{
-    echo "${GIT_TREE_DOWNLOAD_USAGE}"
+    echo -e "\n📋 Примеры:"
+    echo "  $0 /mnt/usb/git-sync /home/user/projects"
+    echo "  $0 /mnt/usb/git-sync /home/user/projects --branch develop"
+    echo "  $0 /mnt/usb/git-sync /home/user/projects --dry-run"
+    echo "  $0 /mnt/usb/git-sync /home/user/projects --branch featureX --dry-run"
 }
 
+# 👉 Проверка на пустые параметры или --help
+if [[ $# -eq 0 || "$1" == "--help" ]]; then
+    usage
+    exit 0
+fi
 
-main ()
-{
-# Проверка переметров начало
-    if [ -z "$1" ]
-    then
-        show_usage
-        exit 1
+ARCHIVE_DIR="$1"
+WORK_ROOT="$2"
+shift 2 || true
+
+BRANCH="master"
+DRY_RUN=false
+LOGFILE="sync.log"
+
+# 👉 Разбор аргументов
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --branch)
+            BRANCH="$2"
+            shift 2
+            ;;
+        --dry-run)
+            DRY_RUN=true
+            shift
+            ;;
+        --help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "❌ Неизвестный параметр: $1"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+# 👉 Начало лога
+echo -e "\n===== Синхронизация $(date '+%Y-%m-%d %H:%M:%S') (ветка: $BRANCH) =====" | tee -a "$LOGFILE"
+
+for archive in "$ARCHIVE_DIR"/*.git.tar.xz; do
+    [ -e "$archive" ] || continue
+
+    tmpdir=$(mktemp -d)
+    if $DRY_RUN; then
+        echo "🧪 [dry-run] Разархивирую $archive во временный каталог" | tee -a "$LOGFILE"
     else
-        DIR_TAR=$1
-
-        if [ -f ${DIR_TAR}/${TAR_pw} ]
-        then
-            cd ${URL_XZ_pw}
-            cp ${DIR_TAR}/${TAR_pw} .
-            tar -xvf ${TAR_pw}
-            git tree xz_git pw
-        else
-            echo "Укажите каталог, в котором расположен файл с именем ${TAR_pw}"
-        fi        
-        
-        if [ -f ${DIR_TAR}/${TAR_pp} ]
-        then
-            cd ${URL_XZ_pp}
-            cp ${DIR_TAR}/${TAR_pp} .
-            tar -xvf ${TAR_pp}
-            git tree xz_git pp
-        else
-            echo "Укажите каталог, в котором расположен файл с именем ${TAR_pp}"
-        fi
-        
-        if [ -f ${DIR_TAR}/${TAR_pz} ]
-        then
-            cd ${URL_XZ_pz}
-            cp ${DIR_TAR}/${TAR_pz} .
-            tar -xvf ${TAR_pz}
-            git tree xz_git pz
-        else
-            echo "Укажите каталог, в котором расположен файл с именем ${TAR_pz}"
-        fi        
+        tar -xJf "$archive" -C "$tmpdir"
     fi
 
-    for i in ${TREE_PATH}
-    do
-        cd $i; git tree pull
-    done
-}   
+    repo_name=$(basename "$archive" .git.tar.xz)
+    bare_repo="$tmpdir/$repo_name.git"
 
-# cd ${URL_XZ_pp}
-# cp ${DIR_TAR}/${TAR_pp} .
-# tar -xvf ${TAR_pp}
-# git tree xz_git pp
+    echo "🔍 Обрабатываю $repo_name" | tee -a "$LOGFILE"
 
-# cd ${URL_XZ_pz}
-# cp ${DIR_TAR}/${TAR_pz} .
-# tar -xvf ${TAR_pz}
-# git tree xz_git pz
+    work_repo=$(find "$WORK_ROOT" -type d -name ".git" -exec dirname {} \; | grep "/$repo_name\$" | head -n1)
 
-# for i in ${TREE_PATH}
-# do
-#    cd $i; git tree pull
-# done
+    if [[ -z "$work_repo" ]]; then
+        echo "⚠️ Рабочий репозиторий $repo_name не найден" | tee -a "$LOGFILE"
+        rm -rf "$tmpdir"
+        continue
+    fi
 
-main "$@"            
+    if $DRY_RUN; then
+        echo "🧪 [dry-run] Нашёл рабочий репозиторий: $work_repo" | tee -a "$LOGFILE"
+        echo "🧪 [dry-run] Подключил бы remote 'wk' → $bare_repo" | tee -a "$LOGFILE"
+        echo "🧪 [dry-run] Выполнил бы: git pull wk $BRANCH" | tee -a "$LOGFILE"
+    else
+        cd "$work_repo" || continue
+        git remote remove wk 2>/dev/null
+        git remote add wk "$bare_repo"
+        echo "⬇️  Синхронизирую $work_repo с $repo_name (ветка: $BRANCH)" | tee -a "$LOGFILE"
+        git pull wk "$BRANCH" | tee -a "$LOGFILE"
+        cd - > /dev/null
+    fi
+
+    rm -rf "$tmpdir"
+done
+
+echo "✅ Завершено. Лог сохранён в $LOGFILE"
