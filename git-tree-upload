@@ -76,7 +76,8 @@ if [[ -z "$DAYS" ]]; then
 fi
 
 # Проверка bare-директории
-if [[ -n "$BARE_DIR" && $DRY_RUN == false ]]; then
+if [[ -n "$BARE_DIR" && $DRY_RUN == false ]]
+then
     mkdir -p "$BARE_DIR" || { echo "❌ Не удалось создать каталог $BARE_DIR"; exit 1; }
 fi
 
@@ -85,7 +86,8 @@ now=$(date +%s)
 
 echo -e "\n===== Сканирование $(date '+%Y-%m-%d %H:%M:%S') (порог: $DAYS дней) =====" | tee -a "$LOGFILE"
 
-find . -type d -name ".git" | while read gitdir; do
+find . -type d -name ".git" | while read gitdir
+do
     repo_dir=$(dirname "$gitdir")
     cd "$repo_dir" || continue
 
@@ -110,8 +112,7 @@ find . -type d -name ".git" | while read gitdir; do
                     fi
                 else
                     echo "📦 Создаю bare-репозиторий: $target" | tee -a "$LOGFILE"
-                    git clone --bare "$repo_dir" "$target" 2>/dev/null
-
+                    git clone --bare -- . "$target" 2>/dev/null                    
                     if $COMPRESS; then
                         echo "🗜️ Архивирую: $archive" | tee -a "$LOGFILE"
                         tar -cJf "$archive" -C "$BARE_DIR" "$repo_name.git"

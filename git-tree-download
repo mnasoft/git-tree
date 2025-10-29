@@ -68,10 +68,12 @@ done
 # 👉 Начало лога
 echo -e "\n===== Синхронизация $(date '+%Y-%m-%d %H:%M:%S') (ветка: $BRANCH) =====" | tee -a "$LOGFILE"
 
-for archive in "$ARCHIVE_DIR"/*.git.tar.xz; do
+for archive in "$ARCHIVE_DIR"/*.git.tar.xz
+do
     [ -e "$archive" ] || continue
 
     tmpdir=$(mktemp -d)
+#    tmpdir=${ARCHIVE_DIR}
     if $DRY_RUN; then
         echo "🧪 [dry-run] Разархивирую $archive во временный каталог" | tee -a "$LOGFILE"
     else
@@ -95,12 +97,14 @@ for archive in "$ARCHIVE_DIR"/*.git.tar.xz; do
         echo "🧪 [dry-run] Нашёл рабочий репозиторий: $work_repo" | tee -a "$LOGFILE"
         echo "🧪 [dry-run] Подключил бы remote 'wk' → $bare_repo" | tee -a "$LOGFILE"
         echo "🧪 [dry-run] Выполнил бы: git pull wk $BRANCH" | tee -a "$LOGFILE"
+        echo "🧪 [dry-run] Выполнил бы: git remote remove wk" | tee -a "$LOGFILE"
     else
         cd "$work_repo" || continue
         git remote remove wk 2>/dev/null
         git remote add wk "$bare_repo"
         echo "⬇️  Синхронизирую $work_repo с $repo_name (ветка: $BRANCH)" | tee -a "$LOGFILE"
         git pull wk "$BRANCH" | tee -a "$LOGFILE"
+        git remote remove wk | tee -a "$LOGFILE"
         cd - > /dev/null
     fi
 
