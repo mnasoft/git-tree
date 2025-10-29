@@ -1,15 +1,43 @@
 #!/bin/bash
 
-# Пройтись по всем подкаталогам, содержащим .git
-find . -type d -name ".git" | while read gitdir
-do
+# Использование: ./scan_git_repos.sh [кол-во_дней]
+# Пример: ./scan_git_repos.sh 30
+
+# Получить количество дней из аргумента (по умолчанию 9999)
+DAYS=${1:-9999}
+
+# Временный файл
+tempfile=$(mktemp)
+
+# Текущая дата в секундах
+now=$(date +%s)
+
+# Найти все .git каталоги
+find . -type d -name ".git" | while read gitdir; do
     repo_dir=$(dirname "$gitdir")
     cd "$repo_dir" || continue
 
     # Получить дату последнего коммита
-    last_commit_date=$(git log -1 --format="%ci")
+    last_commit_date=$(git log -1 --format="%ci" 2>/dev/null)
 
-    echo "📁 $repo_dir → 🕒 Последний коммит: $last_commit_date"
+    if [ -n "$last_commit_date" ]; then
+        # Преобразовать дату в секунды
+        commit_ts=$(date -d "$last_commit_date" +%s)
+        age_days=$(( (now - commit_ts) / 86400 ))
+
+        # Фильтрация по возрасту
+        if [ "$age_days" -le "$DAYS" ]; then
+            echo "$last_commit_date|$repo_dir" >> "$tempfile"
+        fi
+    fi
 
     cd - > /dev/null
 done
+
+# Вывод отсортированного списка
+echo -e "\n📋 Репозитории с последним коммитом не старше $DAYS дней:\n"
+sort "$tempfile" | while IFS="|" read date path; do
+    echo "🕒 $date → 📁 $path"
+done
+
+rm "$tempfile"
