@@ -1,31 +1,89 @@
 #!/bin/bash
 
-# Использование: ./scan_git_repos.sh [кол-во_дней]
-# Пример: ./scan_git_repos.sh 30
+# 📘 USAGE: ./scan_git_repos.sh [-all | <кол-во_дней>] [-bare <директория>] [-compress] [--dry-run]
 
-# Получить количество дней из аргумента (по умолчанию 9999)
-DAYS=${1:-9999}
+# 👉 Справка
+if [[ $# -eq 0 || "$1" == "--help" ]]; then
+    echo -e "\n🧰 USAGE: $0 [-all | <кол-во_дней>] [-bare <директория>] [-compress] [--dry-run]"
+    echo -e "\n🔍 Описание:"
+    echo "  Сканирует все подкаталоги на наличие Git-репозиториев"
+    echo "  и выводит дату последнего коммита в каждом из них."
+    echo "  При использовании -bare создаёт bare-репозитории в указанной директории."
+    echo "  При использовании -compress архивирует каждый bare-репозиторий в .tar.xz"
+    echo "  При использовании --dry-run показывает, что будет сделано, но не выполняет действия."
+    echo -e "\n📌 Параметры:"
+    echo "  -all            — показать все репозитории (эквивалент DAYS=99999)"
+    echo "  <кол-во_дней>   — число дней для фильтрации по дате последнего коммита"
+    echo "  -bare <dir>     — путь к каталогу, куда будут скопированы bare-репозитории"
+    echo "  -compress       — включает сжатие каждого bare-репозитория в архив"
+    echo "  --dry-run       — симулирует действия без их выполнения"
+    echo -e "\n📋 Примеры:"
+    echo "  $0 -all"
+    echo "  $0 30 -bare /mnt/usb/git-sync -compress --dry-run"
+    echo ""
+    exit 0
+fi
 
-# Временный файл
+# 🧩 Разбор аргументов
+DAYS=""
+BARE_DIR=""
+COMPRESS=false
+DRY_RUN=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -all)
+            DAYS=99999
+            shift
+            ;;
+        -bare)
+            BARE_DIR="$2"
+            shift 2
+            ;;
+        -compress)
+            COMPRESS=true
+            shift
+            ;;
+        --dry-run)
+            DRY_RUN=true
+            shift
+            ;;
+        *)
+            DAYS="$1"
+            shift
+            ;;
+    esac
+done
+
+# Проверка DAYS
+if [[ -z "$DAYS" ]]; then
+    echo "❌ Не указано количество дней. Используй -all или число."
+    exit 1
+fi
+
+# Проверка bare-директории
+if [[ -n "$BARE_DIR" ]]; then
+    if ! $DRY_RUN; then
+        mkdir -p "$BARE_DIR" || { echo "❌ Не удалось создать каталог $BARE_DIR"; exit 1; }
+    fi
+fi
+
 tempfile=$(mktemp)
-
-# Текущая дата в секундах
+logfile="sync.log"
 now=$(date +%s)
 
-# Найти все .git каталоги
+echo -e "\n📋 Репозитории с последним коммитом не старше $DAYS дней:\n" | tee "$logfile"
+
 find . -type d -name ".git" | while read gitdir; do
     repo_dir=$(dirname "$gitdir")
     cd "$repo_dir" || continue
 
-    # Получить дату последнего коммита
     last_commit_date=$(git log -1 --format="%ci" 2>/dev/null)
 
     if [ -n "$last_commit_date" ]; then
-        # Преобразовать дату в секунды
         commit_ts=$(date -d "$last_commit_date" +%s)
         age_days=$(( (now - commit_ts) / 86400 ))
 
-        # Фильтрация по возрасту
         if [ "$age_days" -le "$DAYS" ]; then
             echo "$last_commit_date|$repo_dir" >> "$tempfile"
         fi
@@ -34,10 +92,31 @@ find . -type d -name ".git" | while read gitdir; do
     cd - > /dev/null
 done
 
-# Вывод отсортированного списка
-echo -e "\n📋 Репозитории с последним коммитом не старше $DAYS дней:\n"
 sort "$tempfile" | while IFS="|" read date path; do
-    echo "🕒 $date → 📁 $path"
+    echo "🕒 $date → 📁 $path" | tee -a "$logfile"
+
+    if [[ -n "$BARE_DIR" ]]; then
+        repo_name=$(basename "$path")
+        target="$BARE_DIR/$repo_name.git"
+        archive="$BARE_DIR/$repo_name.git.tar.xz"
+
+        if $DRY_RUN; then
+            echo "🧪 [dry-run] Будет создан bare-репозиторий: $target" | tee -a "$logfile"
+            if $COMPRESS; then
+                echo "🧪 [dry-run] Будет создан архив: $archive" | tee -a "$logfile"
+            fi
+        else
+            echo "📦 Создаю bare-репозиторий: $target" | tee -a "$logfile"
+            git clone --bare "$path" "$target" 2>/dev/null
+
+            if $COMPRESS; then
+                echo "🗜️ Архивирую: $archive" | tee -a "$logfile"
+                tar -cJf "$archive" -C "$BARE_DIR" "$repo_name.git"
+                rm -rf "$target"
+            fi
+        fi
+    fi
 done
 
 rm "$tempfile"
+echo -e "\n✅ Готово. Лог сохранён в: $logfile"
